@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.cuubez.core.annotation.HttpMethod;
+import com.cuubez.core.annotation.RestService;
 import com.cuubez.core.annotation.context.MethodAnnotationMetaData;
 import com.cuubez.core.annotation.context.ServiceAnnotationMethodName;
 import com.cuubez.core.context.MediaType;
@@ -26,102 +27,107 @@ import com.cuubez.core.context.ServiceContext;
 import com.cuubez.core.context.ServiceRepository;
 import com.cuubez.core.exception.CuubezException;
 
-public class MethodAnnotationScanner {
+public class MethodAnnotationScanner implements AnnotationScanner {
 
-    public void scan(Class<?> clazz, ServiceRepository serviceRepository) throws CuubezException {
+	public void scan(Class<?> clazz, ServiceRepository serviceRepository) throws CuubezException {
 
-        Method[] methods = clazz.getDeclaredMethods();
+		if (!clazz.isInterface()) {
+			Method[] methods = clazz.getDeclaredMethods();
 
-        if (methods != null) {
+			if (methods != null) {
 
-            for (Method method : methods) {
+				for (Method method : methods) {
 
-                if (method.getDeclaredAnnotations() != null && method.getDeclaredAnnotations().length > 0) {
+					if (method.getDeclaredAnnotations() != null && method.getDeclaredAnnotations().length > 0) {
 
-                    Annotation[] annotations = method.getAnnotations();
-                    populateServiceMetaData(clazz, serviceRepository, annotations, method);
+						Annotation[] annotations = method.getAnnotations();
 
-                }
+						if (annotations != null) {
 
+							for (Annotation annotation : annotations) {
 
-            }
+								if (RestService.class.getName().equals(annotation.annotationType().getName())) {
+									populateServiceMetaData(clazz, serviceRepository, annotation, method);
+								}
+							}
 
-        }
+						}
 
-    }
+					}
 
+				}
 
-    private void populateServiceMetaData(Class<?> serviceClass, ServiceRepository serviceRepository, Annotation[] methodAnnotations, Method method) throws CuubezException {
+			}
 
-        if (methodAnnotations != null) {
+		}
+	}
 
-            for (Annotation annotation : methodAnnotations) {
+	private void populateServiceMetaData(Class<?> serviceClass, ServiceRepository serviceRepository, Annotation methodAnnotation, Method method) throws CuubezException {
 
-                if (serviceRepository.getServiceAnnotationNames().contains(annotation.annotationType().getName())) {
+		if (methodAnnotation != null) {
 
-                    String serviceName, serviceLocation;
-                    HttpMethod httpMethod;
-                    MediaType mediaType;
+			if (serviceRepository.getServiceAnnotationNames().contains(methodAnnotation.annotationType().getName())) {
 
-                    try {
+				String serviceName, serviceLocation;
+				HttpMethod httpMethod;
+				MediaType mediaType;
 
-                        serviceName = (String) annotation.annotationType().getMethod(ServiceAnnotationMethodName.SERVICE_NAME.value()).invoke(annotation);
-                        serviceLocation = (String) annotation.annotationType().getMethod(ServiceAnnotationMethodName.SERVICE_PATH.value()).invoke(annotation);
-                        httpMethod = (HttpMethod) annotation.annotationType().getMethod(ServiceAnnotationMethodName.HTTP_METHOD.value()).invoke(annotation);
-                        mediaType = (MediaType) annotation.annotationType().getMethod(ServiceAnnotationMethodName.MEDIA_TYPE.value()).invoke(annotation);
+				try {
 
-                        String annotationName = annotation.annotationType().getCanonicalName();
-                        String packageName = annotation.annotationType().getPackage().getName();
-                        String methodName = method.getName();
-                        Class<?> methodReturnType = method.getReturnType();
+					serviceName = (String) methodAnnotation.annotationType().getMethod(ServiceAnnotationMethodName.SERVICE_NAME.value()).invoke(methodAnnotation);
+					serviceLocation = (String) methodAnnotation.annotationType().getMethod(ServiceAnnotationMethodName.SERVICE_PATH.value()).invoke(methodAnnotation);
+					httpMethod = (HttpMethod) methodAnnotation.annotationType().getMethod(ServiceAnnotationMethodName.HTTP_METHOD.value()).invoke(methodAnnotation);
+					mediaType = (MediaType) methodAnnotation.annotationType().getMethod(ServiceAnnotationMethodName.MEDIA_TYPE.value()).invoke(methodAnnotation);
 
-                        ServiceContext serviceContext = new ServiceContext();
-                        serviceContext.setPackageName(packageName);
-                        serviceContext.setServiceClass(serviceClass);
-                        serviceContext.setServiceName(serviceName);
-                        serviceContext.setMediaType(mediaType);
+					String annotationName = methodAnnotation.annotationType().getCanonicalName();
+					String packageName = methodAnnotation.annotationType().getPackage().getName();
+					String methodName = method.getName();
+					Class<?> methodReturnType = method.getReturnType();
 
-                        MethodAnnotationMetaData methodAnnotationMetaData = serviceContext.addServiceAnnotationMetaData(annotationName, serviceLocation)
-                                .addMethodAnnotationMetaData(methodName, methodReturnType);
+					ServiceContext serviceContext = new ServiceContext();
+					serviceContext.setPackageName(packageName);
+					serviceContext.setServiceClass(serviceClass);
+					serviceContext.setServiceName(serviceName);
+					serviceContext.setMediaType(mediaType);
 
-                        if (method.getParameterTypes() != null && method.getParameterTypes().length > 0) {
+					MethodAnnotationMetaData methodAnnotationMetaData = serviceContext.addServiceAnnotationMetaData(annotationName, serviceLocation).addMethodAnnotationMetaData(methodName,
+							methodReturnType);
 
-                            String parameterName = null;
-                            for (int i = 0; i < method.getParameterTypes().length; i++) {
+					if (method.getParameterTypes() != null && method.getParameterTypes().length > 0) {
 
-                                if (method.getParameterAnnotations()[i] != null && method.getParameterAnnotations()[i].length > 0) {
-                                    parameterName = (String) method.getParameterAnnotations()[i][0].annotationType().getMethod(ServiceAnnotationMethodName.PARAMETER_NAME.value()).invoke(method.getParameterAnnotations()[i][0]);
-                                }
+						String parameterName = null;
+						for (int i = 0; i < method.getParameterTypes().length; i++) {
 
-                                methodAnnotationMetaData.addMethodParameters(parameterName, method.getParameterTypes()[i]);
-                            }
-                        }
+							if (method.getParameterAnnotations()[i] != null && method.getParameterAnnotations()[i].length > 0) {
+								parameterName = (String) method.getParameterAnnotations()[i][0].annotationType().getMethod(ServiceAnnotationMethodName.PARAMETER_NAME.value())
+										.invoke(method.getParameterAnnotations()[i][0]);
+							}
 
-                        serviceRepository.addService(httpMethod.name(), serviceLocation, serviceName, serviceContext);
-                        break; //Only one service annotation is allow for one method
+							methodAnnotationMetaData.addMethodParameters(parameterName, method.getParameterTypes()[i]);
+						}
+					}
 
+					serviceRepository.addService(httpMethod.name(), serviceLocation, serviceName, serviceContext);
 
-                    } catch (IllegalArgumentException e) {
-                        throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
-                    } catch (SecurityException e) {
-                        throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
-                    } catch (IllegalAccessException e) {
-                        throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
-                    } catch (InvocationTargetException e) {
-                        throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
-                    } catch (NoSuchMethodException e) {
-                        throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
-                    }
+				} catch (IllegalArgumentException e) {
+					throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
+				} catch (SecurityException e) {
+					throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
+				} catch (IllegalAccessException e) {
+					throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
+				} catch (InvocationTargetException e) {
+					throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
+				} catch (NoSuchMethodException e) {
+					throw new CuubezException(e, CuubezException.INTERNAL_EXCEPTION);
+				}
 
-                }
+			}
 
+		}
 
-            }
-
-
-        }
-
-    }
-
+	}
 
 }
+
+
+

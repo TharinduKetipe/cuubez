@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.cuubez.core.annotation.scanner.AnnotationDiscoverer;
 import com.cuubez.core.annotation.scanner.AnnotationScanner;
 import com.cuubez.core.context.ConfigurationContext;
 import com.cuubez.core.context.ExceptionContext;
@@ -74,7 +76,7 @@ public class ServiceProcessor {
 
     public void initializeServiceRepository() throws CuubezException {
 
-        AnnotationScanner scanner = new AnnotationScanner();
+    	AnnotationDiscoverer scanner = new AnnotationDiscoverer();
         scanner.scan();
 
     }

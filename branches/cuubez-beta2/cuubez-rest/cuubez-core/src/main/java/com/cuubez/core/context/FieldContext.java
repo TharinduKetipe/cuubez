@@ -14,24 +14,27 @@
  */
 package com.cuubez.core.context;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.cuubez.core.annotation.context.FieldAnnotationMetaData;
 
 public class FieldContext {
 
-    private FieldAnnotationMetaData fieldAnnotationMetaData = null;
+    private List<FieldAnnotationMetaData> fieldAnnotationMetaDatas = null;
 
-    public FieldContext(FieldAnnotationMetaData fieldAnnotationMetaData) {
+    public FieldContext() {
         super();
-        this.fieldAnnotationMetaData = fieldAnnotationMetaData;
+        this.fieldAnnotationMetaDatas = new ArrayList<FieldAnnotationMetaData>();;
     }
 
-    public FieldAnnotationMetaData getFieldAnnotationMetaData() {
-        return fieldAnnotationMetaData;
+    public List<FieldAnnotationMetaData> getFieldAnnotationMetaDatas() {
+        return fieldAnnotationMetaDatas;
     }
 
-    public void setFieldAnnotationMetaData(
+    public void addFieldAnnotationMetaData(
             FieldAnnotationMetaData fieldAnnotationMetaData) {
-        this.fieldAnnotationMetaData = fieldAnnotationMetaData;
+        this.fieldAnnotationMetaDatas.add(fieldAnnotationMetaData);
     }
 
 

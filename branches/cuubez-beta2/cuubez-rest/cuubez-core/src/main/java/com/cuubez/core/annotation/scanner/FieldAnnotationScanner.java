@@ -24,7 +24,7 @@ import com.cuubez.core.context.FieldContext;
 import com.cuubez.core.context.ServiceRepository;
 import com.cuubez.core.exception.CuubezException;
 
-public class FieldAnnotationScanner {
+public class FieldAnnotationScanner implements AnnotationScanner {
 
     public void scan(Class<?> clazz, ServiceRepository serviceRepository) throws CuubezException {
 
@@ -32,14 +32,16 @@ public class FieldAnnotationScanner {
         String fieldName = null, annotationName = null, assignedFieldName = null;
 
         Field[] fields = clazz.getDeclaredFields();
-        FieldAnnotationMetaData fieldAnnotationMetaData = new FieldAnnotationMetaData();
-
+        FieldAnnotationMetaData fieldAnnotationMetaData = null;
+        FieldContext fieldContext = null;
+        
         for (Field field : fields) {
 
             fieldName = null;
             annotationName = null;
             fieldType = null;
             assignedFieldName = null;
+            fieldContext = new FieldContext();
 
             if (field.getDeclaredAnnotations() != null && field.getDeclaredAnnotations().length > 0) {
 
@@ -64,17 +66,20 @@ public class FieldAnnotationScanner {
                     }
 
                     annotationName = annotation.annotationType().getCanonicalName();
-                    break;//only one annotation is allow to put on the field
+                    fieldName = field.getName();
+                    fieldType = field.getType();
+                    
+                    fieldAnnotationMetaData = new FieldAnnotationMetaData();
+                    fieldAnnotationMetaData.addFieldMetaData(fieldName, assignedFieldName, annotationName, fieldType);
+                    fieldContext.addFieldAnnotationMetaData(fieldAnnotationMetaData);
+                    
+                    serviceRepository.addFieldDetails(clazz.getName(), fieldContext);
+                    
                 }
 
             }
 
-            fieldName = field.getName();
-            fieldType = field.getType();
-
-            fieldAnnotationMetaData.addFieldMetaData(fieldName, assignedFieldName, annotationName, fieldType);
-            FieldContext fieldContext = new FieldContext(fieldAnnotationMetaData);
-            serviceRepository.addFieldDetails(clazz.getName(), fieldContext);
+            
         }
 
     }
