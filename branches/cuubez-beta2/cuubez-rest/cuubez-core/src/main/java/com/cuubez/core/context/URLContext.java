@@ -20,6 +20,10 @@ import java.util.List;
 public class URLContext {
 
     private String serviceUrl;
+    private String servletPath;
+    private String pathInfo;
+    private StringBuffer requestURL;
+    private String requestURI;
     private String serviceName;
     private String serviceLocation;
     private String httpMethods;
@@ -79,5 +83,35 @@ public class URLContext {
         this.mediaType = mediaType;
     }
 
+    public String getPathInfo() {
+        return pathInfo;
+    }
 
+    public void setPathInfo(String pathInfo) {
+        this.pathInfo = pathInfo;
+    }
+
+    public String getRequestURI() {
+        return requestURI;
+    }
+
+    public void setRequestURI(String requestURI) {
+        this.requestURI = requestURI;
+    }
+
+    public StringBuffer getRequestURL() {
+        return requestURL;
+    }
+
+    public void setRequestURL(StringBuffer requestURL) {
+        this.requestURL = requestURL;
+    }
+
+    public String getServletPath() {
+        return servletPath;
+    }
+
+    public void setServletPath(String servletPath) {
+        this.servletPath = servletPath;
+    }
 }

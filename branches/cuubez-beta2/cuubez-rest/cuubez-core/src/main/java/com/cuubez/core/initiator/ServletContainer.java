@@ -17,7 +17,6 @@ package com.cuubez.core.initiator;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.cuubez.core.context.MessageContext;
 import com.cuubez.core.engine.io.Connection;
 import com.cuubez.core.engine.io.HttpConnection;
@@ -30,8 +29,8 @@ public class ServletContainer extends HttpServlet {
     private static final long serialVersionUID = 5466841407373731970L;
 
     protected void process(HttpServletRequest request, HttpServletResponse response, HttpMethods httpMethod) {
-        ServiceProcessor serviceProcessor = new ServiceProcessor();
-        MessageContext messageContext = serviceProcessor.process(request, httpMethod);
+        
+    	MessageContext messageContext = new ServiceProcessor().process(request, httpMethod);
 
         if (messageContext != null && messageContext.getContent() != null) {
             writeResponse(request, response, messageContext);
@@ -44,5 +43,6 @@ public class ServletContainer extends HttpServlet {
         Connection connection = new HttpConnection();
         connection.write(request, response, messageContext);
     }
+
 
 }

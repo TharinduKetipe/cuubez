@@ -16,6 +16,6 @@ package com.cuubez.core.annotation;
 
 public enum HttpMethod {
 
-    GET, POST, PUT, DELETE
+	GET, POST, PUT, DELETE
 
 }

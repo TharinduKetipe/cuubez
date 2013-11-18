@@ -21,20 +21,19 @@ import com.cuubez.core.annotation.context.FieldAnnotationMetaData;
 
 public class FieldContext {
 
-    private List<FieldAnnotationMetaData> fieldAnnotationMetaDatas = null;
+    private List<FieldAnnotationMetaData> fieldAnnotationMetaDetails = null;
 
     public FieldContext() {
-        super();
-        this.fieldAnnotationMetaDatas = new ArrayList<FieldAnnotationMetaData>();;
+        this.fieldAnnotationMetaDetails = new ArrayList<FieldAnnotationMetaData>();;
     }
 
-    public List<FieldAnnotationMetaData> getFieldAnnotationMetaDatas() {
-        return fieldAnnotationMetaDatas;
+    public List<FieldAnnotationMetaData> getFieldAnnotationMetaDetails() {
+        return fieldAnnotationMetaDetails;
     }
 
     public void addFieldAnnotationMetaData(
             FieldAnnotationMetaData fieldAnnotationMetaData) {
-        this.fieldAnnotationMetaDatas.add(fieldAnnotationMetaData);
+        this.fieldAnnotationMetaDetails.add(fieldAnnotationMetaData);
     }
 
 

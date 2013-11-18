@@ -28,11 +28,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.cuubez.core.context.ConfigurationContext;
-import com.cuubez.core.engine.parser.url.URLParser;
 import com.cuubez.core.engine.parser.util.XMLParserUtil;
 import com.cuubez.core.exception.CuubezException;
 
-public class XMLParameterParser implements URLParser {
+public class XMLParameterParser {
 
     private static Log log = LogFactory.getLog(XMLParameterParser.class);
     private static final String PARAM_ELEMENT_NAME = "parameter";
@@ -69,7 +68,7 @@ public class XMLParameterParser implements URLParser {
     }
 
 
-    public void populateParamObjects(List<Element> elements, ConfigurationContext configurationContext) throws TransformerException {
+    private void populateParamObjects(List<Element> elements, ConfigurationContext configurationContext) throws TransformerException {
 
         if (elements != null) {
 

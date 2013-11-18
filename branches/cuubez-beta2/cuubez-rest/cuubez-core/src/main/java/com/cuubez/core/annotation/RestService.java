@@ -25,12 +25,12 @@ import com.cuubez.core.context.MediaType;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RestService {
 
-    String name();
+	String name();
 
-    String path();
+	String path();
 
-    HttpMethod httpMethod();
+	HttpMethod httpMethod();
 
-    MediaType mediaType();
+	MediaType mediaType();
 
 }

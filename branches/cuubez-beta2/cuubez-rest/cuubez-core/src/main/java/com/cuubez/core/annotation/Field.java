@@ -20,6 +20,6 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Field {
 
-    String name();
+	String name();
 
 }

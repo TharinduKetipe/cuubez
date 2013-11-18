@@ -39,11 +39,10 @@ public class ContextLoaderListner implements ServletContextListener {
         ApplicationConfigurationContext applicationConfigurationContext = ApplicationConfigurationContext.getInstance();
         applicationConfigurationContext.setApplicationName(applicationName);
         applicationConfigurationContext.setApplicationPath(applicationPath);
-        ServiceProcessor serviceProcessor = new ServiceProcessor();
-
+        
         try {
 
-            serviceProcessor.initializeServiceRepository();
+        	new ServiceProcessor().initializeServiceRepository();
 
         } catch (CuubezException e) {
             log.error(e);

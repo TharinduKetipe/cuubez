@@ -14,13 +14,45 @@
  */
 package com.cuubez.core.annotation.scanner;
 
+import com.cuubez.core.annotation.ApplicationPath;
+import com.cuubez.core.annotation.RestService;
 import com.cuubez.core.context.ServiceRepository;
 import com.cuubez.core.exception.CuubezException;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+
 public class ClassAnnotationScanner implements AnnotationScanner {
 
+
+
     public void scan(Class<?> clazz, ServiceRepository serviceRepository) throws CuubezException {
-        // Still No implementation
+
+        if (!clazz.isInterface()) {
+            Annotation[] annotations = clazz.getDeclaredAnnotations();
+
+            if (annotations != null) {
+
+                for (Annotation annotation : annotations) {
+
+                    if (ApplicationPath.class.getName().equals(annotation.annotationType().getName())) {
+                        //  populateServiceMetaData(clazz, serviceRepository, annotation, method);
+                        populateApplicationPath();
+                    }
+                }
+
+            }
+
+        }
+
     }
+
+
+    private void populateApplicationPath() {
+
+
+
+    }
+
 
 }

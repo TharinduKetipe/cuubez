@@ -29,6 +29,7 @@ public class ServiceRepository {
 
     private Map<String, Map<String, Map<String, ServiceContext>>> services = new HashMap<String, Map<String, Map<String, ServiceContext>>>();
     private Map<String, FieldContext> fieldDetails = new HashMap<String, FieldContext>();
+    private Map<String, ClassContext> classDetails = new HashMap<String, ClassContext>();
     private List<String> serviceAnnotationNames = null;
 
     private ServiceRepository() {
@@ -101,6 +102,14 @@ public class ServiceRepository {
 
     public FieldContext findFieldDetails(String className) {
         return this.fieldDetails.get(className);
+    }
+
+    public ClassContext findClassDetails(String className) {
+        return this.classDetails.get(className);
+    }
+
+    public void addClassDetails(String className, ClassContext classContext) {
+        this.classDetails.put(className, classContext);
     }
 
     public List<String> getServiceAnnotationNames() {

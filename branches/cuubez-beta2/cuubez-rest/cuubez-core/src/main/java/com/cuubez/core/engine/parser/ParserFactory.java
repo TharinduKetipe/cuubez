@@ -16,13 +16,12 @@ package com.cuubez.core.engine.parser;
 
 import com.cuubez.core.context.ConfigurationContext;
 import com.cuubez.core.context.MediaType;
+import com.cuubez.core.engine.parser.url.URLParser;
 import com.cuubez.core.exception.CuubezException;
 import com.cuubez.core.engine.parser.content.ContentParser;
 import com.cuubez.core.engine.parser.content.xml.XMLContentParser;
 import com.cuubez.core.engine.parser.content.xml.XMLExceptionParser;
-import com.cuubez.core.engine.parser.url.URLParser;
 import com.cuubez.core.engine.parser.url.xml.XMLParameterParser;
-import com.cuubez.core.engine.parser.url.xml.XMLURLParser;
 
 public class ParserFactory {
 
@@ -37,13 +36,12 @@ public class ParserFactory {
 
             } else if (parserType == Parser.PARAMETER) {
 
-                URLParser parser = new XMLParameterParser();
-                parser.parse(configurationContext);
+               new XMLParameterParser().parse(configurationContext);
 
             } else if (parserType == Parser.URL) {
 
-                URLParser parser = new XMLURLParser();
-                parser.parse(configurationContext);
+                URLParser parser = new URLDetailParser();
+                new URLDetailParser().parse(configurationContext);
 
             } else if (parserType == Parser.EXCEPTION) {
 
