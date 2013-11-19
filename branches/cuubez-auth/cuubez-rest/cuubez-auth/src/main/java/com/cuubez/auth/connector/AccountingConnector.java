@@ -8,9 +8,8 @@ import com.cuubez.auth.model.AccountEntry;
 
 /**
  * @author ruwan
- *
  */
 public interface AccountingConnector {
-	
-	public void account(AccountEntry accountEntry) throws AccountingConnectorException;
+
+    public void account(AccountEntry accountEntry) throws AccountingConnectorException;
 }

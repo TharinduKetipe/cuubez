@@ -10,16 +10,15 @@ import java.lang.annotation.Target;
 
 /**
  * @author ruwan
- *
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RestSecurity {
 
-    String[] userId() default "[unassigned]"; 
+    String[] userId() default "[unassigned]";
 
-    String[] role() default "[unassigned]"; 
+    String[] role() default "[unassigned]";
 
     boolean isSecure() default true;
-	
+
 }

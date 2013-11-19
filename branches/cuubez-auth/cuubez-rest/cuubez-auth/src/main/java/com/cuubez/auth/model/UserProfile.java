@@ -5,57 +5,109 @@ package com.cuubez.auth.model;
 
 /**
  * @author ruwan
- *
  */
 public class UserProfile {
-	
-	private String userId;
-	private String roleId;
-	
-	private AuthenticationToken authenticationToken = null;
 
-	/**
-	 * @return the userId
-	 */
-	public String getUserId() {
-		return userId;
-	}
+    private String userId;
+    private String roleId;
 
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    private AuthenticationToken authenticationToken = null;
 
-	/**
-	 * @return the roleId
-	 */
-	public String getRoleId() {
-		return roleId;
-	}
+    /**
+     * @return the userId
+     */
+    public String getUserId() {
+        return userId;
+    }
 
-	/**
-	 * @param roleId the roleId to set
-	 */
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
+    /**
+     * @param userId
+     *            the userId to set
+     */
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	/**
-	 * @return the authenticationToken
-	 */
-	public AuthenticationToken getAuthenticationToken() {
-		return authenticationToken;
-	}
+    /**
+     * @return the roleId
+     */
+    public String getRoleId() {
+        return roleId;
+    }
 
-	/**
-	 * @param authenticationToken the authenticationToken to set
-	 */
-	public void setAuthenticationToken(AuthenticationToken authenticationToken) {
-		this.authenticationToken = authenticationToken;
-	}
-	
-	
+    /**
+     * @param roleId
+     *            the roleId to set
+     */
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    /**
+     * @return the authenticationToken
+     */
+    public AuthenticationToken getAuthenticationToken() {
+        return authenticationToken;
+    }
+
+    /**
+     * @param authenticationToken
+     *            the authenticationToken to set
+     */
+    public void setAuthenticationToken(AuthenticationToken authenticationToken) {
+        this.authenticationToken = authenticationToken;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "UserProfile [userId=" + userId + ", roleId=" + roleId + ", authenticationToken=" + authenticationToken
+                + "]";
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((authenticationToken == null) ? 0 : authenticationToken.hashCode());
+        result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UserProfile other = (UserProfile) obj;
+        if (authenticationToken == null) {
+            if (other.authenticationToken != null)
+                return false;
+        } else if (!authenticationToken.equals(other.authenticationToken))
+            return false;
+        if (roleId == null) {
+            if (other.roleId != null)
+                return false;
+        } else if (!roleId.equals(other.roleId))
+            return false;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        } else if (!userId.equals(other.userId))
+            return false;
+        return true;
+    }
 
 }

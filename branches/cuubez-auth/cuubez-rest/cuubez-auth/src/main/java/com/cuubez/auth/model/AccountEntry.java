@@ -8,90 +8,93 @@ import com.cuubez.auth.model.enums.AccountOutcome;
 
 /**
  * @author ruwan
- *
  */
 public class AccountEntry {
 
-	private String userId;
-	private String roleId;
-	private AccountAction accountAction;
-	private String serviceName;
-	private AccountOutcome accountOutcome;
-		
-	public AccountEntry(String userId, String roleId,
-			AccountAction accountAction, String serviceName, AccountOutcome accountOutcome) {
-		super();
-		this.userId = userId;
-		this.roleId = roleId;
-		this.accountAction = accountAction;
-		this.serviceName = serviceName;
-		this.accountOutcome = accountOutcome;
-	}
+    private String userId;
+    private String roleId;
+    private AccountAction accountAction;
+    private String serviceName;
+    private AccountOutcome accountOutcome;
 
-	/**
+    public AccountEntry(String userId, String roleId, AccountAction accountAction, String serviceName,
+            AccountOutcome accountOutcome) {
+        super();
+        this.userId = userId;
+        this.roleId = roleId;
+        this.accountAction = accountAction;
+        this.serviceName = serviceName;
+        this.accountOutcome = accountOutcome;
+    }
+
+    /**
 	 * 
 	 */
-	public AccountEntry() {
-	    
-	}
+    public AccountEntry() {
 
-	/**
-	 * @return the userId
-	 */
-	public String getUserId() {
-		return userId;
-	}
+    }
 
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    /**
+     * @return the userId
+     */
+    public String getUserId() {
+        return userId;
+    }
 
-	/**
-	 * @return the roleId
-	 */
-	public String getRoleId() {
-		return roleId;
-	}
+    /**
+     * @param userId
+     *            the userId to set
+     */
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	/**
-	 * @param roleId the roleId to set
-	 */
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
+    /**
+     * @return the roleId
+     */
+    public String getRoleId() {
+        return roleId;
+    }
 
-	/**
-	 * @return the accountAction
-	 */
-	public AccountAction getAccountAction() {
-		return accountAction;
-	}
+    /**
+     * @param roleId
+     *            the roleId to set
+     */
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
 
-	/**
-	 * @param accountAction the accountAction to set
-	 */
-	public void setAccountAction(AccountAction accountAction) {
-		this.accountAction = accountAction;
-	}
+    /**
+     * @return the accountAction
+     */
+    public AccountAction getAccountAction() {
+        return accountAction;
+    }
 
-	/**
-	 * @return the serviceName
-	 */
-	public String getServiceName() {
-		return serviceName;
-	}
+    /**
+     * @param accountAction
+     *            the accountAction to set
+     */
+    public void setAccountAction(AccountAction accountAction) {
+        this.accountAction = accountAction;
+    }
 
-	/**
-	 * @param serviceName the serviceName to set
-	 */
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
-	}
+    /**
+     * @return the serviceName
+     */
+    public String getServiceName() {
+        return serviceName;
+    }
 
-	/**
+    /**
+     * @param serviceName
+     *            the serviceName to set
+     */
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    /**
      * @return the accountOutcome
      */
     public AccountOutcome getAccountOutcome() {
@@ -99,20 +102,70 @@ public class AccountEntry {
     }
 
     /**
-     * @param accountOutcome the accountOutcome to set
+     * @param accountOutcome
+     *            the accountOutcome to set
      */
     public void setAccountOutcome(AccountOutcome accountOutcome) {
         this.accountOutcome = accountOutcome;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "AccountEntry [userId=" + userId + ", roleId=" + roleId + ", accountAction=" + accountAction
+                + ", serviceName=" + serviceName + ", accountOutcome=" + accountOutcome + "]";
+    }
+
     /* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "AccountEntry [userId=" + userId + ", roleId=" + roleId
-				+ ", accountAction=" + accountAction + ", serviceName="
-				+ serviceName + ", accountOutcome=" + accountOutcome + "]";
-	}
-	
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((accountAction == null) ? 0 : accountAction.hashCode());
+        result = prime * result + ((accountOutcome == null) ? 0 : accountOutcome.hashCode());
+        result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
+        result = prime * result + ((serviceName == null) ? 0 : serviceName.hashCode());
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AccountEntry other = (AccountEntry) obj;
+        if (accountAction != other.accountAction)
+            return false;
+        if (accountOutcome != other.accountOutcome)
+            return false;
+        if (roleId == null) {
+            if (other.roleId != null)
+                return false;
+        } else if (!roleId.equals(other.roleId))
+            return false;
+        if (serviceName == null) {
+            if (other.serviceName != null)
+                return false;
+        } else if (!serviceName.equals(other.serviceName))
+            return false;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        } else if (!userId.equals(other.userId))
+            return false;
+        return true;
+    }
+
 }

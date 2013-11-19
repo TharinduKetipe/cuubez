@@ -9,9 +9,9 @@ import com.cuubez.core.context.ServiceContext;
 
 /**
  * @author ruwan
- *
  */
 public interface AuthorizationConnector {
 
-	public void authorize(UserProfile userProfile, ServiceContext serviceContext) throws AuthorizationConnectorException;
+    public void authorize(UserProfile userProfile, ServiceContext serviceContext)
+            throws AuthorizationConnectorException;
 }
