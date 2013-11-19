@@ -62,6 +62,9 @@ public class MethodAnnotationScanner {
                     String serviceName, serviceLocation;
                     HttpMethod httpMethod;
                     MediaType mediaType;
+                    boolean isSecure;
+                    String[] userIds;
+                    String[] roleIds; 
 
                     try {
 
@@ -69,6 +72,9 @@ public class MethodAnnotationScanner {
                         serviceLocation = (String) annotation.annotationType().getMethod(ServiceAnnotationMethodName.SERVICE_PATH.value()).invoke(annotation);
                         httpMethod = (HttpMethod) annotation.annotationType().getMethod(ServiceAnnotationMethodName.HTTP_METHOD.value()).invoke(annotation);
                         mediaType = (MediaType) annotation.annotationType().getMethod(ServiceAnnotationMethodName.MEDIA_TYPE.value()).invoke(annotation);
+                        isSecure = (Boolean)annotation.annotationType().getMethod(ServiceAnnotationMethodName.SECURE.value()).invoke(annotation);
+                        userIds = (String[])annotation.annotationType().getMethod(ServiceAnnotationMethodName.USER_IDS.value()).invoke(annotation);
+                        roleIds = (String[])annotation.annotationType().getMethod(ServiceAnnotationMethodName.ROLE_IDS.value()).invoke(annotation);
 
                         String annotationName = annotation.annotationType().getCanonicalName();
                         String packageName = annotation.annotationType().getPackage().getName();
@@ -80,7 +86,10 @@ public class MethodAnnotationScanner {
                         serviceContext.setServiceClass(serviceClass);
                         serviceContext.setServiceName(serviceName);
                         serviceContext.setMediaType(mediaType);
-
+                        serviceContext.setSecure(isSecure);
+                        serviceContext.setUserIds(userIds);
+                        serviceContext.setRoleIds(roleIds);
+                        
                         MethodAnnotationMetaData methodAnnotationMetaData = serviceContext.addServiceAnnotationMetaData(annotationName, serviceLocation)
                                 .addMethodAnnotationMetaData(methodName, methodReturnType);
 

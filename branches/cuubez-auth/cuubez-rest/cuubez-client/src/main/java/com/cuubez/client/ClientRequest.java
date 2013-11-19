@@ -31,6 +31,8 @@ public class ClientRequest {
 	private String serviceUrl;
 	private MediaType mediaType;
 	private Object[] parameters;
+	private String principal;
+	private String credentials;
 	
 	public ClientRequest() {
 	}
@@ -108,6 +110,8 @@ public class ClientRequest {
 		MessageContext msgContext = new MessageContext();
 		RequestContext requestContext = new RequestContext(serviceUrl, mediaType, httpMethod);
 		requestContext.setParameters(parameters);
+		requestContext.setPrincipal(principal);
+		requestContext.setCredentials(credentials);
 		msgContext.setRequestContext(requestContext);
 		return msgContext;
 	}
@@ -139,5 +143,33 @@ public class ClientRequest {
 	public Object[] getParameters() {
 		return parameters;
 	}
+
+    /**
+     * @return the principal
+     */
+    public String getPrincipal() {
+        return principal;
+    }
+
+    /**
+     * @param principal the principal to set
+     */
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
+    /**
+     * @return the credentials
+     */
+    public String getCredentials() {
+        return credentials;
+    }
+
+    /**
+     * @param credentials the credentials to set
+     */
+    public void setCredentials(String credentials) {
+        this.credentials = credentials;
+    }
 
 }

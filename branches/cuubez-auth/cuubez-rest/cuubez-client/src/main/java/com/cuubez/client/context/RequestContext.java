@@ -28,6 +28,8 @@ public class RequestContext {
 	private HttpMethod httpMethod;
 	private HttpURLConnection httpURLConnection;
 	private Object[] parameters;
+	private String principal;
+	private String credentials;
 	private String transformedParameter;
 	private Document document;
 	
@@ -94,6 +96,34 @@ public class RequestContext {
 	public void setDocument(Document document) {
 		this.document = document;
 	}
+
+    /**
+     * @return the principal
+     */
+    public String getPrincipal() {
+        return principal;
+    }
+
+    /**
+     * @param principal the principal to set
+     */
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
+    /**
+     * @return the credentials
+     */
+    public String getCredentials() {
+        return credentials;
+    }
+
+    /**
+     * @param credentials the credentials to set
+     */
+    public void setCredentials(String credentials) {
+        this.credentials = credentials;
+    }
 
 	
 }

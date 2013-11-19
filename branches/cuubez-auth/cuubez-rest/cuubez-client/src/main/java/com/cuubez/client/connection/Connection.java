@@ -48,6 +48,8 @@ public abstract class Connection {
 
             conn.setRequestProperty("Accept-Charset", "UTF-8");
             conn.setRequestProperty("Content-Type", requestContext.getMediaType().getValue().concat("; charset=utf-8"));
+            conn.setRequestProperty("principal", requestContext.getPrincipal());
+            conn.setRequestProperty("credentials", requestContext.getCredentials());
             conn.setRequestMethod(requestContext.getHttpMethod().name());
             conn.setUseCaches(false);
             conn.setDoOutput(true);

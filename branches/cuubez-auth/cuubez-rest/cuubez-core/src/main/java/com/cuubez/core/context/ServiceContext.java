@@ -22,6 +22,9 @@ public class ServiceContext {
     private Class<?> serviceClass = null;
     private String serviceName = null;
     private MediaType mediaType = null;
+    private boolean isSecure = false;
+    private String[] userIds = null;
+    private String[] roleIds = null;
     private ServiceAnnotationMetaData serviceAnnotationMetaData = null;
 
 
@@ -65,5 +68,28 @@ public class ServiceContext {
         return this.serviceAnnotationMetaData = new ServiceAnnotationMetaData(annotationName, serviceLocation);
     }
 
+	public boolean isSecure() {
+		return isSecure;
+	}
+
+	public void setSecure(boolean isSecure) {
+		this.isSecure = isSecure;
+	}
+
+    public String[] getUserIds() {
+		return userIds;
+	}
+
+	public void setUserIds(String[] userIds) {
+		this.userIds = userIds;
+	}
+
+	public String[] getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String[] roleIds) {
+		this.roleIds = roleIds;
+	}
 
 }

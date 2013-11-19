@@ -16,7 +16,7 @@ package com.cuubez.core.annotation.context;
 
 public enum ServiceAnnotationMethodName {
 
-    SERVICE_NAME("name"), SERVICE_PATH("path"), HTTP_METHOD("httpMethod"), MEDIA_TYPE("mediaType"), PARAMETER_NAME("name");
+    SERVICE_NAME("name"), SERVICE_PATH("path"), HTTP_METHOD("httpMethod"), MEDIA_TYPE("mediaType"), PARAMETER_NAME("name"), SECURE("isSecure"), USER_IDS("userIds"), ROLE_IDS("roleIds");;
 
     private String name;
 

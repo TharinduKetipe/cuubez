@@ -32,5 +32,11 @@ public @interface RestService {
     HttpMethod httpMethod();
 
     MediaType mediaType();
+    
+    boolean isSecure() default false;
+    
+    String[] userIds() default "[undefined]";
+    
+    String[] roleIds() default "[undefined]";
 
 }
