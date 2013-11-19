@@ -42,11 +42,10 @@ public class XMLParameterParser implements URLParser {
         try {
 
             InputStream inputStream = configurationContext.getRequest().getInputStream();
-            GZIPInputStream gzipStream = new GZIPInputStream(inputStream);
-
+//            GZIPInputStream gzipStream = new GZIPInputStream(inputStream);  TODO Temporarily commented request parameter compression in order to make testing easy.
             if (inputStream != null) {
 
-                Document doc = XMLParserUtil.createDocument(gzipStream);
+                Document doc = XMLParserUtil.createDocument(inputStream);
 
                 if (doc != null) {
                     List<Element> elements = XMLParserUtil.getElements(PARAM_ELEMENT_NAME, doc);

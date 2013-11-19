@@ -55,10 +55,10 @@ public class HttpConnection extends Connection {
 		if(parameters != null) {
 			
 			httpConnection = messageContext.getRequestContext().getHttpURLConnection();
-			httpConnection.setRequestProperty("Accept-Encoding", "gzip, deflate");
+//			httpConnection.setRequestProperty("Accept-Encoding", "gzip, deflate"); TODO Temporarily commented request parameter compression in order to make testing easy.
 			out = httpConnection.getOutputStream();
-			gout = new GZIPOutputStream(out);
-			gout.write(parameters.getBytes());
+//			gout = new GZIPOutputStream(out);
+			out.write(parameters.getBytes());
 		
 			}
 		
