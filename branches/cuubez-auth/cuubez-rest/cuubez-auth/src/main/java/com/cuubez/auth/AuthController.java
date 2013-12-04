@@ -105,7 +105,7 @@ public class AuthController {
 
             } catch (AuthenticationException e) {
 
-                accountingService.account(userProfile.getUserId(),
+                accountingService.account(principal,
                         (userProfile == null ? null : userProfile.getRoleId()), AccountAction.AUTHENTICATION,
                         serviceName, AccountOutcome.FAIL);
 
