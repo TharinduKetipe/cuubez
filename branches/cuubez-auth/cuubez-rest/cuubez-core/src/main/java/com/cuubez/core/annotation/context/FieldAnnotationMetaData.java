@@ -26,12 +26,12 @@ public class FieldAnnotationMetaData {
     }
 
     public void addFieldMetaData(String fieldName, String assignedFieldName,
-                                 String annotationName, Class<?> fieldType) {
+                                 String annotationName, Class<?> fieldType, boolean encrypt) {
         if (this.fieldMetaData == null) {
             this.fieldMetaData = new ArrayList<FieldMetaData>();
         }
 
-        FieldMetaData fieldMetaData = new FieldMetaData(fieldName, assignedFieldName, annotationName, fieldType);
+        FieldMetaData fieldMetaData = new FieldMetaData(fieldName, assignedFieldName, annotationName, fieldType, encrypt);
         this.fieldMetaData.add(fieldMetaData);
     }
 

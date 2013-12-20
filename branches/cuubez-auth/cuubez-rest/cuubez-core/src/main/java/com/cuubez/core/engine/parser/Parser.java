@@ -20,6 +20,7 @@ public interface Parser {
     public static final int PARAMETER = 2;
     public static final int URL = 3;
     public static final int EXCEPTION = 4;
+    public static final int SECURITY = 5;
 
 
 }

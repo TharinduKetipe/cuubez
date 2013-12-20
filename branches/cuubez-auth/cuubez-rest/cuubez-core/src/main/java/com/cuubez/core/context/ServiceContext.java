@@ -22,6 +22,8 @@ public class ServiceContext {
     private Class<?> serviceClass = null;
     private String serviceName = null;
     private MediaType mediaType = null;
+    private boolean sign = false;
+    private boolean encrypt = false;
     private boolean isSecure = false;
     private String[] userIds = null;
     private String[] roleIds = null;
@@ -92,4 +94,19 @@ public class ServiceContext {
 		this.roleIds = roleIds;
 	}
 
+    public boolean isEncrypt() {
+        return encrypt;
+    }
+
+    public void setEncrypt(boolean encrypt) {
+        this.encrypt = encrypt;
+    }
+
+    public boolean isSign() {
+        return sign;
+    }
+
+    public void setSign(boolean sign) {
+        this.sign = sign;
+    }
 }

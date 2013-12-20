@@ -15,11 +15,15 @@
 package com.cuubez.core.context;
 
 
+import java.util.List;
+import java.util.Set;
+
 public class MessageContext extends Context {
 
     private String content = null;
     private MediaType mediaType = null;
     private Object returnObject;
+    private Set<ResponseObject> responseObjectList;
 
     public String getContent() {
         return content;
@@ -45,5 +49,11 @@ public class MessageContext extends Context {
         this.returnObject = returnObject;
     }
 
+    public Set<ResponseObject> getResponseObjectList() {
+        return responseObjectList;
+    }
 
+    public void setResponseObjectList(Set<ResponseObject> responseObjectList) {
+        this.responseObjectList = responseObjectList;
+    }
 }

@@ -16,7 +16,9 @@ package com.cuubez.core.annotation.context;
 
 public enum ServiceAnnotationClasses {
 
-    REST_SERVICE("com.cuubez.core.annotation.RestService");
+    REST_SERVICE("com.cuubez.core.annotation.RestService"),
+    SIGN_REST_SERVICE("com.cuubez.core.security.annotation..SignRestService"),
+    ENCRYPTED_REST_SERVICE("com.cuubez.core.security.annotation.EncryptedRestService");
 
     private String serviceName;
 

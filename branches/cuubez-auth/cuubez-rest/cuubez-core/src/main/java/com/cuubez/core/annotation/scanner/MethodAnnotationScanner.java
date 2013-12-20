@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 
 import com.cuubez.core.annotation.HttpMethod;
 import com.cuubez.core.annotation.context.MethodAnnotationMetaData;
+import com.cuubez.core.annotation.context.ServiceAnnotationClasses;
 import com.cuubez.core.annotation.context.ServiceAnnotationMethodName;
 import com.cuubez.core.context.MediaType;
 import com.cuubez.core.context.ServiceContext;
@@ -89,7 +90,16 @@ public class MethodAnnotationScanner {
                         serviceContext.setSecure(isSecure);
                         serviceContext.setUserIds(userIds);
                         serviceContext.setRoleIds(roleIds);
-                        
+
+                        if(annotation.annotationType().getName().equals(ServiceAnnotationClasses.ENCRYPTED_REST_SERVICE.serviceName())) {
+                          serviceContext.setEncrypt(true);
+                        }
+
+
+                        if(annotation.annotationType().getName().equals(ServiceAnnotationClasses.SIGN_REST_SERVICE.serviceName())) {
+                          serviceContext.setSign(true);
+                        }
+
                         MethodAnnotationMetaData methodAnnotationMetaData = serviceContext.addServiceAnnotationMetaData(annotationName, serviceLocation)
                                 .addMethodAnnotationMetaData(methodName, methodReturnType);
 

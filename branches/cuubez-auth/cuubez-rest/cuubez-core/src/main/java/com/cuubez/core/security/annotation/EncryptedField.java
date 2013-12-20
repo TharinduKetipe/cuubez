@@ -12,8 +12,14 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.engine.processor.security.encrypt;
+package com.cuubez.core.security.annotation;
 
-public class XMLEncryptor {
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
+public @interface EncryptedField {
+
+    String name();
 
 }

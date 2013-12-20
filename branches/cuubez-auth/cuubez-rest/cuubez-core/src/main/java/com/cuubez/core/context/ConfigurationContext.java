@@ -14,6 +14,8 @@
  */
 package com.cuubez.core.context;
 
+import com.cuubez.core.security.context.SecurityContext;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class ConfigurationContext extends Context {
@@ -23,6 +25,7 @@ public class ConfigurationContext extends Context {
     private MessageContext messageContext;
     private ServiceContext serviceContext;
     private ExceptionContext exceptionContext;
+    private SecurityContext securityContext;
 
     public URLContext getUrlContext() {
         return urlContext;
@@ -64,5 +67,12 @@ public class ConfigurationContext extends Context {
         this.exceptionContext = exceptionContext;
     }
 
+    public SecurityContext getSecurityContext() {
+        return securityContext;
+    }
+
+    public void setSecurityContext(SecurityContext securityContext) {
+        this.securityContext = securityContext;
+    }
 }
  

@@ -15,19 +15,16 @@
 package com.cuubez.core.engine.executor;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Field;
+import java.util.*;
 
+import com.cuubez.core.context.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cuubez.core.annotation.context.MethodAnnotationMetaData;
 import com.cuubez.core.annotation.context.MethodParameter;
-import com.cuubez.core.context.ConfigurationContext;
-import com.cuubez.core.context.MessageContext;
-import com.cuubez.core.context.ServiceContext;
-import com.cuubez.core.context.ServiceRepository;
 import com.cuubez.core.exception.CuubezException;
 import com.thoughtworks.xstream.core.util.Primitives;
 
@@ -93,6 +90,7 @@ public class ServiceExecutor {
             MessageContext msgContext = new MessageContext();
             msgContext.setMediaType(configurationContext.getUrlContext().getMediaType());
             msgContext.setReturnObject(returnObject);
+            msgContext.setResponseObjectList(scan(Class.forName(method.getReturnType().getName()),null));
             configurationContext.setMessageContext(msgContext);
 
         } catch (InstantiationException e) {
@@ -106,6 +104,8 @@ public class ServiceExecutor {
         } catch (IllegalArgumentException e) {
             log.error(e);
         } catch (InvocationTargetException e) {
+            log.error(e);
+        } catch (ClassNotFoundException e) {
             log.error(e);
         }
 
@@ -172,4 +172,63 @@ public class ServiceExecutor {
         return clazz;
     }
 
+
+    public Set<ResponseObject> scan(Class clazz, String initializeVariableName)
+    			throws ClassNotFoundException {
+
+        Set<ResponseObject> set = new HashSet<ResponseObject>();
+
+    		if (!set.contains(clazz.getName())) {
+    			set.add(new ResponseObject(clazz.getName(), initializeVariableName));
+
+    			Class[] classes = clazz.getDeclaredClasses();
+    			Field[] fields = clazz.getDeclaredFields();
+
+    			for (Field field : fields) {
+
+    				Class cz = null;
+
+    				try {
+    					cz = Class.forName(field.getType().getName());
+    				} catch (ClassNotFoundException ex) {
+    					continue;
+    				}
+
+    				if (Collection.class.isAssignableFrom(cz)) {
+
+    					Class genericClazz = getFieldGenericType(field);
+
+    					if (genericClazz != null
+    							&& !set.contains(genericClazz.getName())
+    							&& !genericClazz.getPackage().getName()
+    									.equals("java.lang")
+    							&& !genericClazz.getPackage().getName()
+    									.equals("java.util")) {
+
+    						scan(genericClazz, field.getName());
+    					}
+
+    				} else if (cz != null && cz instanceof java.lang.Class && !set.contains(cz.getName())
+    						&& cz.getPackage() != null && !cz.getPackage().getName().equals("java.lang")
+    						&& !cz.getPackage().getName().equals("java.util")) {
+    					scan(cz,field.getName());
+    				}
+
+    			}
+
+    		}
+    		return set;
+    	}
+
+
+    public Class getFieldGenericType(Field field) {
+        if (ParameterizedType.class.isAssignableFrom(field.getGenericType().getClass())) {
+            ParameterizedType genericType =
+                    (ParameterizedType) field.getGenericType();
+            return ((Class)
+                    (genericType.getActualTypeArguments()[0]));
+        }
+
+        return null;
+    }
 }

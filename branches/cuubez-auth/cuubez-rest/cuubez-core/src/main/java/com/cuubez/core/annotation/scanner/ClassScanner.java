@@ -41,36 +41,6 @@ public class ClassScanner {
         return fp.toURI().toURL();
     }
 
-    public final URL[] findResources() {
-        List<URL> list = new ArrayList<URL>();
-        String classpath = System.getProperty("java.class.path");
-        StringTokenizer tokenizer = new StringTokenizer(classpath, File.pathSeparator);
-
-        while (tokenizer.hasMoreTokens()) {
-            String path = tokenizer.nextToken();
-            try {
-
-                path = java.net.URLDecoder.decode(path, "UTF-8");
-
-            } catch (UnsupportedEncodingException e) {
-
-            }
-
-            File fp = new File(path);
-
-            if (!fp.exists())
-                throw new RuntimeException("File in java.class.path does not exist: " + fp);
-            try {
-
-                list.add(fp.toURL());
-
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return list.toArray(new URL[list.size()]);
-    }
 
     public List<Class<?>> discover(String applicationPath) throws IOException {
 
@@ -91,7 +61,6 @@ public class ClassScanner {
                 classes.add(Class.forName(classFile.getName()));
 
             } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } finally {
                 dstream.close();

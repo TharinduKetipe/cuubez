@@ -16,6 +16,8 @@ package com.cuubez.core.engine.processor;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.cuubez.core.security.annotation.scanner.SecurityAnnotationScanner;
+import com.cuubez.core.security.context.SecurityContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.cuubez.core.annotation.scanner.AnnotationScanner;
@@ -43,12 +45,18 @@ public class ServiceProcessor {
 
             populateValues(configurationContext, request, httpMethod);
             ParserFactory factory = new ParserFactory();
-            factory.parse(configurationContext, configurationContext.getUrlContext().getMediaType(), Parser.URL);
-            factory.parse(configurationContext, configurationContext.getUrlContext().getMediaType(), Parser.PARAMETER);
+            factory.parse(configurationContext, Parser.URL);
+            factory.parse(configurationContext, Parser.PARAMETER);
             ServiceExecutor serviceExecutor = new ServiceExecutor();
             serviceExecutor.execute(configurationContext);
 
-            factory.parse(configurationContext, configurationContext.getUrlContext().getMediaType(), Parser.CONTENT);
+            if(configurationContext.getMessageContext() != null && configurationContext.getMessageContext().getReturnObject() != null) {
+                new SecurityAnnotationScanner().scanEncryptProperty(configurationContext);
+                factory.parse(configurationContext, Parser.CONTENT);
+                factory.parse(configurationContext, Parser.SECURITY);
+
+            }
+
 
         } catch (CuubezException e) {
 
@@ -60,7 +68,7 @@ public class ServiceProcessor {
 
             try {
 
-                parserFactory.parse(configurationContext, requestMediaType(request.getContentType()), Parser.EXCEPTION);
+                parserFactory.parse(configurationContext, Parser.EXCEPTION);
 
             } catch (CuubezException err) {
                 log.error(err);

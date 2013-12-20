@@ -35,7 +35,7 @@ public class ContextLoaderListner implements ServletContextListener {
 
     public void contextInitialized(ServletContextEvent contextEvent) {
         String applicationPath = contextEvent.getServletContext().getRealPath("/");
-        String applicationName = getApplicationName(applicationPath);
+        String applicationName = getApplicationName(contextEvent.getServletContext().getContextPath());
         ApplicationConfigurationContext applicationConfigurationContext = ApplicationConfigurationContext.getInstance();
         applicationConfigurationContext.setApplicationName(applicationName);
         applicationConfigurationContext.setApplicationPath(applicationPath);

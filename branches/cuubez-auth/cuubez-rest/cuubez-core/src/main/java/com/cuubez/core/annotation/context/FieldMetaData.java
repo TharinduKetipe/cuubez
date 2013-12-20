@@ -20,14 +20,16 @@ public class FieldMetaData {
     private String assignedFieldName = null;
     private String annotationName = null;
     private Class<?> fieldType = null;
+    private boolean encrypt = false;
 
     public FieldMetaData(String fieldName, String assignedFieldName,
-                         String annotationName, Class<?> fieldType) {
+                         String annotationName, Class<?> fieldType, boolean encrypt) {
         super();
         this.fieldName = fieldName;
         this.assignedFieldName = assignedFieldName;
         this.annotationName = annotationName;
         this.fieldType = fieldType;
+        this.encrypt = encrypt;
     }
 
     public String getFieldName() {
@@ -62,5 +64,11 @@ public class FieldMetaData {
         this.fieldType = fieldType;
     }
 
+    public boolean isEncrypt() {
+        return encrypt;
+    }
 
+    public void setEncrypt(boolean encrypt) {
+        this.encrypt = encrypt;
+    }
 }
