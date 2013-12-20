@@ -16,20 +16,29 @@
 package com.cuubez.example;
 
 
-import com.cuubez.core.annotation.HttpMethod;
-import com.cuubez.core.annotation.RestService;
-import com.cuubez.core.context.MediaType;
+public class Salary {
 
-public class UserService {
+    private String currencyType;
+    private double amount;
 
-    @RestService(name = "userDetail", path = "/user", mediaType = MediaType.XML, httpMethod = HttpMethod.GET,isSecure = false,roleIds = "",userIds = "")
-    public User getUserDetail() {
-
-        Salary salary = new Salary("USD", 2500.5);
-        User user = new User("test user", 25, "password", "test address", salary);
-
-        return user;
-
+    public Salary(String currencyType, double amount) {
+        this.amount = amount;
+        this.currencyType = currencyType;
     }
 
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public String getCurrencyType() {
+        return currencyType;
+    }
+
+    public void setCurrencyType(String currencyType) {
+        this.currencyType = currencyType;
+    }
 }

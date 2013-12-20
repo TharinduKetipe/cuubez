@@ -1,3 +1,18 @@
+/**
+ *	Copyright [2013] [www.cuubez.com]
+ *	Licensed under the Apache License, Version 2.0 (the "License");
+ *	you may not use this file except in compliance with the License.
+ *	You may obtain a copy of the License at
+ *
+ *	http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *	Unless required by applicable law or agreed to in writing, software
+ *	distributed under the License is distributed on an "AS IS" BASIS,
+ *	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *	See the License for the specific language governing permissions and
+ *	limitations under the License.
+ */
+
 package com.cuubez.example;
 
 
@@ -10,12 +25,15 @@ public class User {
     @EncryptedField(name = "password")
     private String password;
     private String address;
+    @EncryptedField(name = "salary")
+    private Salary salary;
 
-    public User(String name, int age, String password, String address) {
+    public User(String name, int age, String password, String address, Salary salary) {
         this.address = address;
         this.age = age;
         this.name = name;
         this.password = password;
+        this.salary = salary;
     }
 
     public String getAddress() {
@@ -48,5 +66,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Salary getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Salary salary) {
+        this.salary = salary;
     }
 }
