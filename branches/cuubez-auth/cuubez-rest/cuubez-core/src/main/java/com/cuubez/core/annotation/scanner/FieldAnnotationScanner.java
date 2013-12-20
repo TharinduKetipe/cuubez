@@ -32,16 +32,14 @@ public class FieldAnnotationScanner {
 
         Class<?> fieldType = null;
         String fieldName = null, annotationName = null, assignedFieldName = null;
-        boolean isEncryptField = false;
-        FieldContext fieldContext = null;
         Field[] fields = clazz.getDeclaredFields();
         FieldAnnotationMetaData fieldAnnotationMetaData = new FieldAnnotationMetaData();
+        boolean isEncryptField = false;
 
         for (Field field : fields) {
 
-            fieldName = null;
             annotationName = null;
-            fieldType = null;
+            isEncryptField = false;
             assignedFieldName = null;
 
             if (field.getDeclaredAnnotations() != null && field.getDeclaredAnnotations().length > 0) {
@@ -81,10 +79,9 @@ public class FieldAnnotationScanner {
             fieldType = field.getType();
 
             fieldAnnotationMetaData.addFieldMetaData(fieldName, assignedFieldName, annotationName, fieldType, isEncryptField);
-            fieldContext = new FieldContext(fieldAnnotationMetaData);
 
         }
-
+        FieldContext fieldContext = new FieldContext(fieldAnnotationMetaData);
         serviceRepository.addFieldDetails(clazz.getName(), fieldContext);
 
     }
