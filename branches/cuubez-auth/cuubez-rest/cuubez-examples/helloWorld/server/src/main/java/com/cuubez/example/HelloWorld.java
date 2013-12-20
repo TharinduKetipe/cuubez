@@ -7,7 +7,7 @@ import com.cuubez.core.security.annotation.EncryptedRestService;
 
 public class HelloWorld {
 
-   @EncryptedRestService(name = "message", path = "/detail", httpMethod = HttpMethod.GET, mediaType = MediaType.XML)
+   @EncryptedRestService(path = "/detail", httpMethod = HttpMethod.GET, mediaType = MediaType.XML)
    public String helloWorld() {
        return "Hello World";
    }

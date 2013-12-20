@@ -27,7 +27,7 @@ public class ServiceRepository {
 
     private static ServiceRepository serviceRepository = null;
 
-    private Map<String, Map<String, Map<String, ServiceContext>>> services = new HashMap<String, Map<String, Map<String, ServiceContext>>>();
+    private Map<String, Map<String, ServiceContext>> services = new HashMap<String, Map<String, ServiceContext>>();
     private Map<String, FieldContext> fieldDetails = new HashMap<String, FieldContext>();
     private List<String> serviceAnnotationNames = null;
 
@@ -45,53 +45,40 @@ public class ServiceRepository {
         return serviceRepository;
     }
 
-    public void addService(String httpMethod, String serviceLocation, String serviceName, ServiceContext serviceContext) throws CuubezException {
+    public void addService(String httpMethod, String path, ServiceContext serviceContext) throws CuubezException {
 
-        Map<String, Map<String, ServiceContext>> serviceContextMapByHttpMethod = services.get(httpMethod);
+        Map<String, ServiceContext> serviceContextMapByHttpMethod = services.get(httpMethod);
 
         if (serviceContextMapByHttpMethod == null) {
-            serviceContextMapByHttpMethod = new HashMap<String, Map<String, ServiceContext>>();
+            serviceContextMapByHttpMethod = new HashMap<String, ServiceContext>();
             services.put(httpMethod, serviceContextMapByHttpMethod);
         }
 
-        Map<String, ServiceContext> serviceContextMap = serviceContextMapByHttpMethod.get(serviceLocation);
+        ServiceContext serviceContextByPath = serviceContextMapByHttpMethod.get(path);
 
-        if (serviceContextMap == null) {
-            serviceContextMap = new HashMap<String, ServiceContext>();
-            serviceContextMapByHttpMethod.put(serviceLocation, serviceContextMap);
+        if (serviceContextByPath == null) {
+            serviceContextMapByHttpMethod.put(path, serviceContext);
+        } else {
+            throw new CuubezException("Service [" + path + "] already exist in service repository", CuubezException.INTERNAL_EXCEPTION);
         }
-
-        ServiceContext serContext = serviceContextMap.get(serviceName);
-
-        if (serContext != null) {
-            throw new CuubezException("Service [" + serviceName + "] already exist in service repository", CuubezException.INTERNAL_EXCEPTION);
-        }
-
-        serviceContextMap.put(serviceName, serviceContext);
 
     }
 
-    public ServiceContext findService(String httpMethod, String serviceLocation, String serviceName) throws CuubezException {
+    public ServiceContext findService(String httpMethod, String path) throws CuubezException {
 
-        Map<String, Map<String, ServiceContext>> serviceContextMapByHttpMethod = services.get(httpMethod);
+        Map<String, ServiceContext> serviceContextMapByHttpMethod = services.get(httpMethod);
 
         if (serviceContextMapByHttpMethod == null) {
-            throw new CuubezException("Service  [" + serviceName + "] not found", CuubezException.SERVICE_NOT_FOUND);
+            throw new CuubezException("Service  [" + path + "] not found", CuubezException.SERVICE_NOT_FOUND);
         }
 
-        Map<String, ServiceContext> serviceContextByLocation = serviceContextMapByHttpMethod.get(serviceLocation);
+        ServiceContext serviceContextByLocation = serviceContextMapByHttpMethod.get(path);
 
         if (serviceContextByLocation == null) {
-            throw new CuubezException("Service [" + serviceName + "] not found", CuubezException.SERVICE_NOT_FOUND);
+            throw new CuubezException("Service [" + path + "] not found", CuubezException.SERVICE_NOT_FOUND);
         }
 
-        ServiceContext serviceContext = serviceContextByLocation.get(serviceName);
-
-        if (serviceContext == null) {
-            throw new CuubezException("Service [" + serviceName + "] not found", CuubezException.SERVICE_NOT_FOUND);
-        }
-
-        return serviceContext;
+        return serviceContextByLocation;
 
     }
 

@@ -66,8 +66,8 @@ public class ServiceContext {
         return serviceAnnotationMetaData;
     }
 
-    public ServiceAnnotationMetaData addServiceAnnotationMetaData(String annotationName, String serviceLocation) {
-        return this.serviceAnnotationMetaData = new ServiceAnnotationMetaData(annotationName, serviceLocation);
+    public ServiceAnnotationMetaData addServiceAnnotationMetaData(String annotationName, String path) {
+        return this.serviceAnnotationMetaData = new ServiceAnnotationMetaData(annotationName, path);
     }
 
 	public boolean isSecure() {

@@ -17,15 +17,15 @@ package com.cuubez.core.annotation.context;
 
 public class ServiceAnnotationMetaData {
 
-    private String serviceLocation = null;
+    private String path = null;
     private String annotationName = null;
     private MethodAnnotationMetaData methodAnnotationMetaData = null;
 
 
-    public ServiceAnnotationMetaData(String annotationName, String serviceLocation) {
+    public ServiceAnnotationMetaData(String annotationName, String path) {
         super();
         this.annotationName = annotationName;
-        this.serviceLocation = serviceLocation;
+        this.path = path;
     }
 
     public String getAnnotationName() {
@@ -36,8 +36,8 @@ public class ServiceAnnotationMetaData {
         return methodAnnotationMetaData;
     }
 
-    public String getServiceLocation() {
-        return serviceLocation;
+    public String getPath() {
+        return path;
     }
 
     public MethodAnnotationMetaData addMethodAnnotationMetaData(String methodName, Class<?> returnType) {

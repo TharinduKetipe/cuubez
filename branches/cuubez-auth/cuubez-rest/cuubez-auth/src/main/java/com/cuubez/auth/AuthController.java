@@ -87,7 +87,7 @@ public class AuthController {
                     throw new UnauthorizedException(errMsg);
                 }
 
-                serviceName = serviceContext.getServiceAnnotationMetaData().getServiceLocation() + "/"
+                serviceName = serviceContext.getServiceAnnotationMetaData().getPath() + "/"
                         + serviceContext.getServiceName();
 
                 accountingService.account(principal, null, AccountAction.AUTHENTICATION, serviceName,

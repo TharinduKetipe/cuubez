@@ -20,8 +20,7 @@ import java.util.List;
 public class URLContext {
 
     private String serviceUrl;
-    private String serviceName;
-    private String serviceLocation;
+    private String path;
     private String httpMethods;
     private List<Object> parameters;
     private MediaType mediaType;
@@ -35,20 +34,12 @@ public class URLContext {
         this.serviceUrl = serviceUrl;
     }
 
-    public String getServiceName() {
-        return serviceName;
+    public String getPath() {
+        return path;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public String getServiceLocation() {
-        return serviceLocation;
-    }
-
-    public void setServiceLocation(String serviceLocation) {
-        this.serviceLocation = serviceLocation;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public List<Object> getParameters() {

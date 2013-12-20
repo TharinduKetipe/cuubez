@@ -27,9 +27,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EncryptedRestService {
 
-    String name();
-
-    String path();
+    String path() default "/";
 
     HttpMethod httpMethod();
 

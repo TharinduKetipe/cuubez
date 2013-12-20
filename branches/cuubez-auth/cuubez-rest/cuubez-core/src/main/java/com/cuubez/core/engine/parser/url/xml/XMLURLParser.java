@@ -29,7 +29,6 @@ public class XMLURLParser implements URLParser {
     private static String PATH_PARAMETER_SEPARATOR = "/?";
 
 
-    @Override
     public void parse(ConfigurationContext configurationContext) throws CuubezException {
         URLValidatorUtil.validate(configurationContext);
         populateServiceDetails(configurationContext);
@@ -43,8 +42,7 @@ public class XMLURLParser implements URLParser {
         String url = request.getRequestURL().toString();
         String applicationName = ApplicationConfigurationContext.getInstance().getApplicationName();
 
-        String serviceName;
-        String serviceLocation;
+        String path;
 
         if (url.contains(PATH_PARAMETER_SEPARATOR)) {
             url = url.split(PATH_PARAMETER_SEPARATOR)[0];
@@ -55,39 +53,30 @@ public class XMLURLParser implements URLParser {
         }
 
         String[] urlContents = url.split(applicationName);
-        String serviceInfoUrl = urlContents[1];
 
-        if (serviceInfoUrl.contains(PARAMETER_SEPARATOR)) {
-            serviceInfoUrl = serviceInfoUrl.split(PARAMETER_SEPARATOR)[0];
-        }
 
-        if (serviceInfoUrl.startsWith(PATH_SEPARATOR)) {
+        if(urlContents.length > 1) {
 
-            serviceInfoUrl = serviceInfoUrl.substring(1, serviceInfoUrl.length());
-            ;
-        }
+            String serviceInfoUrl = urlContents[1];
 
-        if (serviceInfoUrl.endsWith(PATH_SEPARATOR)) {
+            if (serviceInfoUrl.startsWith(PATH_SEPARATOR)) {
 
-            serviceInfoUrl = serviceInfoUrl.substring(0, serviceInfoUrl.length() - 1);
-        }
+                serviceInfoUrl = serviceInfoUrl.substring(1, serviceInfoUrl.length());
+            }
 
-        if (serviceInfoUrl.contains(PATH_SEPARATOR)) {
+            if (serviceInfoUrl.endsWith(PATH_SEPARATOR)) {
 
-            int lastIndex = serviceInfoUrl.lastIndexOf(PATH_SEPARATOR);
-            serviceLocation = PATH_SEPARATOR.concat(serviceInfoUrl.substring(0, lastIndex));
-            serviceName = serviceInfoUrl.substring(lastIndex + 1, serviceInfoUrl.length());
+                serviceInfoUrl = serviceInfoUrl.substring(0, serviceInfoUrl.length() - 1);
+            }
+
+            path = serviceInfoUrl;
 
         } else {
-
-            serviceName = serviceInfoUrl;
-            serviceLocation = PATH_SEPARATOR;
-
+            path = PATH_SEPARATOR;
         }
 
 
-        configurationContext.getUrlContext().setServiceName(serviceName);
-        configurationContext.getUrlContext().setServiceLocation(serviceLocation);
+        configurationContext.getUrlContext().setPath(path);
         configurationContext.getUrlContext().setServiceUrl(url);
     }
 

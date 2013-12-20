@@ -70,17 +70,15 @@ public class AuthFilter implements Filter {
             ServletException {
 
         String httpMethod = ((HttpServletRequest) request).getMethod();
-        String[] paths = ((HttpServletRequest) request).getPathInfo().split(PATH_SEPARATOR);
+        String path = ((HttpServletRequest) request).getPathInfo();
 
-        String serviceLocation = PATH_SEPARATOR + paths[1];
-        String serviceName = paths[2];
-
+        path = PATH_SEPARATOR + path;
         ServiceContext serviceContext = null;
 
         try {
-            serviceContext = ServiceRepository.getInstance().findService(httpMethod, serviceLocation, serviceName);
+            serviceContext = ServiceRepository.getInstance().findService(httpMethod, path);
         } catch (CuubezException e) {
-            String errMsg = "Service  [" + serviceName + "] not found. - " + e.getMessage();
+            String errMsg = "Service  [" + path + "] not found. - " + e.getMessage();
             log.error(errMsg, e);
         }
 

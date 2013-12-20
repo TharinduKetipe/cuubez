@@ -116,9 +116,8 @@ public class ServiceExecutor {
     private ServiceContext findService(ConfigurationContext configurationContext) throws CuubezException {
 
         String httpMethod = configurationContext.getUrlContext().getHttpMethods();
-        String serviceLocation = configurationContext.getUrlContext().getServiceLocation();
-        String serviceName = configurationContext.getUrlContext().getServiceName();
-        return ServiceRepository.getInstance().findService(httpMethod, serviceLocation, serviceName);
+        String path = configurationContext.getUrlContext().getPath();
+        return ServiceRepository.getInstance().findService(httpMethod, path);
 
     }
 

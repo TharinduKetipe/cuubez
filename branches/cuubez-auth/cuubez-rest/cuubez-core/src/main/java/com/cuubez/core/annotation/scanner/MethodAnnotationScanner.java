@@ -60,7 +60,7 @@ public class MethodAnnotationScanner {
 
                 if (serviceRepository.getServiceAnnotationNames().contains(annotation.annotationType().getName())) {
 
-                    String serviceName, serviceLocation;
+                    String path;
                     HttpMethod httpMethod;
                     MediaType mediaType;
                     boolean isSecure;
@@ -69,8 +69,7 @@ public class MethodAnnotationScanner {
 
                     try {
 
-                        serviceName = (String) annotation.annotationType().getMethod(ServiceAnnotationMethodName.SERVICE_NAME.value()).invoke(annotation);
-                        serviceLocation = (String) annotation.annotationType().getMethod(ServiceAnnotationMethodName.SERVICE_PATH.value()).invoke(annotation);
+                        path = formatPath((String) annotation.annotationType().getMethod(ServiceAnnotationMethodName.SERVICE_PATH.value()).invoke(annotation));
                         httpMethod = (HttpMethod) annotation.annotationType().getMethod(ServiceAnnotationMethodName.HTTP_METHOD.value()).invoke(annotation);
                         mediaType = (MediaType) annotation.annotationType().getMethod(ServiceAnnotationMethodName.MEDIA_TYPE.value()).invoke(annotation);
                         isSecure = (Boolean)annotation.annotationType().getMethod(ServiceAnnotationMethodName.SECURE.value()).invoke(annotation);
@@ -85,7 +84,6 @@ public class MethodAnnotationScanner {
                         ServiceContext serviceContext = new ServiceContext();
                         serviceContext.setPackageName(packageName);
                         serviceContext.setServiceClass(serviceClass);
-                        serviceContext.setServiceName(serviceName);
                         serviceContext.setMediaType(mediaType);
                         serviceContext.setSecure(isSecure);
                         serviceContext.setUserIds(userIds);
@@ -100,7 +98,7 @@ public class MethodAnnotationScanner {
                           serviceContext.setSign(true);
                         }
 
-                        MethodAnnotationMetaData methodAnnotationMetaData = serviceContext.addServiceAnnotationMetaData(annotationName, serviceLocation)
+                        MethodAnnotationMetaData methodAnnotationMetaData = serviceContext.addServiceAnnotationMetaData(annotationName, path)
                                 .addMethodAnnotationMetaData(methodName, methodReturnType);
 
                         if (method.getParameterTypes() != null && method.getParameterTypes().length > 0) {
@@ -116,7 +114,7 @@ public class MethodAnnotationScanner {
                             }
                         }
 
-                        serviceRepository.addService(httpMethod.name(), serviceLocation, serviceName, serviceContext);
+                        serviceRepository.addService(httpMethod.name(), path, serviceContext);
                         break; //Only one service annotation is allow for one method
 
 
@@ -142,5 +140,24 @@ public class MethodAnnotationScanner {
 
     }
 
+
+    private String formatPath(String path) {
+
+        if (path.equals("/")) {
+            return path;
+        }
+
+        if (path.lastIndexOf("/") == path.length() - 1) {
+
+            path = path.substring(0, path.length() - 1);
+
+        }
+
+        if(path.startsWith("/")) {
+            path = path.substring(1, path.length());
+        }
+
+        return path;
+    }
 
 }

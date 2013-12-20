@@ -22,7 +22,7 @@ import com.cuubez.core.context.MediaType;
 
 public class UserService {
 
-    @RestService(name = "userDetail", path = "/user", mediaType = MediaType.XML, httpMethod = HttpMethod.GET,isSecure = false,roleIds = "",userIds = "")
+    @RestService(path = "/user", mediaType = MediaType.XML, httpMethod = HttpMethod.GET,isSecure = false,roleIds = "",userIds = "")
     public User getUserDetail() {
 
         Salary salary = new Salary("USD", 2500.5);

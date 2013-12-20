@@ -49,7 +49,7 @@ public class CuubezAuthorizationConnector implements AuthorizationConnector {
             List<String> userIds = Arrays.asList(serviceContext.getUserIds());
             List<String> roleIds = Arrays.asList(serviceContext.getRoleIds());
 
-            String serviceName = serviceContext.getServiceAnnotationMetaData().getServiceLocation() + "/"
+            String serviceName = serviceContext.getServiceAnnotationMetaData().getPath() + "/"
                     + serviceContext.getServiceName();
 
             if (userIds != null && userIds.size() > 0) {
