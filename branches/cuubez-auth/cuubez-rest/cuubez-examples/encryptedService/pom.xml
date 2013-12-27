@@ -4,25 +4,22 @@
 
     <parent>
         <groupId>com.cuubez</groupId>
-        <artifactId>cuubez</artifactId>
+        <artifactId>examples</artifactId>
         <version>1.0-beta-1</version>
     </parent>
 
-    <name>Cuubez-Examples</name>
-    <description>Cuubez RESTful web services framework examples.</description>
+    <name>Encrypted Service-Examples</name>
+    <description>Encrypted Service examples.</description>
 
     <groupId>com.cuubez</groupId>
-    <artifactId>examples</artifactId>
+    <artifactId>encryptedService</artifactId>
     <version>1.0-beta-1</version>
 
     <packaging>pom</packaging>
 
     <modules>
-        <module>helloWorld</module>
-        <module>encryptedField</module>
-        <module>encryptedService</module>
-        <module>signService</module>
+        <module>server</module>
+        <module>client</module>
     </modules>
-
 
 </project>
