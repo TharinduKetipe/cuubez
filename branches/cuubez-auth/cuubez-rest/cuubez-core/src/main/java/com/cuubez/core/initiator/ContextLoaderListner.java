@@ -53,7 +53,7 @@ public class ContextLoaderListner implements ServletContextListener {
 
     public String getApplicationName(String realPath) {
 
-        String PATH_SEPARATOR = "/";
+        String PATH_SEPARATOR = System.getProperty("path.separator");
         String path = realPath;
 
         if (path == null) {
