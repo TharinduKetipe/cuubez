@@ -2,13 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>cuubez</groupId>
+        <groupId>com.cuubez</groupId>
         <artifactId>cuubez</artifactId>
         <version>1.0-beta-1</version>
     </parent>
-    <name>Cuubez-core</name>
-    <groupId>com.cuubez.core</groupId>
-    <artifactId>cuubez-core</artifactId>
+    <name>cuubez-core</name>
+    <groupId>com.cuubez</groupId>
+    <artifactId>core</artifactId>
     <version>1.0-beta-1</version>
     <packaging>jar</packaging>
 
@@ -40,6 +40,11 @@
 	<version>3.12.1.GA</version>
    </dependency>
                      
+   <dependency>
+    <groupId>javax.ws.rs</groupId>
+    <artifactId>jsr311-api</artifactId>
+    <version>1.1.1</version>
+   </dependency>
 
     </dependencies>
 

@@ -12,25 +12,54 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.annotation.scanner;
+package com.cuubez.core.scanner.file;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import javassist.bytecode.ClassFile;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import javassist.bytecode.ClassFile;
-
 public class ClassScanner {
 
-    public final URL findResources(String applicationPath) throws MalformedURLException {
+    private static Log log = LogFactory.getLog(ClassScanner.class);
+
+    public List<Class<?>> discover(String applicationPath) throws IOException {
+
+            List<Class<?>> classes = new ArrayList<Class<?>>();
+
+            URL resource = findResources(applicationPath);
+            FileReader itr = getFileReader(resource, new FileFilter());
+
+            InputStream is = null;
+            while ((is = itr.next()) != null) {
+                // make a data input stream
+                DataInputStream dstream = new DataInputStream(
+                        new BufferedInputStream(is));
+
+                try {
+                    // get java-assist class file
+                    ClassFile classFile = new ClassFile(dstream);
+                    classes.add(Class.forName(classFile.getName()));
+
+                } catch (ClassNotFoundException e) {
+                    log.error(e);
+                } finally {
+                    dstream.close();
+                    is.close();
+                }
+            }
+
+            return classes;
+        }
+
+
+    private final URL findResources(String applicationPath) throws MalformedURLException {
 
         File fp = new File(applicationPath);
 
@@ -41,7 +70,7 @@ public class ClassScanner {
         return fp.toURI().toURL();
     }
 
-    public final URL[] findResources() {
+    private final URL[] findResources() {
         List<URL> list = new ArrayList<URL>();
         String classpath = System.getProperty("java.class.path");
         StringTokenizer tokenizer = new StringTokenizer(classpath, File.pathSeparator);
@@ -71,37 +100,6 @@ public class ClassScanner {
 
         return list.toArray(new URL[list.size()]);
     }
-
-    public List<Class<?>> discover(String applicationPath) throws IOException {
-
-        List<Class<?>> classes = new ArrayList<Class<?>>();
-
-        URL resource = findResources(applicationPath);
-        FileReader itr = getFileReader(resource, new FileFilter());
-
-        InputStream is = null;
-        while ((is = itr.next()) != null) {
-            // make a data input stream
-            DataInputStream dstream = new DataInputStream(
-                    new BufferedInputStream(is));
-
-            try {
-                // get java-assist class file
-                ClassFile classFile = new ClassFile(dstream);
-                classes.add(Class.forName(classFile.getName()));
-
-            } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } finally {
-                dstream.close();
-                is.close();
-            }
-        }
-
-        return classes;
-    }
-
 
     private FileReader getFileReader(URL url, FileFilter filter) throws IOException {
         String urlString = url.toString();

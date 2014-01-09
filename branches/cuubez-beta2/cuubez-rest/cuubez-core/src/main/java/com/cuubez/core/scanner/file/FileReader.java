@@ -12,7 +12,7 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.annotation.scanner;
+package com.cuubez.core.scanner.file;
 
 import java.io.InputStream;
 
