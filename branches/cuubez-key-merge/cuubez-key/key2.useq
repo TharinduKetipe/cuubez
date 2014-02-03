@@ -1,0 +1,176 @@
+<sequence-diagram version="1.0.11" icons="true" automaticImage="PNG">  
+  <object id="1" language="java" name="lk.ac.cmb.ucsc.mis2011.service.test.UserServiceTest" 
+    project="CuubezTestWebClient" 
+    file="/CuubezTestWebClient/src/main/java/lk/ac/cmb/ucsc/mis2011/service/test/UserServiceTest.java" binary="false" 
+    label="userServiceTest" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="228" y="0"/>    
+    <execution id="2">      
+      <position height="674" width="161" x="5" y="103"/>    
+    </execution>  
+  </object>  
+  <object id="5" language="java" name="com.cuubez.client.ClientRequest" project="cuubez-client" 
+    file="/cuubez-client/src/main/java/com/cuubez/client/ClientRequest.java" binary="false" label="clientRequest" 
+    type="class" autoSize="true">    
+    <position height="-1" width="-1" x="348" y="0"/>    
+    <execution id="4">      
+      <position height="636" width="104" x="170" y="122"/>    
+    </execution>    
+    <execution id="11">      
+      <position height="19" width="0" x="0" y="236"/>    
+    </execution>  
+  </object>  
+  <object id="38" language="java" name="java.security.Security" project="CuubezTestWebClient" 
+    file="/opt/jdk1.6.0_43/jre/lib/rt.jar" binary="true" label="&lt;static&gt;" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="7">      
+      <position height="19" width="0" x="0" y="141"/>    
+    </execution>  
+  </object>  
+  <object id="39" language="java" name="org.bouncycastle.jce.provider.BouncyCastleProvider" 
+    project="CuubezTestWebClient" 
+    file="/home/ruwan/.m2/repository/org/bouncycastle/bcprov-jdk16/1.45/bcprov-jdk16-1.45.jar" binary="true" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="9">      
+      <position height="19" width="0" x="0" y="179"/>    
+    </execution>  
+  </object>  
+  <object id="40" language="java" name="com.cuubez.client.engine.processor.RequestProcessor" project="cuubez-client" 
+    file="/cuubez-client/src/main/java/com/cuubez/client/engine/processor/RequestProcessor.java" binary="false" 
+    label="processor" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="13">      
+      <position height="19" width="0" x="0" y="264"/>    
+    </execution>    
+    <execution id="15">      
+      <position height="19" width="0" x="0" y="302"/>    
+    </execution>  
+  </object>  
+  <object id="41" language="java" name="com.cuubez.client.context.MessageContext" project="cuubez-client" 
+    file="/cuubez-client/src/main/java/com/cuubez/client/context/MessageContext.java" binary="false" label="msgContext" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="17">      
+      <position height="19" width="0" x="0" y="340"/>    
+    </execution>    
+    <execution id="19">      
+      <position height="19" width="0" x="0" y="378"/>    
+    </execution>    
+    <execution id="21">      
+      <position height="19" width="0" x="0" y="416"/>    
+    </execution>    
+    <execution id="25">      
+      <position height="19" width="0" x="0" y="492"/>    
+    </execution>    
+    <execution id="29">      
+      <position height="19" width="0" x="0" y="568"/>    
+    </execution>    
+    <execution id="37">      
+      <position height="19" width="0" x="0" y="720"/>    
+    </execution>  
+  </object>  
+  <object id="42" language="java" name="com.cuubez.client.context.KeyContext" project="cuubez-client" 
+    file="/cuubez-client/src/main/java/com/cuubez/client/context/KeyContext.java" binary="false" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="23">      
+      <position height="19" width="0" x="0" y="454"/>    
+    </execution>    
+    <execution id="33">      
+      <position height="19" width="0" x="0" y="644"/>    
+    </execution>  
+  </object>  
+  <object id="43" language="java" name="com.cuubez.client.context.KeyContext" project="cuubez-client" 
+    file="/cuubez-client/src/main/java/com/cuubez/client/context/KeyContext.java" binary="false" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="27">      
+      <position height="19" width="0" x="0" y="530"/>    
+    </execution>  
+  </object>  
+  <object id="44" language="java" name="com.cuubez.client.context.KeyContext" project="cuubez-client" 
+    file="/cuubez-client/src/main/java/com/cuubez/client/context/KeyContext.java" binary="false" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="31">      
+      <position height="19" width="0" x="0" y="606"/>    
+    </execution>  
+  </object>  
+  <object id="45" language="java" name="com.cuubez.client.context.KeyContext" project="cuubez-client" 
+    file="/cuubez-client/src/main/java/com/cuubez/client/context/KeyContext.java" binary="false" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="35">      
+      <position height="19" width="0" x="0" y="682"/>    
+    </execution>  
+  </object>  
+  <message id="3" operation="exchangeKey():void">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="6" operation="addProvider(java.security.Provider):int">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="7"/>  
+  </message>  
+  <message id="8" operation="BouncyCastleProvider()">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>  
+  <message id="10" 
+    operation="getKeyContext(com.cuubez.client.param.HttpMethod):com.cuubez.client.context.MessageContext">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="11"/>  
+  </message>  
+  <message id="12" operation="RequestProcessor()">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="13"/>  
+  </message>  
+  <message id="14" operation="process(com.cuubez.client.context.MessageContext):void">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="15"/>  
+  </message>  
+  <message id="16" operation="getKeyContext():com.cuubez.client.context.KeyContext">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="17"/>  
+  </message>  
+  <message id="18" operation="getKeyContext():com.cuubez.client.context.KeyContext">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="19"/>  
+  </message>  
+  <message id="20" operation="getKeyContext():com.cuubez.client.context.KeyContext">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="21"/>  
+  </message>  
+  <message id="22" operation="getEcmvqOriginator():com.cuubez.key.exchange.ecmqv.ECMVQOriginator">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="23"/>  
+  </message>  
+  <message id="24" operation="getKeyContext():com.cuubez.client.context.KeyContext">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="25"/>  
+  </message>  
+  <message id="26" operation="getServerPublicKey():byte[]">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="27"/>  
+  </message>  
+  <message id="28" operation="getKeyContext():com.cuubez.client.context.KeyContext">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="29"/>  
+  </message>  
+  <message id="30" operation="getServerPublicKey2():byte[]">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="31"/>  
+  </message>  
+  <message id="32" operation="originatorSharedSecret(byte[],byte[]):byte[]">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="33"/>  
+  </message>  
+  <message id="34" operation="setSharedSecretKey(byte[]):void">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="35"/>  
+  </message>  
+  <message id="36" operation="getKeyContext():com.cuubez.client.context.KeyContext">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="37"/>  
+  </message>
+</sequence-diagram>
