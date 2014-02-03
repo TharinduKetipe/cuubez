@@ -3,9 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>Cuubez</name>
-    <description>Cuubez RESTful web services framework.</description>
-
+    <description>
+		Cuubez RESTful web services framework.
+	</description>
     <groupId>com.cuubez</groupId>
+
     <artifactId>cuubez</artifactId>
     <version>1.0-beta-1</version>
 
@@ -26,6 +28,7 @@
         <module>cuubez-auth</module>
         <module>cuubez-core</module>
         <module>cuubez-examples</module>
+		<module>cuubez-key</module>
     </modules>
 
 </project>
