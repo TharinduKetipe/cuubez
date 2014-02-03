@@ -14,16 +14,23 @@
  */
 package com.cuubez.client;
 
+import java.security.Security;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+import com.cuubez.client.context.KeyContext;
 import com.cuubez.client.context.MessageContext;
 import com.cuubez.client.context.RequestContext;
+import com.cuubez.client.engine.processor.Processor;
+import com.cuubez.client.engine.processor.RequestProcessor;
 import com.cuubez.client.exception.CuubezException;
 import com.cuubez.client.param.HttpMethod;
 import com.cuubez.client.param.MediaType;
-import com.cuubez.client.engine.processor.Processor;
-import com.cuubez.client.engine.processor.RequestProcessor;
+import com.cuubez.key.KeyExAlgorithmName;
+import com.cuubez.key.exchange.ecmqv.ECMQVOriginator;
 
 public class ClientRequest {
 	private static Log log = LogFactory.getLog(ClientRequest.class);	
@@ -33,6 +40,8 @@ public class ClientRequest {
 	private Object[] parameters;
 	private String principal;
 	private String credentials;
+	
+	private KeyContext keyContext;
 	
 	public ClientRequest() {
 	}
@@ -51,6 +60,30 @@ public class ClientRequest {
 		MessageContext msgContext = getMessageContext(HttpMethod.GET);
 		Processor processor = new RequestProcessor();
 		processor.process(msgContext);
+	}
+	
+	public void exchangeKey() throws CuubezException {
+		Security.addProvider(new BouncyCastleProvider());
+		
+		//generate key
+		MessageContext msgContext = getKeyContext(HttpMethod.GET);
+		
+		//send public key
+		Processor processor = new RequestProcessor();
+		processor.process(msgContext);
+		
+		if(msgContext.getKeyContext() != null) {
+			msgContext.getKeyContext().setSharedSecretKey(
+					msgContext
+							.getKeyContext()
+							.getEcmvqOriginator()
+							.originatorSharedSecret(
+									msgContext.getKeyContext()
+											.getServerPublicKey(), 
+									msgContext.getKeyContext()
+											.getServerPublicKey2()));
+			this.keyContext = msgContext.getKeyContext();
+		}
 	}
 	
 	public <T> T get(Class<T> returnType) throws CuubezException {
@@ -116,6 +149,27 @@ public class ClientRequest {
 		return msgContext;
 	}
 	
+	private MessageContext getKeyContext(HttpMethod httpMethod) {
+		MessageContext msgContext = new MessageContext();
+		RequestContext requestContext = new RequestContext(serviceUrl, mediaType, httpMethod);		
+		requestContext.setParameters(parameters);
+		requestContext.setKeyExAlgoName(KeyExAlgorithmName.ECMQVALGO.getNumVal());
+		ECMQVOriginator ecmvqOriginator = new ECMQVOriginator();
+		Map<String, byte[]> clientPublicKeys = ecmvqOriginator.generateKeyAgreement();
+		
+		if(msgContext.getKeyContext() == null){
+			msgContext.setKeyContext(new KeyContext());			
+		}
+		msgContext.getKeyContext().setClientPublicKey(clientPublicKeys.get("key1"));
+		msgContext.getKeyContext().setClientPublicKey2(clientPublicKeys.get("key2"));
+		msgContext.getKeyContext().setEcmvqOriginator(ecmvqOriginator);
+		
+		requestContext.setPublicKey(clientPublicKeys.get("key1"));
+		requestContext.setPublicKey2(clientPublicKeys.get("key2"));
+		msgContext.setRequestContext(requestContext);
+		return msgContext;
+	}
+	
 	private void validateContent() throws CuubezException {
 		
 		if(serviceUrl == null || mediaType == null) {
@@ -171,5 +225,19 @@ public class ClientRequest {
     public void setCredentials(String credentials) {
         this.credentials = credentials;
     }
+
+	/**
+	 * @return the keyContext
+	 */
+	public KeyContext getKeyContext() {
+		return keyContext;
+	}
+
+	/**
+	 * @param keyContext the keyContext to set
+	 */
+	public void setKeyContext(KeyContext keyContext) {
+		this.keyContext = keyContext;
+	}
 
 }

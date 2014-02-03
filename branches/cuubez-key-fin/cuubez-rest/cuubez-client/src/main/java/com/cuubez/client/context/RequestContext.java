@@ -30,6 +30,9 @@ public class RequestContext {
 	private Object[] parameters;
 	private String principal;
 	private String credentials;
+	private int keyExAlgoName;
+	private byte[] publicKey;
+	private byte[] publicKey2;
 	private String transformedParameter;
 	private Document document;
 	
@@ -124,6 +127,48 @@ public class RequestContext {
     public void setCredentials(String credentials) {
         this.credentials = credentials;
     }
+
+	/**
+	 * @return the keyExAlgoName
+	 */
+	public int getKeyExAlgoName() {
+		return keyExAlgoName;
+	}
+
+	/**
+	 * @param keyExAlgoName the keyExAlgoName to set
+	 */
+	public void setKeyExAlgoName(int keyExAlgoName) {
+		this.keyExAlgoName = keyExAlgoName;
+	}
+
+	/**
+	 * @return the publicKey
+	 */
+	public byte[] getPublicKey() {
+		return publicKey;
+	}
+
+	/**
+	 * @param publicKey the publicKey to set
+	 */
+	public void setPublicKey(byte[] publicKey) {
+		this.publicKey = publicKey;
+	}
+
+	/**
+	 * @return the publicKey2
+	 */
+	public byte[] getPublicKey2() {
+		return publicKey2;
+	}
+
+	/**
+	 * @param publicKey2 the publicKey2 to set
+	 */
+	public void setPublicKey2(byte[] publicKey2) {
+		this.publicKey2 = publicKey2;
+	}
 
 	
 }

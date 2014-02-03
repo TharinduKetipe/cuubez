@@ -20,6 +20,7 @@ public class MessageContext {
 	private Object returnObject;
 	private Class<?> returnType;
 	private ExceptionContext exceptionContext;
+	private KeyContext keyContext; 
 
 	public RequestContext getRequestContext() {
 		return requestContext;
@@ -51,6 +52,20 @@ public class MessageContext {
 
 	public void setExceptionContext(ExceptionContext exceptionContext) {
 		this.exceptionContext = exceptionContext;
+	}
+
+	/**
+	 * @return the keyContext
+	 */
+	public KeyContext getKeyContext() {
+		return keyContext;
+	}
+
+	/**
+	 * @param keyContext the keyContext to set
+	 */
+	public void setKeyContext(KeyContext keyContext) {
+		this.keyContext = keyContext;
 	}
 	
 

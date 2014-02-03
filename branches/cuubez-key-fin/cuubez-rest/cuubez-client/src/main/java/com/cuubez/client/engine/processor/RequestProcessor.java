@@ -22,9 +22,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.bouncycastle.util.encoders.Base64;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.cuubez.client.context.KeyContext;
 import com.cuubez.client.context.MessageContext;
 import com.cuubez.client.exception.CuubezException;
 import com.cuubez.client.exception.ExceptionTransformer;
@@ -120,6 +122,22 @@ public class RequestProcessor implements Processor{
 				inputStream = urlConnection.getInputStream();
 				Document doc = XMLParserUtil.createDocument(inputStream);
 				messageContext.getRequestContext().setDocument(doc);
+				
+				if(urlConnection.getHeaderField("PublicKey") != null){
+					byte[] decoded = Base64.decode(urlConnection.getHeaderField("PublicKey"));
+					if(messageContext.getKeyContext() == null){
+						messageContext.setKeyContext(new KeyContext());
+					}
+					messageContext.getKeyContext().setServerPublicKey(decoded);
+				}
+				
+				if(urlConnection.getHeaderField("PublicKey2") != null){
+					byte[] decoded = Base64.decode(urlConnection.getHeaderField("PublicKey2"));
+					if(messageContext.getKeyContext() == null){
+						messageContext.setKeyContext(new KeyContext());
+					}
+					messageContext.getKeyContext().setServerPublicKey2(decoded);
+				}
 			
 			} catch (IOException e) {
 				log.error("Exception occure while parsing response details", e);

@@ -86,7 +86,7 @@ public class KeyFilter implements Filter {
 		        byte[] decoded2 = Base64.decode(publicKey2);
 		        byte[] sharedSecretKey = receiver.receiverSharedSecret(decoded,decoded2);
 		        
-		        //Attempt to view server side shared secret via tocat logging
+		        //Attempt to view server side shared secret via tomcat logging
 		        MessageDigest hash;
 		        
 				try {

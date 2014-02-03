@@ -22,6 +22,8 @@ import java.net.URL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.bouncycastle.util.encoders.Base64;
+import org.bouncycastle.util.encoders.Base64Encoder;
 
 import com.cuubez.client.context.MessageContext;
 import com.cuubez.client.context.RequestContext;
@@ -50,6 +52,17 @@ public abstract class Connection {
             conn.setRequestProperty("Content-Type", requestContext.getMediaType().getValue().concat("; charset=utf-8"));
             conn.setRequestProperty("principal", requestContext.getPrincipal());
             conn.setRequestProperty("credentials", requestContext.getCredentials());
+            conn.setRequestProperty("KeyExAlgoName", requestContext.getKeyExAlgoName()+"");
+            if(requestContext.getPublicKey() != null){            	
+                byte[] coded = Base64.encode(requestContext.getPublicKey());
+                String strCoded = new String(coded);            	
+            	conn.setRequestProperty("PublicKey", strCoded);
+            }
+            if(requestContext.getPublicKey2() != null){            	
+                byte[] coded = Base64.encode(requestContext.getPublicKey2());
+                String strCoded = new String(coded);            	
+            	conn.setRequestProperty("PublicKey2", strCoded);
+            }
             conn.setRequestMethod(requestContext.getHttpMethod().name());
             conn.setUseCaches(false);
             conn.setDoOutput(true);

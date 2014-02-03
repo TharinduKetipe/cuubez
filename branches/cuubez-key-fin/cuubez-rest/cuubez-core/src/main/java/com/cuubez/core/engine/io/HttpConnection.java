@@ -37,7 +37,7 @@ public class HttpConnection implements Connection {
 
         if (encoding != null) {
 
-            if (encoding.indexOf("gzip") > 0) {
+            if (encoding.indexOf("gzip") >= 0) {
 
                 Compressor compressor = new GzipCompressor();
                 compressor.compressAndWrite(response, messageContext);
