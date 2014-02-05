@@ -16,8 +16,7 @@ package com.cuubez.core.initiator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.cuubez.core.initiator.param.HttpMethods;
+import com.cuubez.core.util.HttpMethod;
 
 
 public class ServiceInitiator extends ServletContainer {
@@ -27,22 +26,22 @@ public class ServiceInitiator extends ServletContainer {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        super.process(req, resp, HttpMethods.POST);
+        super.process(req, resp, HttpMethod.POST);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        super.process(req, resp, HttpMethods.GET);
+        super.process(req, resp, HttpMethod.GET);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
-        super.process(req, resp, HttpMethods.PUT);
+        super.process(req, resp, HttpMethod.PUT);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        super.process(req, resp, HttpMethods.DELETE);
+        super.process(req, resp, HttpMethod.DELETE);
     }
 
 }

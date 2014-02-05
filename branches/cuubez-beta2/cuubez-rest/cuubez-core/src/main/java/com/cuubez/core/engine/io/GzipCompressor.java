@@ -20,17 +20,16 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.cuubez.core.context.ResponseContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.cuubez.core.context.MessageContext;
 
 public class GzipCompressor implements Compressor {
 
     private static Log log = LogFactory.getLog(GzipCompressor.class);
 
     @Override
-    public void compressAndWrite(HttpServletResponse response, MessageContext messageContext) {
+    public void compressAndWrite(HttpServletResponse response, ResponseContext responseContext) {
 
         response.setHeader("Content-Encoding", "gzip");
 
@@ -38,7 +37,7 @@ public class GzipCompressor implements Compressor {
 
             OutputStream out = response.getOutputStream();
             GZIPOutputStream gout = new GZIPOutputStream(out);
-            gout.write(messageContext.getContent().getBytes());
+            gout.write(responseContext.getContent().getBytes());
             gout.close();
             out.close();
 

@@ -12,15 +12,22 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.engine.io;
+package com.cuubez.core.engine.parser.xml;
 
-import com.cuubez.core.context.ResponseContext;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+public class Marshaller {
 
-public interface Connection {
+    public static String marshal(Object object) {
 
-    public void write(HttpServletRequest request, HttpServletResponse response, ResponseContext responseContext);
+        if (object == null) {
+            return null;
+        }
+
+        XStream xStream = new XStream(new DomDriver());
+        return xStream.toXML(object);
+    }
+
 
 }

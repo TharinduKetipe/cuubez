@@ -14,20 +14,20 @@
  */
 package com.cuubez.core.engine.io;
 
+import com.cuubez.core.context.ResponseContext;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.cuubez.core.context.MessageContext;
 
 public class HttpConnection implements Connection {
 
     @Override
-    public void write(HttpServletRequest request, HttpServletResponse response, MessageContext messageContext) {
+    public void write(HttpServletRequest request, HttpServletResponse response, ResponseContext responseContext) {
 
         String contentType = "Application/XML";
 
-        if (messageContext.getMediaType() != null) {
-            contentType = messageContext.getMediaType().getValue();
+        if (responseContext.getMediaType() != null) {
+            contentType = responseContext.getMediaType().getValue();
         }
 
         response.setContentType(contentType);
@@ -40,17 +40,17 @@ public class HttpConnection implements Connection {
             if (encoding.indexOf("gzip") > 0) {
 
                 Compressor compressor = new GzipCompressor();
-                compressor.compressAndWrite(response, messageContext);
+                compressor.compressAndWrite(response, responseContext);
 
             } else {
                 Compressor compressor = new DefaultCompressor();
-                compressor.compressAndWrite(response, messageContext);
+                compressor.compressAndWrite(response, responseContext);
             }
 
         } else {
 
             Compressor compressor = new DefaultCompressor();
-            compressor.compressAndWrite(response, messageContext);
+            compressor.compressAndWrite(response, responseContext);
         }
 
     }

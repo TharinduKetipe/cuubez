@@ -12,15 +12,30 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.engine.io;
-
-import com.cuubez.core.context.ResponseContext;
+package com.cuubez.core.context;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-public interface Connection {
+public class RequestContext extends Context {
 
-    public void write(HttpServletRequest request, HttpServletResponse response, ResponseContext responseContext);
+    private HttpServletRequest request;
+    private URLContext urlContext;
+
+    public URLContext getUrlContext() {
+        return urlContext;
+    }
+
+    public void setUrlContext(URLContext urlContext) {
+        this.urlContext = urlContext;
+    }
+
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
+    }
 
 }
+ 

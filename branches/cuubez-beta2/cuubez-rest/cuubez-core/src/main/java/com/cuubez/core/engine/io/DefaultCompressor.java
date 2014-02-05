@@ -19,18 +19,16 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.cuubez.core.context.ResponseContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.cuubez.core.context.MessageContext;
 
 public class DefaultCompressor implements Compressor {
 
     private static Log log = LogFactory.getLog(DefaultCompressor.class);
 
     @Override
-    public void compressAndWrite(HttpServletResponse response,
-                                 MessageContext messageContext) {
+    public void compressAndWrite(HttpServletResponse response, ResponseContext responseContext) {
 
         PrintWriter out = null;
 
@@ -42,7 +40,7 @@ public class DefaultCompressor implements Compressor {
             log.error(e);
         }
 
-        out.write(messageContext.getContent());
+        out.write(responseContext.getContent());
         out.flush();
         out.close();
 

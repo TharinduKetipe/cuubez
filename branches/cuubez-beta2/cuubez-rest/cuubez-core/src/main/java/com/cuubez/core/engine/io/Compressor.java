@@ -14,12 +14,12 @@
  */
 package com.cuubez.core.engine.io;
 
-import javax.servlet.http.HttpServletResponse;
+import com.cuubez.core.context.ResponseContext;
 
-import com.cuubez.core.context.MessageContext;
+import javax.servlet.http.HttpServletResponse;
 
 public interface Compressor {
 
-    public void compressAndWrite(HttpServletResponse response, MessageContext messageContext);
+    public void compressAndWrite(HttpServletResponse response, ResponseContext responseContext);
 
 }

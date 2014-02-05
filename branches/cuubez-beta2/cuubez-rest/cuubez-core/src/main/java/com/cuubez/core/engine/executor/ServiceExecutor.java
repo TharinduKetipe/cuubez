@@ -19,32 +19,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.cuubez.core.context.RequestContext;
+import com.cuubez.core.context.ResponseContext;
+import com.cuubez.core.resource.*;
+import com.cuubez.core.util.MediaType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.cuubez.core.annotation.context.MethodAnnotationMetaData;
-import com.cuubez.core.annotation.context.MethodParameter;
-import com.cuubez.core.context.ConfigurationContext;
-import com.cuubez.core.context.MessageContext;
-import com.cuubez.core.context.ServiceContext;
-import com.cuubez.core.context.ServiceRepository;
 import com.cuubez.core.exception.CuubezException;
-import com.thoughtworks.xstream.core.util.Primitives;
+
 
 
 public class ServiceExecutor {
 
     private static Log log = LogFactory.getLog(ServiceExecutor.class);
 
-    public void execute(ConfigurationContext configurationContext) throws CuubezException {
+    public ResponseContext execute(RequestContext requestContext) throws CuubezException {
 
-        List<Object> parameterObjects = null;
-        List<MethodParameter> methodParameters = null;
-        ServiceContext serviceContext = null;
+        SelectedResourceMetaData selectedResourceMetaData;
+        Object returnObject = null;
 
         try {
 
-            serviceContext = findService(configurationContext);
+            selectedResourceMetaData = findService(requestContext);
 
         } catch (CuubezException e) {
             log.error(e.getDescription());
@@ -53,72 +50,46 @@ public class ServiceExecutor {
 
         try {
 
-            configurationContext.setServiceContext(serviceContext);
-            MethodAnnotationMetaData methodAnnotationMetaData = serviceContext.getServiceAnnotationMetaData().getMethodAnnotationMetaData();
+            Object[] arguments = getResourceArguments(selectedResourceMetaData);
 
-            if (methodAnnotationMetaData.getMethodParameters() != null) {
-                methodParameters = methodAnnotationMetaData.getMethodParameters();
-            } else {
-                methodParameters = new ArrayList<MethodParameter>();
-            }
 
-            parameterObjects = configurationContext.getUrlContext().getParameters();
-            List<Class<?>> requestParamTypes = getParameterType(parameterObjects);
-
-            if (!validateParameter(methodParameters, requestParamTypes)) {
-                log.error("Invalid parameters");
-                throw new CuubezException("Invalid parameters", CuubezException.INVALIDE_PARAMETERS);
-            }
-
-            Class<?>[] paramsClazzes = new Class<?>[methodParameters.size()];
-            Object[] parameters = new Object[methodParameters.size()];
-
-            if (methodParameters != null && parameterObjects != null) {
-
-                for (int i = 0; i < methodParameters.size(); i++) {
-
-                    paramsClazzes[i] = methodParameters.get(i).getParameterType();
-                    parameters[i] = parameterObjects.get(i);
-
-                }
-
-            }
-
-            Class<?> cls = serviceContext.getServiceClass();
+            Class<?> cls = selectedResourceMetaData.getSelectedMethodMetaData().getClazz();
             Object obj = cls.newInstance();
 
-            java.lang.reflect.Method method = cls.getDeclaredMethod(methodAnnotationMetaData.getMethodName(), paramsClazzes);
-            Object returnObject = method.invoke(obj, parameters);
+            java.lang.reflect.Method selectedMethod = selectedResourceMetaData.getSelectedMethodMetaData().getReflectionMethod();
 
-            MessageContext msgContext = new MessageContext();
-            msgContext.setMediaType(configurationContext.getUrlContext().getMediaType());
-            msgContext.setReturnObject(returnObject);
-            configurationContext.setMessageContext(msgContext);
+            validateArguments(selectedMethod, arguments);
+            returnObject = selectedMethod.invoke(obj, arguments);
 
+            if(selectedMethod.getReturnType() == null || returnObject == null) {
+                return null;
+            }
+
+
+        } catch (InvocationTargetException e) {
+            log.error(e);
         } catch (InstantiationException e) {
             log.error(e);
         } catch (IllegalAccessException e) {
             log.error(e);
         } catch (SecurityException e) {
             log.error(e);
-        } catch (NoSuchMethodException e) {
-            log.error(e);
         } catch (IllegalArgumentException e) {
-            log.error(e);
-        } catch (InvocationTargetException e) {
             log.error(e);
         }
 
+        ResponseContext responseContext = new ResponseContext(MediaType.XML, returnObject);
+
+        return responseContext;
 
     }
 
 
-    private ServiceContext findService(ConfigurationContext configurationContext) throws CuubezException {
+    private SelectedResourceMetaData findService(RequestContext requestContext) throws CuubezException {
 
-        String httpMethod = configurationContext.getUrlContext().getHttpMethods();
-        String serviceLocation = configurationContext.getUrlContext().getServiceLocation();
-        String serviceName = configurationContext.getUrlContext().getServiceName();
-        return ServiceRepository.getInstance().findService(httpMethod, serviceLocation, serviceName);
+        String httpMethod = requestContext.getUrlContext().getHttpMethods();
+        String path = requestContext.getUrlContext().getServiceLocation();
+        return ResourceRepository.getInstance().findResource(path, httpMethod);
 
     }
 
@@ -139,37 +110,13 @@ public class ServiceExecutor {
     }
 
 
-    private boolean validateParameter(List<MethodParameter> serviceParam, List<Class<?>> requestParam) {
-
-        if (serviceParam == null && requestParam == null) {
-            return true;
-        }
-
-        if (serviceParam == null || requestParam == null) {
-            return false;
-        }
-
-        if (serviceParam.size() != requestParam.size()) {
-            return false;
-        }
-
-        for (int i = 0; i < serviceParam.size(); i++) {
-
-            if (!getType(serviceParam.get(i).getParameterType()).equals(requestParam.get(i))) {
-                return false;
-            }
-
-        }
+    private boolean validateArguments(java.lang.reflect.Method selectedMethod, Object[] arguments) {
         return true;
-
     }
 
-    public Class<?> getType(Class<?> clazz) {
-
-        if (clazz.isPrimitive()) {
-            return Primitives.box(clazz);
-        }
-        return clazz;
+    private Object[] getResourceArguments(SelectedResourceMetaData selectedResourceMetaData) {
+        return null;
     }
+
 
 }

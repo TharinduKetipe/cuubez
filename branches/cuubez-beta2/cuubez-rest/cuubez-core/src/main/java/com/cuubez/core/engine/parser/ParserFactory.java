@@ -14,40 +14,24 @@
  */
 package com.cuubez.core.engine.parser;
 
-import com.cuubez.core.context.ConfigurationContext;
-import com.cuubez.core.context.MediaType;
-import com.cuubez.core.engine.parser.url.URLParser;
+import com.cuubez.core.context.RequestContext;
+import com.cuubez.core.util.MediaType;
 import com.cuubez.core.exception.CuubezException;
-import com.cuubez.core.engine.parser.content.ContentParser;
-import com.cuubez.core.engine.parser.content.xml.XMLContentParser;
-import com.cuubez.core.engine.parser.content.xml.XMLExceptionParser;
-import com.cuubez.core.engine.parser.url.xml.XMLParameterParser;
 
 public class ParserFactory {
 
-    public void parse(ConfigurationContext configurationContext, MediaType mediaType, int parserType) throws CuubezException {
+    public void parse(RequestContext requestContext, int parserType) throws CuubezException {
 
-        if (MediaType.XML.equals(mediaType)) {
 
-            if (parserType == Parser.CONTENT) {
+        if (MediaType.XML.equals(requestContext.getUrlContext().getMediaType())) {
 
-                ContentParser parser = new XMLContentParser();
-                parser.parse(configurationContext);
+            if (parserType == Parser.URL) {
 
-            } else if (parserType == Parser.PARAMETER) {
+                URLParser parser = new URLParser();
+                parser.parse(requestContext);
 
-               new XMLParameterParser().parse(configurationContext);
-
-            } else if (parserType == Parser.URL) {
-
-                URLParser parser = new URLDetailParser();
-                new URLDetailParser().parse(configurationContext);
-
-            } else if (parserType == Parser.EXCEPTION) {
-
-                ContentParser parser = new XMLExceptionParser();
-                parser.parse(configurationContext);
             }
+
 
         }
 

@@ -12,15 +12,13 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.engine.io;
+package com.cuubez.core.engine.parser;
 
-import com.cuubez.core.context.ResponseContext;
+import com.cuubez.core.context.RequestContext;
+import com.cuubez.core.exception.CuubezException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+public interface ContentParser extends Parser {
 
-public interface Connection {
-
-    public void write(HttpServletRequest request, HttpServletResponse response, ResponseContext responseContext);
+    public void parse(RequestContext requestContext) throws CuubezException;
 
 }

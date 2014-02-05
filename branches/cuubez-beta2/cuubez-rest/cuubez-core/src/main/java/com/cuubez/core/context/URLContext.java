@@ -14,6 +14,11 @@
  */
 package com.cuubez.core.context;
 
+import com.cuubez.core.resource.HeaderVariableMetaData;
+import com.cuubez.core.resource.PathVariableMetaData;
+import com.cuubez.core.resource.QueryVariableMetaData;
+import com.cuubez.core.util.MediaType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +29,12 @@ public class URLContext {
     private String pathInfo;
     private StringBuffer requestURL;
     private String requestURI;
-    private String serviceName;
-    private String serviceLocation;
+     private String serviceLocation;
     private String httpMethods;
-    private List<Object> parameters;
     private MediaType mediaType;
+    private List<QueryVariableMetaData> queryVariableMetaDataList;
+    private List<PathVariableMetaData> pathVariableMetaDataList;
+    private List<HeaderVariableMetaData> headerVariableMetaDataList;
 
 
     public String getServiceUrl() {
@@ -39,32 +45,12 @@ public class URLContext {
         this.serviceUrl = serviceUrl;
     }
 
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
     public String getServiceLocation() {
         return serviceLocation;
     }
 
     public void setServiceLocation(String serviceLocation) {
         this.serviceLocation = serviceLocation;
-    }
-
-    public List<Object> getParameters() {
-        return parameters;
-    }
-
-    public void addParameter(Object value) {
-        if (this.parameters == null) {
-            this.parameters = new ArrayList<Object>();
-        }
-
-        this.parameters.add(value);
     }
 
     public String getHttpMethods() {
@@ -113,5 +99,29 @@ public class URLContext {
 
     public void setServletPath(String servletPath) {
         this.servletPath = servletPath;
+    }
+
+    public List<QueryVariableMetaData> getQueryVariableMetaDataList() {
+        return queryVariableMetaDataList;
+    }
+
+    public void setQueryVariableMetaDataList(List<QueryVariableMetaData> queryVariableMetaDataList) {
+        this.queryVariableMetaDataList = queryVariableMetaDataList;
+    }
+
+    public List<HeaderVariableMetaData> getHeaderVariableMetaDataList() {
+        return headerVariableMetaDataList;
+    }
+
+    public void setHeaderVariableMetaDataList(List<HeaderVariableMetaData> headerVariableMetaDataList) {
+        this.headerVariableMetaDataList = headerVariableMetaDataList;
+    }
+
+    public List<PathVariableMetaData> getPathVariableMetaDataList() {
+        return pathVariableMetaDataList;
+    }
+
+    public void setPathVariableMetaDataList(List<PathVariableMetaData> pathVariableMetaDataList) {
+        this.pathVariableMetaDataList = pathVariableMetaDataList;
     }
 }

@@ -17,31 +17,32 @@ package com.cuubez.core.initiator;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.cuubez.core.context.MessageContext;
+
+import com.cuubez.core.context.ResponseContext;
 import com.cuubez.core.engine.io.Connection;
 import com.cuubez.core.engine.io.HttpConnection;
 import com.cuubez.core.engine.processor.ServiceProcessor;
-import com.cuubez.core.initiator.param.HttpMethods;
+import com.cuubez.core.util.HttpMethod;
 
 
 public class ServletContainer extends HttpServlet {
 
     private static final long serialVersionUID = 5466841407373731970L;
 
-    protected void process(HttpServletRequest request, HttpServletResponse response, HttpMethods httpMethod) {
+    protected void process(HttpServletRequest request, HttpServletResponse response, HttpMethod httpMethod) {
         
-    	MessageContext messageContext = new ServiceProcessor().process(request, httpMethod);
+    	ResponseContext responseContext = new ServiceProcessor().process(request, httpMethod);
 
-        if (messageContext != null && messageContext.getContent() != null) {
-            writeResponse(request, response, messageContext);
+        if (responseContext != null && responseContext.getContent() != null) {
+            writeResponse(request, response, responseContext);
         }
     }
 
 
-    public void writeResponse(HttpServletRequest request, HttpServletResponse response, MessageContext messageContext) {
+    public void writeResponse(HttpServletRequest request, HttpServletResponse response, ResponseContext responseContext) {
 
         Connection connection = new HttpConnection();
-        connection.write(request, response, messageContext);
+        connection.write(request, response, responseContext);
     }
 
 
