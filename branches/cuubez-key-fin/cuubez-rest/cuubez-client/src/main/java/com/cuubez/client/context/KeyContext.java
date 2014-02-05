@@ -21,7 +21,7 @@ public class KeyContext {
 	
 	private byte[] sharedSecretKey;
 	private ECMQVOriginator ecmvqOriginator; 
-
+	private IDHOriginator idhOriginator; 
 	/**
 	 * @return the clientPublicKey
 	 */
@@ -105,6 +105,18 @@ public class KeyContext {
 	public void setServerPublicKey2(byte[] serverPublicKey2) {
 		this.serverPublicKey2 = serverPublicKey2;
 	}
+	
+	public IDHOriginator getIdhOriginator() {
+		return idhOriginator;
+	}
+
+	/**
+	 * @param idhOriginator the idhOriginator to set
+	 */
+	public void setIdhOriginator(IDHOriginator idhOriginator) {
+		this.idhOriginator = idhOriginator;
+	}
+	
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

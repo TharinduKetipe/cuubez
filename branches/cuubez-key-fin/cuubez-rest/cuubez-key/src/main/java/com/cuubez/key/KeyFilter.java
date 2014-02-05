@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Base64;
 
+import com.cuubez.key.exchange.IDHReceiver;
 import com.cuubez.key.exchange.ecmqv.ECMQVReceiver;
 import com.cuubez.key.service.IKeyAgreementService;
 import com.cuubez.key.service.KeyAgreementService;
@@ -75,9 +76,31 @@ public class KeyFilter implements Filter {
         String publicKey2 = ((HttpServletRequest) request).getHeader(PUBLIC_KEY2);
         String principal = ((HttpServletRequest) request).getHeader(PRINCIPAL_CUSTOM_HEADER);
 
+        log.info("keyExAlgoName numeric using on this :: " +keyExAlgoName);
+        
+        
         if(keyExAlgoName != null && publicKey != null){
         	
-        	if(keyService.retrieveSecretSharedKeyForPrincipal(principal) == null){
+        	log.info("Going to ALGO selection"); 
+        	
+        if(Integer.parseInt(keyExAlgoName)==2 ) 
+        
+        {
+        	
+        	log.info("Algo ECMQV selected"); 
+        	
+        	//Implement timing mechanism here
+        	try {
+				Thread.currentThread();
+				Thread.sleep(3000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        	if(keyService.retrieveSecretSharedKeyForPrincipal(principal) == null)
+        	
+        	{
         		ECMQVReceiver receiver = (ECMQVReceiver)keyAgreementService.initiateKeyAgreement(Integer.parseInt(keyExAlgoName), KeyAgreementService.RECIEVER);
 		
 		        Map<String, byte[]> serverPublicKeys = receiver.generateKeyAgreement();
@@ -94,10 +117,13 @@ public class KeyFilter implements Filter {
 					byte[] receiverShared = hash.digest(sharedSecretKey);
 					log.info("Agreed shared secret (Hash value of actual key on Server side) with ECMQV :: " +Utils.toHex(receiverShared));
 		            				
-				} catch (NoSuchAlgorithmException e) {
+				} 
+				
+				catch (NoSuchAlgorithmException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (NoSuchProviderException e) {
+				} 
+				catch (NoSuchProviderException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -115,8 +141,64 @@ public class KeyFilter implements Filter {
 		        ((HttpServletResponse) response).addHeader(PUBLIC_KEY, strCoded);
 		        ((HttpServletResponse) response).addHeader(PUBLIC_KEY2, strCoded2);
 	        }
-
+        	
+        	else
+        	{
+        		log.info("Client has unexpired Keys created");
+        	}
         }
+        	
+        	
+        if(Integer.parseInt(keyExAlgoName)!=2)
+        	 
+        	 {
+        		 
+        		 log.info("Algo ECDH selected"); 
+             	
+             	if(keyService.retrieveSecretSharedKeyForPrincipal(principal) == null)
+             	
+             	{
+     		        IDHReceiver receiver = (IDHReceiver)keyAgreementService.initiateKeyAgreement(Integer.parseInt(keyExAlgoName), KeyAgreementService.RECIEVER);
+     		
+     		        byte[] serverPublicKey = receiver.generateKeyAgreement();
+     		        
+     		        byte[] decoded = Base64.decode(publicKey);
+     		        byte[] sharedSecretKey = receiver.receiverSharedSecret(decoded);
+     		        
+     		        //TODO : You need to define a algorithm to expire shared secret And a method to accomplish retrieve shared secret if not expired
+     		        //Trying to put same principal when it's existing creates issues
+     		        //keyService.addSecretKeyWithPrinciple(principal, sharedSecretKey);
+     		        
+     		       MessageDigest hash;
+     		       
+     		       try {
+   					hash = MessageDigest.getInstance("SHA1", "BC");
+   					byte[] receiverShared = hash.digest(sharedSecretKey);
+   					log.info("Agreed shared secret (Hash value of actual key on Server side) with ECDH :: " +Utils.toHex(receiverShared));
+   		            				
+     		       } catch (NoSuchAlgorithmException e) {
+   					// TODO Auto-generated catch block
+   					e.printStackTrace();
+     		       } catch (NoSuchProviderException e) {
+   					// TODO Auto-generated catch block
+   					e.printStackTrace();
+     		       }
+     		       
+                     byte[] coded = Base64.encode(serverPublicKey);
+                     String strCoded = new String(coded);  
+     		        ((HttpServletResponse) response).addHeader(PUBLIC_KEY, strCoded);
+     	        }
+             	
+             	else
+             	{
+             		log.info("Client has unexpired Keys created");
+             	}
+
+             }
+        	 
+        }
+        
+        
         chain.doFilter(request, response);
     }
 

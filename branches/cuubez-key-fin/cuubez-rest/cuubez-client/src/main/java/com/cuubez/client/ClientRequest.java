@@ -30,6 +30,7 @@ import com.cuubez.client.exception.CuubezException;
 import com.cuubez.client.param.HttpMethod;
 import com.cuubez.client.param.MediaType;
 import com.cuubez.key.KeyExAlgorithmName;
+import com.cuubez.key.exchange.ecdh.ECDHOriginator;
 import com.cuubez.key.exchange.ecmqv.ECMQVOriginator;
 
 public class ClientRequest {
@@ -40,7 +41,7 @@ public class ClientRequest {
 	private Object[] parameters;
 	private String principal;
 	private String credentials;
-	
+	private String algoName;
 	private KeyContext keyContext;
 	
 	public ClientRequest() {
@@ -62,8 +63,15 @@ public class ClientRequest {
 		processor.process(msgContext);
 	}
 	
-	public void exchangeKey() throws CuubezException {
+	public void exchangeKey(String AlgoName) throws CuubezException {
 		Security.addProvider(new BouncyCastleProvider());
+		
+		algoName = AlgoName;
+		
+		
+		if(algoName == "ECMQVALGO")
+		
+		{
 		
 		//generate key
 		MessageContext msgContext = getKeyContext(HttpMethod.GET);
@@ -83,6 +91,35 @@ public class ClientRequest {
 									msgContext.getKeyContext()
 											.getServerPublicKey2()));
 			this.keyContext = msgContext.getKeyContext();
+		}
+		
+		}
+		
+		else if (algoName == "ECDHALGO" || algoName == "DHALGO" )
+		
+		{
+			//generate key
+			MessageContext msgContext = getKeyContext(HttpMethod.GET);
+			
+			//send public key
+			Processor processor = new RequestProcessor();
+			processor.process(msgContext);
+			
+			if(msgContext.getKeyContext() != null) {
+				msgContext.getKeyContext().setSharedSecretKey(
+						msgContext
+								.getKeyContext()
+								.getIdhOriginator()
+								.originatorSharedSecret(
+										msgContext.getKeyContext()
+												.getServerPublicKey()));
+				this.keyContext = msgContext.getKeyContext();
+			}
+			
+		}
+		else
+		{
+			System.out.println("Provided Key Exchange Algo INVALID");
 		}
 	}
 	
@@ -153,6 +190,9 @@ public class ClientRequest {
 		MessageContext msgContext = new MessageContext();
 		RequestContext requestContext = new RequestContext(serviceUrl, mediaType, httpMethod);		
 		requestContext.setParameters(parameters);
+	if(algoName == "ECMQVALGO")
+	{
+		
 		requestContext.setKeyExAlgoName(KeyExAlgorithmName.ECMQVALGO.getNumVal());
 		ECMQVOriginator ecmvqOriginator = new ECMQVOriginator();
 		Map<String, byte[]> clientPublicKeys = ecmvqOriginator.generateKeyAgreement();
@@ -167,6 +207,35 @@ public class ClientRequest {
 		requestContext.setPublicKey(clientPublicKeys.get("key1"));
 		requestContext.setPublicKey2(clientPublicKeys.get("key2"));
 		msgContext.setRequestContext(requestContext);
+		return msgContext;
+	}
+	else if (algoName == "ECDHALGO" || algoName == "DHALGO" )
+	{
+		//if (algoName == "ECDHALGO"){
+			requestContext.setKeyExAlgoName(KeyExAlgorithmName.ECDHALGO.getNumVal());
+		//}
+		//else
+		//{
+		//	requestContext.setKeyExAlgoName(KeyExAlgorithmName.DHALGO.getNumVal());
+		//}
+		
+		ECDHOriginator dhOriginator = new ECDHOriginator();
+		byte[] clientPublicKey = dhOriginator.generateKeyAgreement();
+		
+		if(msgContext.getKeyContext() == null){
+			msgContext.setKeyContext(new KeyContext());			
+		}
+		msgContext.getKeyContext().setClientPublicKey(clientPublicKey);
+		msgContext.getKeyContext().setIdhOriginator(dhOriginator);
+		
+		requestContext.setPublicKey(clientPublicKey);
+		msgContext.setRequestContext(requestContext);
+		return msgContext;
+	}
+	else
+	{
+		System.out.println("Provided Key Exchange Algo is INVALID");
+	}
 		return msgContext;
 	}
 	
