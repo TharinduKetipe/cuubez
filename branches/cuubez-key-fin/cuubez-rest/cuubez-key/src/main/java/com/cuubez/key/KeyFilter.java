@@ -4,12 +4,22 @@
 package com.cuubez.key;
 
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.util.Map;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.ShortBufferException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -98,6 +108,8 @@ public class KeyFilter implements Filter {
 				e1.printStackTrace();
 			}
         	
+        	//Look at Key Management service to check whether we have a valid key for this client,But currently this will be always true and generate new key each time
+        	
         	if(keyService.retrieveSecretSharedKeyForPrincipal(principal) == null)
         	
         	{
@@ -109,6 +121,88 @@ public class KeyFilter implements Filter {
 		        byte[] decoded2 = Base64.decode(publicKey2);
 		        byte[] sharedSecretKey = receiver.receiverSharedSecret(decoded,decoded2);
 		        
+		        //Check whether Encryption and Decryption with Shared Secret possible
+		        //SecretKey originalKey = new SecretKeySpec(sharedSecretKey, 0, sharedSecretKey.length, "AES");
+		        		        
+		        byte[]          input = new byte[] { 
+		                0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
+		                0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
+		                0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
+		        //byte[]		    keyBytes = new byte[] { 
+		        //        0x01, 0x23, 0x45, 0x67, (byte)0x89, (byte)0xab, (byte)0xcd, (byte)0xef };
+		        byte[]		    ivBytes = new byte[] { 
+		                0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00 };
+		        
+		        //SecretKeySpec   key = new SecretKeySpec(keyBytes, "DES");
+		        SecretKey key = new SecretKeySpec(sharedSecretKey, 0, 8, "DES");
+		        IvParameterSpec ivSpec = new IvParameterSpec(new byte[8]);
+		        Cipher cipher;
+				try {
+					cipher = Cipher.getInstance("DES/CBC/PKCS7Padding", "BC");
+				
+
+				log.info("input : " + Utils.toHex(input));
+		        
+		        // encryption pass
+		        
+		        cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
+		        
+		        byte[] cipherText = new byte[cipher.getOutputSize(ivBytes.length + input.length)];
+		        
+		        int ctLength = cipher.update(ivBytes, 0, ivBytes.length, cipherText, 0);
+		        
+		        ctLength += cipher.update(input, 0, input.length, cipherText, ctLength);
+		        
+		        ctLength += cipher.doFinal(cipherText, ctLength);
+		        
+		        log.info("cipher: " + Utils.toHex(cipherText, ctLength) + " bytes: " + ctLength);
+		        
+		        // decryption pass
+		        
+		        cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
+		        
+		        byte[] buf = new byte[cipher.getOutputSize(ctLength)];
+		        
+		        int bufLength = cipher.update(cipherText, 0, ctLength, buf, 0);
+		        
+		        bufLength += cipher.doFinal(buf, bufLength);
+		        
+		        // remove the iv from the start of the message
+		        
+		        byte[] plainText = new byte[bufLength - ivBytes.length];
+		        
+		        System.arraycopy(buf, ivBytes.length, plainText, 0, plainText.length);
+		        
+		        log.info("plain : " + Utils.toHex(plainText, plainText.length) + " bytes: " + plainText.length);
+		        
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoSuchProviderException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoSuchPaddingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidKeyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidAlgorithmParameterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ShortBufferException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalBlockSizeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (BadPaddingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        
+		        //End of experiment Encryption and Decryption
+				
 		        //Attempt to view server side shared secret via tomcat logging
 		        MessageDigest hash;
 		        
