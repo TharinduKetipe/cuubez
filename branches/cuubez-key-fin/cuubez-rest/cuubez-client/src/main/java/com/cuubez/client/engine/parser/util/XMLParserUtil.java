@@ -121,9 +121,11 @@ public static List<Element> getElements(String tagName, Element rootElement) {
 	public static Document createDocument(InputStream xmlStream) throws ParserConfigurationException, SAXException, IOException  {
         
 	 javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(true);
    	 javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
    	 Document document = db.parse(xmlStream);
    	 return document;
+
    }
 
 }

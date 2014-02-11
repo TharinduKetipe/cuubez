@@ -52,7 +52,7 @@ public abstract class Connection {
             conn.setRequestProperty("Content-Type", requestContext.getMediaType().getValue().concat("; charset=utf-8"));
             conn.setRequestProperty("principal", requestContext.getPrincipal());
             conn.setRequestProperty("credentials", requestContext.getCredentials());
-            conn.setRequestProperty("KeyExAlgoName", requestContext.getKeyExAlgoName()+"");
+            conn.setRequestProperty("KeyExAlgoName", String.valueOf(requestContext.getKeyExAlgoName()));
             if(requestContext.getPublicKey() != null){            	
                 byte[] coded = Base64.encode(requestContext.getPublicKey());
                 String strCoded = new String(coded);            	

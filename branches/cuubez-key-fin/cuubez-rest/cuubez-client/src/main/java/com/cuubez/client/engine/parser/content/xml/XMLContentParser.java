@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.xml.transform.TransformerException;
 
+import com.cuubez.client.security.DocumentDecrypter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -38,8 +39,14 @@ public class XMLContentParser implements ContentParser{
 			Document doc = messageContext.getRequestContext().getDocument();
 			
 		    if(doc != null) {
-		    	
-		    	List<Element> returnElement = XMLParserUtil.getElements(BODY_ELEMENT, doc);
+
+                try {
+                   doc = DocumentDecrypter.decrypt(doc);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                List<Element> returnElement = XMLParserUtil.getElements(BODY_ELEMENT, doc);
 				populateReturnObjects(returnElement, messageContext);
                     
             }

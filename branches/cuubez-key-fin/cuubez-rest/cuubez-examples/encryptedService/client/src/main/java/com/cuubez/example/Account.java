@@ -1,14 +1,10 @@
 package com.cuubez.example;
 
 
-import com.cuubez.core.security.annotation.EncryptedField;
-
 public class Account {
 
     private String accountId;
-    @EncryptedField(name = "name")
     private String name;
-    @EncryptedField(name = "description")
     private String description;
 
     public Account(String accountId, String name, String description) {

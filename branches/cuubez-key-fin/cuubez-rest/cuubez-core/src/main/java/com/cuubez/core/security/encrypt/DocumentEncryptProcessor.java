@@ -20,6 +20,7 @@ import com.cuubez.core.annotation.context.FieldMetaData;
 import com.cuubez.core.context.MessageContext;
 import com.cuubez.core.security.context.SecurityContext;
 import com.cuubez.core.security.utils.PropertyResolver;
+import com.cuubez.key.KeyRepositoryService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xml.security.encryption.EncryptedData;
@@ -251,7 +252,7 @@ public class DocumentEncryptProcessor {
 
     private static SecretKey generateAndStoreKeyEncryptionKey() throws Exception {
 
-        String jceAlgorithmName = "DESede";
+       /* String jceAlgorithmName = "DESede";
         KeyGenerator keyGenerator =
                 KeyGenerator.getInstance(jceAlgorithmName);
         SecretKey kek = keyGenerator.generateKey();
@@ -260,8 +261,9 @@ public class DocumentEncryptProcessor {
         File kekFile = new File(PropertyResolver.getProperty("keystoreFile")); ///Should get it from configuration file
         FileOutputStream f = new FileOutputStream(kekFile);
         f.write(keyBytes);
-        f.close();
-        return kek;
+        f.close();*/
+        return KeyRepositoryService.getInstance().retrieveSecretSharedKeyForPrincipal("x");
+        //return kek;
     }
 
     private static SecretKey GenerateDataEncryptionKey() throws Exception {

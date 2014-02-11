@@ -54,7 +54,6 @@ public class ServiceProcessor {
                 new SecurityAnnotationScanner().scanEncryptProperty(configurationContext);
                 factory.parse(configurationContext, Parser.CONTENT);
                 factory.parse(configurationContext, Parser.SECURITY);
-
             }
 
 
