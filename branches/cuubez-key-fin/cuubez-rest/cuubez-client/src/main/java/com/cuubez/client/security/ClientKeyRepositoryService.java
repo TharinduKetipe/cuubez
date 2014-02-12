@@ -3,9 +3,10 @@
  */
 package com.cuubez.client.security;
 
-import javax.crypto.SecretKey;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.crypto.SecretKey;
 
 /**
  * 
@@ -13,16 +14,16 @@ import java.util.Map;
 public class ClientKeyRepositoryService {
 
 	private final Map<String, SecretKey> keyMap;
-    public static ClientKeyRepositoryService instance = null;
+	public static ClientKeyRepositoryService instance = null;
 
-    public static ClientKeyRepositoryService getInstance() {
-        if (instance == null) {
-            instance = new ClientKeyRepositoryService();
-        }
-        return instance;
-    }
+	public static ClientKeyRepositoryService getInstance() {
+		if (instance == null) {
+			instance = new ClientKeyRepositoryService();
+		}
+		return instance;
+	}
 
-    private ClientKeyRepositoryService() {
+	private ClientKeyRepositoryService() {
 		keyMap = new HashMap<String, SecretKey>();
 	}
 
@@ -37,6 +38,9 @@ public class ClientKeyRepositoryService {
 		}
 	}
 
+	public void emptyKeyRepository() {
+		keyMap.clear();
+	}
 
 	@Override
 	public String toString() {

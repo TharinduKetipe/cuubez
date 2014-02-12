@@ -10,7 +10,7 @@ import com.cuubez.key.exchange.ecmqv.ECMQVOriginator;
 
 /**
  * @author ruwan
- *
+ * 
  */
 public class KeyContext {
 
@@ -18,10 +18,11 @@ public class KeyContext {
 	private byte[] clientPublicKey2;
 	private byte[] serverPublicKey;
 	private byte[] serverPublicKey2;
-	
+
 	private byte[] sharedSecretKey;
-	private ECMQVOriginator ecmvqOriginator; 
-	private IDHOriginator idhOriginator; 
+	private ECMQVOriginator ecmvqOriginator;
+	private IDHOriginator idhOriginator;
+
 	/**
 	 * @return the clientPublicKey
 	 */
@@ -30,7 +31,8 @@ public class KeyContext {
 	}
 
 	/**
-	 * @param clientPublicKey the clientPublicKey to set
+	 * @param clientPublicKey
+	 *            the clientPublicKey to set
 	 */
 	public void setClientPublicKey(byte[] clientPublicKey) {
 		this.clientPublicKey = clientPublicKey;
@@ -44,7 +46,8 @@ public class KeyContext {
 	}
 
 	/**
-	 * @param serverPublicKey the serverPublicKey to set
+	 * @param serverPublicKey
+	 *            the serverPublicKey to set
 	 */
 	public void setServerPublicKey(byte[] serverPublicKey) {
 		this.serverPublicKey = serverPublicKey;
@@ -58,7 +61,8 @@ public class KeyContext {
 	}
 
 	/**
-	 * @param sharedSecretKey the sharedSecretKey to set
+	 * @param sharedSecretKey
+	 *            the sharedSecretKey to set
 	 */
 	public void setSharedSecretKey(byte[] sharedSecretKey) {
 		this.sharedSecretKey = sharedSecretKey;
@@ -72,7 +76,8 @@ public class KeyContext {
 	}
 
 	/**
-	 * @param clientPublicKey2 the clientPublicKey2 to set
+	 * @param clientPublicKey2
+	 *            the clientPublicKey2 to set
 	 */
 	public void setClientPublicKey2(byte[] clientPublicKey2) {
 		this.clientPublicKey2 = clientPublicKey2;
@@ -86,7 +91,8 @@ public class KeyContext {
 	}
 
 	/**
-	 * @param ecmvqOriginator the ecmvqOriginator to set
+	 * @param ecmvqOriginator
+	 *            the ecmvqOriginator to set
 	 */
 	public void setEcmvqOriginator(ECMQVOriginator ecmvqOriginator) {
 		this.ecmvqOriginator = ecmvqOriginator;
@@ -100,25 +106,28 @@ public class KeyContext {
 	}
 
 	/**
-	 * @param serverPublicKey2 the serverPublicKey2 to set
+	 * @param serverPublicKey2
+	 *            the serverPublicKey2 to set
 	 */
 	public void setServerPublicKey2(byte[] serverPublicKey2) {
 		this.serverPublicKey2 = serverPublicKey2;
 	}
-	
+
 	public IDHOriginator getIdhOriginator() {
 		return idhOriginator;
 	}
 
 	/**
-	 * @param idhOriginator the idhOriginator to set
+	 * @param idhOriginator
+	 *            the idhOriginator to set
 	 */
 	public void setIdhOriginator(IDHOriginator idhOriginator) {
 		this.idhOriginator = idhOriginator;
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -131,5 +140,5 @@ public class KeyContext {
 				+ Arrays.toString(sharedSecretKey) + ", ecmvqOriginator="
 				+ ecmvqOriginator + "]";
 	}
-	
+
 }

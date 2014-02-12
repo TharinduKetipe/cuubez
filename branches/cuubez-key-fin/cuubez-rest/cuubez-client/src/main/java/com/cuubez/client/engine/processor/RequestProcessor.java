@@ -28,117 +28,120 @@ import org.xml.sax.SAXException;
 
 import com.cuubez.client.context.KeyContext;
 import com.cuubez.client.context.MessageContext;
-import com.cuubez.client.exception.CuubezException;
-import com.cuubez.client.exception.ExceptionTransformer;
 import com.cuubez.client.engine.executor.ServicExecutor;
 import com.cuubez.client.engine.parser.Parser;
 import com.cuubez.client.engine.parser.ParserFactory;
 import com.cuubez.client.engine.parser.util.XMLParserUtil;
 import com.cuubez.client.engine.processor.util.ParameterProcessorUtil;
-																												
-public class RequestProcessor implements Processor{
+import com.cuubez.client.exception.CuubezException;
+import com.cuubez.client.exception.ExceptionTransformer;
 
-	private static Log log = LogFactory.getLog(RequestProcessor.class);	
-	
+public class RequestProcessor implements Processor {
+
+	private static Log log = LogFactory.getLog(RequestProcessor.class);
+
 	@Override
-	public <T> T process(MessageContext messageContext, Class<T> returnType) throws CuubezException {
-		
+	public <T> T process(MessageContext messageContext, Class<T> returnType)
+			throws CuubezException {
 
 		try {
-		
+
 			ParameterProcessorUtil.prepareParameter(messageContext);
 			ServicExecutor executor = new ServicExecutor();
 			executor.execute(messageContext);
-			
+
 			populateContent(messageContext);
-			
+
 			ParserFactory parserFactory = new ParserFactory();
-			parserFactory.parse(messageContext,Parser.EXCEPTION);
-			
-			if(returnType != null && messageContext.getExceptionContext() == null) {
+			parserFactory.parse(messageContext, Parser.EXCEPTION);
+
+			if (returnType != null
+					&& messageContext.getExceptionContext() == null) {
 				messageContext.setReturnType(returnType);
-				parserFactory.parse(messageContext,Parser.CONTENT);
+				parserFactory.parse(messageContext, Parser.CONTENT);
 			}
-			
-			if(messageContext.getExceptionContext() != null) {
+
+			if (messageContext.getExceptionContext() != null) {
 				ExceptionTransformer.transform(messageContext);
 				log.error(messageContext.getExceptionContext().getMessage());
 				throw new CuubezException();
 			}
-		
+
 		} catch (CuubezException e) {
 			log.error(e);
 			throw e;
 		}
-		
+
 		Object returnObject = messageContext.getReturnObject();
-		
-		if(returnObject == null) {
+
+		if (returnObject == null) {
 			return null;
 		}
-		
+
 		return returnType.cast(returnObject);
-		
+
 	}
 
 	@Override
 	public void process(MessageContext messageContext) throws CuubezException {
-		
+
 		try {
-			
+
 			ParameterProcessorUtil.prepareParameter(messageContext);
 			ServicExecutor executor = new ServicExecutor();
 			executor.execute(messageContext);
-			
+
 			populateContent(messageContext);
-			
+
 			ParserFactory parserFactory = new ParserFactory();
-			parserFactory.parse(messageContext,Parser.EXCEPTION);
-			
-			
-			if(messageContext.getExceptionContext() != null) {
+			parserFactory.parse(messageContext, Parser.EXCEPTION);
+
+			if (messageContext.getExceptionContext() != null) {
 				ExceptionTransformer.transform(messageContext);
 				log.error(messageContext.getExceptionContext().getMessage());
 				throw new CuubezException();
 			}
-		
+
 		} catch (CuubezException e) {
 			log.error(e);
 			throw e;
 		}
-		
+
 	}
-	
+
 	private void populateContent(MessageContext messageContext) {
-		
-		HttpURLConnection urlConnection = messageContext.getRequestContext().getHttpURLConnection();
-		
-		if(urlConnection != null) {
-			
+
+		HttpURLConnection urlConnection = messageContext.getRequestContext()
+				.getHttpURLConnection();
+
+		if (urlConnection != null) {
+
 			InputStream inputStream = null;
-			
+
 			try {
-					
+
 				inputStream = urlConnection.getInputStream();
 				Document doc = XMLParserUtil.createDocument(inputStream);
 				messageContext.getRequestContext().setDocument(doc);
-				
-				if(urlConnection.getHeaderField("PublicKey") != null){
-					byte[] decoded = Base64.decode(urlConnection.getHeaderField("PublicKey"));
-					if(messageContext.getKeyContext() == null){
+
+				if (urlConnection.getHeaderField("PublicKey") != null) {
+					byte[] decoded = Base64.decode(urlConnection
+							.getHeaderField("PublicKey"));
+					if (messageContext.getKeyContext() == null) {
 						messageContext.setKeyContext(new KeyContext());
 					}
 					messageContext.getKeyContext().setServerPublicKey(decoded);
 				}
-				
-				if(urlConnection.getHeaderField("PublicKey2") != null){
-					byte[] decoded = Base64.decode(urlConnection.getHeaderField("PublicKey2"));
-					if(messageContext.getKeyContext() == null){
+
+				if (urlConnection.getHeaderField("PublicKey2") != null) {
+					byte[] decoded = Base64.decode(urlConnection
+							.getHeaderField("PublicKey2"));
+					if (messageContext.getKeyContext() == null) {
 						messageContext.setKeyContext(new KeyContext());
 					}
 					messageContext.getKeyContext().setServerPublicKey2(decoded);
 				}
-			
+
 			} catch (IOException e) {
 				log.error("Exception occure while parsing response details", e);
 			} catch (ParserConfigurationException e) {
@@ -146,8 +149,8 @@ public class RequestProcessor implements Processor{
 			} catch (SAXException e) {
 				log.error("Exception occure while parsing response details", e);
 			} finally {
-				
-				if(inputStream != null) {
+
+				if (inputStream != null) {
 					try {
 						inputStream.close();
 					} catch (IOException e) {
@@ -156,9 +159,8 @@ public class RequestProcessor implements Processor{
 				}
 				urlConnection.disconnect();
 			}
-			
+
 		}
-		
-		
+
 	}
 }

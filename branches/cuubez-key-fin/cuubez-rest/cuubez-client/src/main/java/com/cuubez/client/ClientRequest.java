@@ -17,7 +17,9 @@ package com.cuubez.client;
 import java.security.Security;
 import java.util.Map;
 
-import com.cuubez.client.security.ClientKeyRepositoryService;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -30,281 +32,299 @@ import com.cuubez.client.engine.processor.RequestProcessor;
 import com.cuubez.client.exception.CuubezException;
 import com.cuubez.client.param.HttpMethod;
 import com.cuubez.client.param.MediaType;
+import com.cuubez.client.security.ClientKeyRepositoryService;
 import com.cuubez.key.KeyExAlgorithmName;
 import com.cuubez.key.exchange.ecdh.ECDHOriginator;
 import com.cuubez.key.exchange.ecmqv.ECMQVOriginator;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
 public class ClientRequest {
-    private static Log log = LogFactory.getLog(ClientRequest.class);
+	private static Log log = LogFactory.getLog(ClientRequest.class);
 
-    private String serviceUrl;
-    private MediaType mediaType;
-    private Object[] parameters;
-    private String principal;
-    private String credentials;
-    private String algoName;
-    private KeyContext keyContext;
+	private String serviceUrl;
+	private MediaType mediaType;
+	private Object[] parameters;
+	private String principal;
+	private String credentials;
+	private String algoName;
+	private KeyContext keyContext;
 
-    public ClientRequest() {
-    }
+	public ClientRequest() {
+	}
 
-    public ClientRequest(String serviceUrl, MediaType mediaType) {
-        this.serviceUrl = serviceUrl;
-        this.mediaType = mediaType;
-    }
+	public ClientRequest(String serviceUrl, MediaType mediaType) {
+		this.serviceUrl = serviceUrl;
+		this.mediaType = mediaType;
+	}
 
-    public void addParameters(Object... parameters) {
-        this.parameters = parameters;
-    }
+	public void addParameters(Object... parameters) {
+		this.parameters = parameters;
+	}
 
-    public void get() throws CuubezException {
-        validateContent();
-        MessageContext msgContext = getMessageContext(HttpMethod.GET);
-        Processor processor = new RequestProcessor();
-        processor.process(msgContext);
-    }
+	public void get() throws CuubezException {
+		validateContent();
+		MessageContext msgContext = getMessageContext(HttpMethod.GET);
+		Processor processor = new RequestProcessor();
+		processor.process(msgContext);
+	}
 
-    public void exchangeKey(String AlgoName) throws CuubezException {
-        Security.addProvider(new BouncyCastleProvider());
+	public void exchangeKey(String AlgoName) throws CuubezException {
+		Security.addProvider(new BouncyCastleProvider());
 
-        algoName = AlgoName;
+		algoName = AlgoName;
+		// Implement timing mechanism here
+		long startTime = System.currentTimeMillis();
 
+		ClientKeyRepositoryService.getInstance().emptyKeyRepository();
 
-        if (algoName == "ECMQVALGO") {
+		if (algoName == "ECMQVALGO") {
 
-            //generate key
-            MessageContext msgContext = getKeyContext(HttpMethod.GET);
+			// generate key
+			MessageContext msgContext = getKeyContext(HttpMethod.GET);
 
-            //send public key
-            Processor processor = new RequestProcessor();
-            processor.process(msgContext);
+			// send public key
+			Processor processor = new RequestProcessor();
+			processor.process(msgContext);
 
-            if (msgContext.getKeyContext() != null) {
-                msgContext.getKeyContext().setSharedSecretKey(
-                        msgContext
-                                .getKeyContext()
-                                .getEcmvqOriginator()
-                                .originatorSharedSecret(
-                                        msgContext.getKeyContext()
-                                                .getServerPublicKey(),
-                                        msgContext.getKeyContext()
-                                                .getServerPublicKey2()));
-                this.keyContext = msgContext.getKeyContext();
-            }
+			if (msgContext.getKeyContext() != null) {
+				msgContext.getKeyContext().setSharedSecretKey(
+						msgContext
+								.getKeyContext()
+								.getEcmvqOriginator()
+								.originatorSharedSecret(
+										msgContext.getKeyContext()
+												.getServerPublicKey(),
+										msgContext.getKeyContext()
+												.getServerPublicKey2()));
+				this.keyContext = msgContext.getKeyContext();
+			}
 
-            SecretKey key = new SecretKeySpec(keyContext.getSharedSecretKey(), 0, 16, "DESede");
-            ClientKeyRepositoryService.getInstance().addSecretKeyWithPrincipal("X", key);
+			SecretKey key = new SecretKeySpec(keyContext.getSharedSecretKey(),
+					0, 16, "DESede");
+			ClientKeyRepositoryService.getInstance().addSecretKeyWithPrincipal(
+					"X", key);
 
-        } else if (algoName == "ECDHALGO" || algoName == "DHALGO") {
-            //generate key
-            MessageContext msgContext = getKeyContext(HttpMethod.GET);
+		} else if (algoName == "ECDHALGO" || algoName == "DHALGO") {
+			// generate key
+			MessageContext msgContext = getKeyContext(HttpMethod.GET);
 
-            //send public key
-            Processor processor = new RequestProcessor();
-            processor.process(msgContext);
+			// send public key
+			Processor processor = new RequestProcessor();
+			processor.process(msgContext);
 
-            if (msgContext.getKeyContext() != null) {
-                msgContext.getKeyContext().setSharedSecretKey(
-                        msgContext
-                                .getKeyContext()
-                                .getIdhOriginator()
-                                .originatorSharedSecret(
-                                        msgContext.getKeyContext()
-                                                .getServerPublicKey()));
-                this.keyContext = msgContext.getKeyContext();
-            }
+			if (msgContext.getKeyContext() != null) {
+				msgContext.getKeyContext().setSharedSecretKey(
+						msgContext
+								.getKeyContext()
+								.getIdhOriginator()
+								.originatorSharedSecret(
+										msgContext.getKeyContext()
+												.getServerPublicKey()));
+				this.keyContext = msgContext.getKeyContext();
+			}
 
-            SecretKey key = new SecretKeySpec(keyContext.getSharedSecretKey(), 0, 16, "DESede");
-            ClientKeyRepositoryService.getInstance().addSecretKeyWithPrincipal("X", key);
+			SecretKey key = new SecretKeySpec(keyContext.getSharedSecretKey(),
+					0, 16, "DESede");
+			ClientKeyRepositoryService.getInstance().addSecretKeyWithPrincipal(
+					"X", key);
 
-        } else {
-            System.out.println("Provided Key Exchange Algo INVALID");
-        }
-    }
+		} else {
+			System.out.println("Provided Key Exchange Algo INVALID");
+		}
+		// Implement timing mechanism here
+		long endTime = System.currentTimeMillis();
+		System.out.println("Shared Key generation took :="
+				+ (endTime - startTime) + " milliseconds");
+	}
 
-    public <T> T get(Class<T> returnType) throws CuubezException {
-        validateContent();
-        MessageContext msgContext = getMessageContext(HttpMethod.GET);
-        Processor processor = new RequestProcessor();
-        return processor.process(msgContext, returnType);
-    }
+	public <T> T get(Class<T> returnType) throws CuubezException {
+		validateContent();
+		MessageContext msgContext = getMessageContext(HttpMethod.GET);
+		Processor processor = new RequestProcessor();
+		return processor.process(msgContext, returnType);
+	}
 
-    public void post() throws CuubezException {
-        validateContent();
-        MessageContext msgContext = getMessageContext(HttpMethod.POST);
-        Processor processor = new RequestProcessor();
-        processor.process(msgContext);
-    }
+	public void post() throws CuubezException {
+		validateContent();
+		MessageContext msgContext = getMessageContext(HttpMethod.POST);
+		Processor processor = new RequestProcessor();
+		processor.process(msgContext);
+	}
 
-    public <T> T post(Class<T> returnType) throws CuubezException {
-        validateContent();
-        MessageContext msgContext = getMessageContext(HttpMethod.POST);
-        Processor processor = new RequestProcessor();
-        processor.process(msgContext);
-        return processor.process(msgContext, returnType);
-    }
+	public <T> T post(Class<T> returnType) throws CuubezException {
+		validateContent();
+		MessageContext msgContext = getMessageContext(HttpMethod.POST);
+		Processor processor = new RequestProcessor();
+		processor.process(msgContext);
+		return processor.process(msgContext, returnType);
+	}
 
-    public void delete() throws CuubezException {
-        validateContent();
-        MessageContext msgContext = getMessageContext(HttpMethod.DELETE);
-        Processor processor = new RequestProcessor();
-        processor.process(msgContext);
-        processor.process(msgContext);
-    }
+	public void delete() throws CuubezException {
+		validateContent();
+		MessageContext msgContext = getMessageContext(HttpMethod.DELETE);
+		Processor processor = new RequestProcessor();
+		processor.process(msgContext);
+		processor.process(msgContext);
+	}
 
-    public <T> T delete(Class<T> returnType) throws CuubezException {
-        validateContent();
-        MessageContext msgContext = getMessageContext(HttpMethod.DELETE);
-        Processor processor = new RequestProcessor();
-        processor.process(msgContext);
-        return processor.process(msgContext, returnType);
-    }
+	public <T> T delete(Class<T> returnType) throws CuubezException {
+		validateContent();
+		MessageContext msgContext = getMessageContext(HttpMethod.DELETE);
+		Processor processor = new RequestProcessor();
+		processor.process(msgContext);
+		return processor.process(msgContext, returnType);
+	}
 
-    public void put() throws CuubezException {
-        validateContent();
-        MessageContext msgContext = getMessageContext(HttpMethod.PUT);
-        Processor processor = new RequestProcessor();
-        processor.process(msgContext);
-    }
+	public void put() throws CuubezException {
+		validateContent();
+		MessageContext msgContext = getMessageContext(HttpMethod.PUT);
+		Processor processor = new RequestProcessor();
+		processor.process(msgContext);
+	}
 
-    public <T> T put(Class<T> returnType) throws CuubezException {
-        validateContent();
-        MessageContext msgContext = getMessageContext(HttpMethod.PUT);
-        Processor processor = new RequestProcessor();
-        return processor.process(msgContext, returnType);
-    }
+	public <T> T put(Class<T> returnType) throws CuubezException {
+		validateContent();
+		MessageContext msgContext = getMessageContext(HttpMethod.PUT);
+		Processor processor = new RequestProcessor();
+		return processor.process(msgContext, returnType);
+	}
 
+	private MessageContext getMessageContext(HttpMethod httpMethod) {
+		MessageContext msgContext = new MessageContext();
+		RequestContext requestContext = new RequestContext(serviceUrl,
+				mediaType, httpMethod);
+		requestContext.setParameters(parameters);
+		requestContext.setPrincipal(principal);
+		requestContext.setCredentials(credentials);
+		msgContext.setRequestContext(requestContext);
+		return msgContext;
+	}
 
-    private MessageContext getMessageContext(HttpMethod httpMethod) {
-        MessageContext msgContext = new MessageContext();
-        RequestContext requestContext = new RequestContext(serviceUrl, mediaType, httpMethod);
-        requestContext.setParameters(parameters);
-        requestContext.setPrincipal(principal);
-        requestContext.setCredentials(credentials);
-        msgContext.setRequestContext(requestContext);
-        return msgContext;
-    }
+	private MessageContext getKeyContext(HttpMethod httpMethod) {
+		MessageContext msgContext = new MessageContext();
+		RequestContext requestContext = new RequestContext(serviceUrl,
+				mediaType, httpMethod);
+		requestContext.setParameters(parameters);
 
-    private MessageContext getKeyContext(HttpMethod httpMethod) {
-        MessageContext msgContext = new MessageContext();
-        RequestContext requestContext = new RequestContext(serviceUrl, mediaType, httpMethod);
-        requestContext.setParameters(parameters);
+		if (algoName == "ECMQVALGO") {
 
-        if (algoName == "ECMQVALGO") {
+			requestContext.setKeyExAlgoName(KeyExAlgorithmName.ECMQVALGO
+					.getNumVal());
+			ECMQVOriginator ecmvqOriginator = new ECMQVOriginator();
+			Map<String, byte[]> clientPublicKeys = ecmvqOriginator
+					.generateKeyAgreement();
 
-            requestContext.setKeyExAlgoName(KeyExAlgorithmName.ECMQVALGO.getNumVal());
-            ECMQVOriginator ecmvqOriginator = new ECMQVOriginator();
-            Map<String, byte[]> clientPublicKeys = ecmvqOriginator.generateKeyAgreement();
+			if (msgContext.getKeyContext() == null) {
+				msgContext.setKeyContext(new KeyContext());
+			}
+			msgContext.getKeyContext().setClientPublicKey(
+					clientPublicKeys.get("key1"));
+			msgContext.getKeyContext().setClientPublicKey2(
+					clientPublicKeys.get("key2"));
+			msgContext.getKeyContext().setEcmvqOriginator(ecmvqOriginator);
 
-            if (msgContext.getKeyContext() == null) {
-                msgContext.setKeyContext(new KeyContext());
-            }
-            msgContext.getKeyContext().setClientPublicKey(clientPublicKeys.get("key1"));
-            msgContext.getKeyContext().setClientPublicKey2(clientPublicKeys.get("key2"));
-            msgContext.getKeyContext().setEcmvqOriginator(ecmvqOriginator);
+			requestContext.setPublicKey(clientPublicKeys.get("key1"));
+			requestContext.setPublicKey2(clientPublicKeys.get("key2"));
+			msgContext.setRequestContext(requestContext);
+			return msgContext;
+		} else if (algoName == "ECDHALGO" || algoName == "DHALGO") {
+			// if (algoName == "ECDHALGO"){
+			requestContext.setKeyExAlgoName(KeyExAlgorithmName.ECDHALGO
+					.getNumVal());
+			// }
+			// else
+			// {
+			// requestContext.setKeyExAlgoName(KeyExAlgorithmName.DHALGO.getNumVal());
+			// }
 
-            requestContext.setPublicKey(clientPublicKeys.get("key1"));
-            requestContext.setPublicKey2(clientPublicKeys.get("key2"));
-            msgContext.setRequestContext(requestContext);
-            return msgContext;
-        } else if (algoName == "ECDHALGO" || algoName == "DHALGO") {
-            //if (algoName == "ECDHALGO"){
-            requestContext.setKeyExAlgoName(KeyExAlgorithmName.ECDHALGO.getNumVal());
-            //}
-            //else
-            //{
-            //	requestContext.setKeyExAlgoName(KeyExAlgorithmName.DHALGO.getNumVal());
-            //}
+			ECDHOriginator dhOriginator = new ECDHOriginator();
+			byte[] clientPublicKey = dhOriginator.generateKeyAgreement();
 
-            ECDHOriginator dhOriginator = new ECDHOriginator();
-            byte[] clientPublicKey = dhOriginator.generateKeyAgreement();
+			if (msgContext.getKeyContext() == null) {
+				msgContext.setKeyContext(new KeyContext());
+			}
+			msgContext.getKeyContext().setClientPublicKey(clientPublicKey);
+			msgContext.getKeyContext().setIdhOriginator(dhOriginator);
 
-            if (msgContext.getKeyContext() == null) {
-                msgContext.setKeyContext(new KeyContext());
-            }
-            msgContext.getKeyContext().setClientPublicKey(clientPublicKey);
-            msgContext.getKeyContext().setIdhOriginator(dhOriginator);
+			requestContext.setPublicKey(clientPublicKey);
+			msgContext.setRequestContext(requestContext);
+			return msgContext;
+		} else {
+			System.out.println("Provided Key Exchange Algo is INVALID");
+		}
+		return msgContext;
+	}
 
-            requestContext.setPublicKey(clientPublicKey);
-            msgContext.setRequestContext(requestContext);
-            return msgContext;
-        } else {
-            System.out.println("Provided Key Exchange Algo is INVALID");
-        }
-        return msgContext;
-    }
+	private void validateContent() throws CuubezException {
 
-    private void validateContent() throws CuubezException {
+		if (serviceUrl == null || mediaType == null) {
+			log.error("ServiceURL and MediaType cant be a null");
+			throw new CuubezException();
+		}
+	}
 
-        if (serviceUrl == null || mediaType == null) {
-            log.error("ServiceURL and MediaType cant be a null");
-            throw new CuubezException();
-        }
-    }
+	public String getServiceUrl() {
+		return serviceUrl;
+	}
 
-    public String getServiceUrl() {
-        return serviceUrl;
-    }
+	public void setServiceUrl(String serviceUrl) {
+		this.serviceUrl = serviceUrl;
+	}
 
-    public void setServiceUrl(String serviceUrl) {
-        this.serviceUrl = serviceUrl;
-    }
+	public MediaType getMediaType() {
+		return mediaType;
+	}
 
-    public MediaType getMediaType() {
-        return mediaType;
-    }
+	public void setMediaType(MediaType mediaType) {
+		this.mediaType = mediaType;
+	}
 
-    public void setMediaType(MediaType mediaType) {
-        this.mediaType = mediaType;
-    }
+	public Object[] getParameters() {
+		return parameters;
+	}
 
-    public Object[] getParameters() {
-        return parameters;
-    }
+	/**
+	 * @return the principal
+	 */
+	public String getPrincipal() {
+		return principal;
+	}
 
-    /**
-     * @return the principal
-     */
-    public String getPrincipal() {
-        return principal;
-    }
+	/**
+	 * @param principal
+	 *            the principal to set
+	 */
+	public void setPrincipal(String principal) {
+		this.principal = principal;
+	}
 
-    /**
-     * @param principal the principal to set
-     */
-    public void setPrincipal(String principal) {
-        this.principal = principal;
-    }
+	/**
+	 * @return the credentials
+	 */
+	public String getCredentials() {
+		return credentials;
+	}
 
-    /**
-     * @return the credentials
-     */
-    public String getCredentials() {
-        return credentials;
-    }
+	/**
+	 * @param credentials
+	 *            the credentials to set
+	 */
+	public void setCredentials(String credentials) {
+		this.credentials = credentials;
+	}
 
-    /**
-     * @param credentials the credentials to set
-     */
-    public void setCredentials(String credentials) {
-        this.credentials = credentials;
-    }
+	/**
+	 * @return the keyContext
+	 */
+	public KeyContext getKeyContext() {
+		return keyContext;
+	}
 
-    /**
-     * @return the keyContext
-     */
-    public KeyContext getKeyContext() {
-        return keyContext;
-    }
-
-    /**
-     * @param keyContext the keyContext to set
-     */
-    public void setKeyContext(KeyContext keyContext) {
-        this.keyContext = keyContext;
-    }
+	/**
+	 * @param keyContext
+	 *            the keyContext to set
+	 */
+	public void setKeyContext(KeyContext keyContext) {
+		this.keyContext = keyContext;
+	}
 
 }

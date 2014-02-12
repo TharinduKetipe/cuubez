@@ -23,7 +23,6 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.util.encoders.Base64;
-import org.bouncycastle.util.encoders.Base64Encoder;
 
 import com.cuubez.client.context.MessageContext;
 import com.cuubez.client.context.RequestContext;
@@ -31,55 +30,60 @@ import com.cuubez.client.exception.CuubezException;
 
 public abstract class Connection {
 
-    private static Log log = LogFactory.getLog(Connection.class);
+	private static Log log = LogFactory.getLog(Connection.class);
 
+	public abstract void connect(MessageContext messageContext)
+			throws CuubezException;
 
-    public abstract void connect(MessageContext messageContext) throws CuubezException;
+	public abstract void writeContent(MessageContext messageContext)
+			throws CuubezException;
 
-    public abstract void writeContent(MessageContext messageContext) throws CuubezException;
+	protected HttpURLConnection getConnection(RequestContext requestContext)
+			throws CuubezException {
 
-    protected HttpURLConnection getConnection(RequestContext requestContext) throws CuubezException {
+		URL urlcon;
+		HttpURLConnection conn = null;
 
-        URL urlcon;
-        HttpURLConnection conn = null;
+		try {
 
-        try {
+			urlcon = new URL(requestContext.getServiceUrl());
+			conn = (HttpURLConnection) urlcon.openConnection();
 
-            urlcon = new URL(requestContext.getServiceUrl());
-            conn = (HttpURLConnection) urlcon.openConnection();
+			conn.setRequestProperty("Accept-Charset", "UTF-8");
+			conn.setRequestProperty("Content-Type", requestContext
+					.getMediaType().getValue().concat("; charset=utf-8"));
+			conn.setRequestProperty("principal", requestContext.getPrincipal());
+			conn.setRequestProperty("credentials",
+					requestContext.getCredentials());
+			conn.setRequestProperty("KeyExAlgoName",
+					String.valueOf(requestContext.getKeyExAlgoName()));
+			if (requestContext.getPublicKey() != null) {
+				byte[] coded = Base64.encode(requestContext.getPublicKey());
+				String strCoded = new String(coded);
+				conn.setRequestProperty("PublicKey", strCoded);
+			}
+			if (requestContext.getPublicKey2() != null) {
+				byte[] coded = Base64.encode(requestContext.getPublicKey2());
+				String strCoded = new String(coded);
+				conn.setRequestProperty("PublicKey2", strCoded);
+			}
+			conn.setRequestMethod(requestContext.getHttpMethod().name());
+			conn.setUseCaches(false);
+			conn.setDoOutput(true);
 
-            conn.setRequestProperty("Accept-Charset", "UTF-8");
-            conn.setRequestProperty("Content-Type", requestContext.getMediaType().getValue().concat("; charset=utf-8"));
-            conn.setRequestProperty("principal", requestContext.getPrincipal());
-            conn.setRequestProperty("credentials", requestContext.getCredentials());
-            conn.setRequestProperty("KeyExAlgoName", String.valueOf(requestContext.getKeyExAlgoName()));
-            if(requestContext.getPublicKey() != null){            	
-                byte[] coded = Base64.encode(requestContext.getPublicKey());
-                String strCoded = new String(coded);            	
-            	conn.setRequestProperty("PublicKey", strCoded);
-            }
-            if(requestContext.getPublicKey2() != null){            	
-                byte[] coded = Base64.encode(requestContext.getPublicKey2());
-                String strCoded = new String(coded);            	
-            	conn.setRequestProperty("PublicKey2", strCoded);
-            }
-            conn.setRequestMethod(requestContext.getHttpMethod().name());
-            conn.setUseCaches(false);
-            conn.setDoOutput(true);
+		} catch (ProtocolException e) {
+			log.error("Connection Error");
+			throw new CuubezException(e);
+		} catch (MalformedURLException e) {
+			log.error("Connection Error");
+			throw new CuubezException(e);
+		} catch (IOException e) {
+			log.error("Connection Error");
+			throw new CuubezException(e);
+		}
 
-        } catch (ProtocolException e) {
-            log.error("Connection Error");
-            throw new CuubezException(e);
-        } catch (MalformedURLException e) {
-            log.error("Connection Error");
-            throw new CuubezException(e);
-        } catch (IOException e) {
-            log.error("Connection Error");
-            throw new CuubezException(e);
-        }
+		return conn;
 
-        return conn;
-
-    }
+	}
 
 }
