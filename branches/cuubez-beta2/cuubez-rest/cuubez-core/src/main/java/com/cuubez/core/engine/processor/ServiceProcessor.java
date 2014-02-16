@@ -8,10 +8,13 @@ import com.cuubez.core.engine.executor.ServiceExecutor;
 import com.cuubez.core.engine.parser.Parser;
 import com.cuubez.core.engine.parser.ParserFactory;
 import com.cuubez.core.engine.transform.Transformer;
+import com.cuubez.core.engine.transform.json.JSONTransformer;
 import com.cuubez.core.engine.transform.xml.XMLTransformer;
 import com.cuubez.core.exception.CuubezException;
+import com.cuubez.core.resource.ResourceRepository;
+import com.cuubez.core.resource.SelectedResourceMetaData;
 import com.cuubez.core.util.HttpMethod;
-import com.cuubez.core.util.MediaType;
+import javax.ws.rs.core.MediaType;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,11 +28,14 @@ public class ServiceProcessor {
                try {
 
                    populateValues(requestContext, request, httpMethod);
+
+
                    ParserFactory factory = new ParserFactory();
                    factory.parse(requestContext, Parser.URL);
                   // factory.parse(requestContext, Parser.PARAMETER);
                    ServiceExecutor serviceExecutor = new ServiceExecutor();
                    responseContext = serviceExecutor.execute(requestContext);
+                   transform(responseContext);
 
                }catch (CuubezException e) {
 
@@ -46,40 +52,31 @@ public class ServiceProcessor {
 
             URLContext urlContext = new URLContext();
             urlContext.setHttpMethods(httpMethod.name());
-            urlContext.setMediaType(requestMediaType(request.getContentType()));
+            urlContext.setMediaType(request.getContentType());
             requestContext.setUrlContext(urlContext);
 
         }
 
 
-    private MediaType requestMediaType(String requestContentType) {
-
-            MediaType defaultMediaType = MediaType.XML;
-
-            if (requestContentType == null) {
-                return defaultMediaType;
-            }
-
-            for (MediaType mediaType : MediaType.values()) {
-                if (requestContentType.contains(mediaType.getValue())) {
-                    return mediaType;
-                }
-            }
-
-            return defaultMediaType;
-
-        }
-
 
     private void transform(ResponseContext responseContext) {
 
-        if(MediaType.XML.equals(responseContext.getMediaType())) {
+
+        if(MediaType.APPLICATION_XML.equals(responseContext.getMediaType())) {
 
             Transformer transformer = new XMLTransformer();
             String output = transformer.marshal(responseContext.getReturnObject());
             responseContext.setContent(output);
+
+        } else if(MediaType.APPLICATION_JSON.equals(responseContext.getMediaType())) {
+
+            Transformer transformer = new JSONTransformer();
+            String output = transformer.marshal(responseContext.getReturnObject());
+            responseContext.setContent(output);
+
         }
 
     }
+
 
 }

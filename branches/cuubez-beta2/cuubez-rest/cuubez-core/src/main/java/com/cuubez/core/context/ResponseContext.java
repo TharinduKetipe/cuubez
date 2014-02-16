@@ -1,16 +1,16 @@
 package com.cuubez.core.context;
 
 
-import com.cuubez.core.util.MediaType;
+import javax.ws.rs.core.MediaType;
 
 public class ResponseContext {
 
    private String content;
    private Object returnObject;
-   private MediaType mediaType;
+   private String mediaType;
 
 
-    public ResponseContext(MediaType mediaType, Object returnObject) {
+    public ResponseContext(String mediaType, Object returnObject) {
         this.mediaType = mediaType;
         this.returnObject = returnObject;
     }
@@ -23,11 +23,11 @@ public class ResponseContext {
         this.content = content;
     }
 
-    public MediaType getMediaType() {
+    public String getMediaType() {
         return mediaType;
     }
 
-    public void setMediaType(MediaType mediaType) {
+    public void setMediaType(String mediaType) {
         this.mediaType = mediaType;
     }
 

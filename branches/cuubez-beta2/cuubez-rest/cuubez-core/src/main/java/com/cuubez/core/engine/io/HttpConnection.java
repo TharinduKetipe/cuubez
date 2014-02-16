@@ -27,7 +27,7 @@ public class HttpConnection implements Connection {
         String contentType = "Application/XML";
 
         if (responseContext.getMediaType() != null) {
-            contentType = responseContext.getMediaType().getValue();
+            contentType = responseContext.getMediaType();
         }
 
         response.setContentType(contentType);

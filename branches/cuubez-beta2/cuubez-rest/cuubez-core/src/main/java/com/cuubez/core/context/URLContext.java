@@ -17,9 +17,7 @@ package com.cuubez.core.context;
 import com.cuubez.core.resource.HeaderVariableMetaData;
 import com.cuubez.core.resource.PathVariableMetaData;
 import com.cuubez.core.resource.QueryVariableMetaData;
-import com.cuubez.core.util.MediaType;
-
-import java.util.ArrayList;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 public class URLContext {
@@ -29,9 +27,9 @@ public class URLContext {
     private String pathInfo;
     private StringBuffer requestURL;
     private String requestURI;
-     private String serviceLocation;
+    private String serviceLocation;
     private String httpMethods;
-    private MediaType mediaType;
+    private String mediaType;
     private List<QueryVariableMetaData> queryVariableMetaDataList;
     private List<PathVariableMetaData> pathVariableMetaDataList;
     private List<HeaderVariableMetaData> headerVariableMetaDataList;
@@ -61,11 +59,11 @@ public class URLContext {
         this.httpMethods = httpMethods;
     }
 
-    public MediaType getMediaType() {
+    public String getMediaType() {
         return mediaType;
     }
 
-    public void setMediaType(MediaType mediaType) {
+    public void setMediaType(String mediaType) {
         this.mediaType = mediaType;
     }
 

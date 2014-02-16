@@ -22,7 +22,7 @@ import java.util.List;
 import com.cuubez.core.context.RequestContext;
 import com.cuubez.core.context.ResponseContext;
 import com.cuubez.core.resource.*;
-import com.cuubez.core.util.MediaType;
+import javax.ws.rs.core.MediaType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -78,7 +78,7 @@ public class ServiceExecutor {
             log.error(e);
         }
 
-        ResponseContext responseContext = new ResponseContext(MediaType.XML, returnObject);
+        ResponseContext responseContext = new ResponseContext(populateMediaType(selectedResourceMetaData.getSelectedMethodMetaData().getProduce(),requestContext.getUrlContext().getMediaType()), returnObject);
 
         return responseContext;
 
@@ -118,5 +118,43 @@ public class ServiceExecutor {
         return null;
     }
 
+    private String populateMediaType(String[] produceMediaTypes, String requestMediaType) throws CuubezException {
+
+        if (requestMediaType == null && isNotSpecifyMediaType(produceMediaTypes)) {
+
+            return MediaType.APPLICATION_XML;
+
+        } else if (requestMediaType == null && !isNotSpecifyMediaType(produceMediaTypes)) {
+
+            return produceMediaTypes[0];
+
+        } else if (requestMediaType != null && !isNotSpecifyMediaType(produceMediaTypes)) {
+
+            for (String produceMediaType : produceMediaTypes) {
+
+                if (requestMediaType.equals(produceMediaType)) {
+                    return requestMediaType;
+                }
+            }
+
+        } else {
+            throw new CuubezException("Unsupported MediaTYpe", 1);
+        }
+
+        throw new CuubezException("Unsupported MediaTYpe", 1);
+    }
+
+
+    private boolean isNotSpecifyMediaType(String[] produce) {
+
+        if (produce == null || produce.length == 0 || (produce.length == 1 && produce[0] == "*/*")) {
+
+            return true;
+
+        }
+
+        return false;
+
+    }
 
 }

@@ -15,7 +15,7 @@
 package com.cuubez.core.engine.parser;
 
 import com.cuubez.core.context.RequestContext;
-import com.cuubez.core.util.MediaType;
+import javax.ws.rs.core.MediaType;
 import com.cuubez.core.exception.CuubezException;
 
 public class ParserFactory {
@@ -23,18 +23,14 @@ public class ParserFactory {
     public void parse(RequestContext requestContext, int parserType) throws CuubezException {
 
 
-        if (MediaType.XML.equals(requestContext.getUrlContext().getMediaType())) {
-
-            if (parserType == Parser.URL) {
+       if (parserType == Parser.URL) {
 
                 URLParser parser = new URLParser();
                 parser.parse(requestContext);
 
-            }
 
 
-        }
-
+    }
 
     }
 

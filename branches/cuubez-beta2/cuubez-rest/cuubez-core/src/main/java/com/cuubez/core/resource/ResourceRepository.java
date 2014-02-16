@@ -32,7 +32,7 @@ public class ResourceRepository {
 
     public SelectedResourceMetaData findResource(String path, String httpMethod) throws CuubezException {
 
-        if(rootResources == null) {
+        if(rootResources == null || path == null || httpMethod == null) {
             throw new CuubezException("",CuubezException.SERVICE_NOT_FOUND); //TODO need change exception structure
         }
 

@@ -11,6 +11,7 @@ public class JSONTransformer implements Transformer {
     @Override
     public String marshal(Object object) {
         XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
+        xstream.alias(object.getClass().getSimpleName(), object.getClass());
         xstream.setMode(XStream.NO_REFERENCES);
         return xstream.toXML(object);
     }

@@ -14,7 +14,7 @@
  */
 package com.cuubez.core.context;
 
-import com.cuubez.core.util.MediaType;
+import javax.ws.rs.core.MediaType;
 
 public class ServiceContext {
 
