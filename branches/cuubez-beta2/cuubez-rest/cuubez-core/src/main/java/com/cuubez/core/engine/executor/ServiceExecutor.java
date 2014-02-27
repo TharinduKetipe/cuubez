@@ -87,7 +87,7 @@ public class ServiceExecutor {
 
     private SelectedResourceMetaData findService(RequestContext requestContext) throws CuubezException {
 
-        String httpMethod = requestContext.getUrlContext().getHttpMethods();
+        String httpMethod = requestContext.getHttpMethod();
         String path = requestContext.getUrlContext().getServiceLocation();
         return ResourceRepository.getInstance().findResource(path, httpMethod);
 

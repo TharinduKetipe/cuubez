@@ -1,9 +1,8 @@
 package com.cuubez.core.resource;
 
 
-import com.cuubez.core.engine.uri.JaxRsUriTemplateProcessor;
+import com.cuubez.core.engine.uri.JaxRsUriTemplateHandler;
 import com.cuubez.core.engine.uri.UriTemplateProcessor;
-import com.cuubez.core.engine.uri.template.JaxRsUriTemplate;
 import com.cuubez.core.engine.uri.template.UriTemplate;
 
 import java.lang.reflect.Method;
@@ -31,7 +30,7 @@ public class ResourceGenerator {
 
           resource.setClassMetaData(classMetaData);
 
-          UriTemplateProcessor templateProcessor = new JaxRsUriTemplateProcessor();
+          UriTemplateProcessor templateProcessor = new JaxRsUriTemplateHandler();
           UriTemplate uriTemplate = templateProcessor.compile(classMetaData);
           resource.setUriTemplate(uriTemplate);
 
@@ -52,18 +51,21 @@ public class ResourceGenerator {
 
         for (Method method : methods) {
 
-            MethodMetaData methodMetaData = resourceMetaDataScanner.scanMethods(clazz, method);
-            methodMetaData.setReturnType(method.getReturnType());
+            if (ResourceMetaDataScanner.isSubResource(method)) {
+                MethodMetaData methodMetaData = resourceMetaDataScanner.scanMethods(clazz, method);
+                methodMetaData.setReturnType(method.getReturnType());
 
-            if (methodMetaData != null) {
-                SubResource subResource = new SubResource();
-                subResource.setMethodMetaData(methodMetaData);
+                if (methodMetaData != null) {
+                    SubResource subResource = new SubResource();
+                    subResource.setMethodMetaData(methodMetaData);
 
-                UriTemplateProcessor templateProcessor = new JaxRsUriTemplateProcessor();
-                UriTemplate uriTemplate = templateProcessor.compile(methodMetaData);
+                    UriTemplateProcessor templateProcessor = new JaxRsUriTemplateHandler();
+                    UriTemplate uriTemplate = templateProcessor.compile(methodMetaData);
 
-                subResource.setUriTemplate(uriTemplate);
-                subResources.add(subResource);
+                    subResource.setUriTemplate(uriTemplate);
+                    subResources.add(subResource);
+
+                }
 
             }
         }

@@ -32,28 +32,48 @@ public class ResourceRepository {
 
     public SelectedResourceMetaData findResource(String path, String httpMethod) throws CuubezException {
 
-        if(rootResources == null || path == null || httpMethod == null) {
-            throw new CuubezException("",CuubezException.SERVICE_NOT_FOUND); //TODO need change exception structure
+        if (rootResources == null || path == null || httpMethod == null) {
+            throw new CuubezException("", CuubezException.SERVICE_NOT_FOUND); //TODO need change exception structure
         }
 
-        for(RootResource rootResource : rootResources) {
+        for (RootResource rootResource : rootResources) {
 
             PathMetaData rootPathMetaData = rootResource.getUriTemplate().match(path);
 
-            if(rootPathMetaData != null) {
+            if (rootPathMetaData != null) {
 
                 List<SubResource> subResources = rootResource.getSubResources();
 
                 for (SubResource subResource : subResources) {
 
-                    PathMetaData subPathMetaData = subResource.getUriTemplate().match(rootPathMetaData.getTail());
+                    PathMetaData subPathMetaData = null;
+                    boolean match = false;
 
-                    if(subPathMetaData != null && subResource.getMethodMetaData().getHttpMethod() != null && subResource.getMethodMetaData().getHttpMethod().toString().equals(httpMethod)) {
+                    if (subResource.getUriTemplate() != null) {
+
+                        subPathMetaData = subResource.getUriTemplate().match(rootPathMetaData.getTail());
+
+                    } else {
+
+                        if (rootPathMetaData.getTail() == null || rootPathMetaData.getTail().isEmpty()) {
+                            match = true;
+                        }
+
+                    }
+
+                    String subResourceHttpMethod = subResource.getMethodMetaData().getHttpMethod();
+
+                    if ((match && subResourceHttpMethod != null && subResourceHttpMethod.equals(httpMethod))
+                            || (subPathMetaData != null && subResourceHttpMethod != null && subResourceHttpMethod.equals(httpMethod)
+                            && (subPathMetaData.getTail() == null || subPathMetaData.getTail().isEmpty()))) {
 
                         SelectedResourceMetaData selectedResourceMetaData = new SelectedResourceMetaData();
                         selectedResourceMetaData.setSelectedMethodMetaData(subResource.getMethodMetaData());
                         selectedResourceMetaData.addPathVariableMetaData(rootPathMetaData.getPathVariables());
-                        selectedResourceMetaData.addPathVariableMetaData(subPathMetaData.getPathVariables());
+
+                        if (subPathMetaData != null) {
+                            selectedResourceMetaData.addPathVariableMetaData(subPathMetaData.getPathVariables());
+                        }
 
                         return selectedResourceMetaData;
                     }
@@ -62,8 +82,8 @@ public class ResourceRepository {
             }
         }
 
-        throw new CuubezException("",CuubezException.SERVICE_NOT_FOUND); //TODO need change exception structure
+        throw new CuubezException("", CuubezException.SERVICE_NOT_FOUND); //TODO need change exception structure
     }
-	
+
 
 }

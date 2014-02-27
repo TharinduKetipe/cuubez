@@ -1,11 +1,8 @@
 package com.cuubez.core.resource;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import javax.ws.rs.*;
-import com.cuubez.core.util.HttpMethod;
 
 public class ResourceMetaDataScanner {
 	
@@ -91,20 +88,35 @@ public class ResourceMetaDataScanner {
       //  logger.trace("isResource() exit returning false");
         return false;
     }
-	
-	private boolean scanPath(MethodMetaData methodMetaData, Method method) {
-	
-		Path path = method.getAnnotation(Path.class);
-		
-		if(path != null) {
-			methodMetaData.setPath(path.value());
-			return true;
-		}
-		
-		return false;
-	}
-	
-	private boolean scanPath(Class<?> clazz, ClassMetaData classMetaData) {
+
+    public static boolean isSubResource(Method method) {
+
+
+        if (method.getAnnotation(GET.class) != null ||
+                method.getAnnotation(POST.class) != null || method.getAnnotation(PUT.class) != null || method.getAnnotation(DELETE.class) != null) {
+
+            //  logger.trace("isResource() exit returning true");
+            return true;
+        }
+
+        return false;
+
+    }
+
+
+    private boolean scanPath(MethodMetaData methodMetaData, Method method) {
+
+        Path path = method.getAnnotation(Path.class);
+
+        if (path != null) {
+            methodMetaData.setPath(path.value());
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean scanPath(Class<?> clazz, ClassMetaData classMetaData) {
 
 		Path path = clazz.getAnnotation(Path.class);
 

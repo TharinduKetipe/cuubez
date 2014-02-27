@@ -15,11 +15,12 @@
 package com.cuubez.core.context;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.HttpMethod;
 
 public class RequestContext extends Context {
 
-    private HttpServletRequest request;
     private URLContext urlContext;
+    private String httpMethod;
 
     public URLContext getUrlContext() {
         return urlContext;
@@ -29,13 +30,12 @@ public class RequestContext extends Context {
         this.urlContext = urlContext;
     }
 
-    public HttpServletRequest getRequest() {
-        return request;
+    public String getHttpMethod() {
+        return httpMethod;
     }
 
-    public void setRequest(HttpServletRequest request) {
-        this.request = request;
+    public void setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
     }
-
 }
  

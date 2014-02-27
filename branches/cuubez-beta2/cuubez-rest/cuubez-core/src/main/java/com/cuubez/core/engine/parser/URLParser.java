@@ -36,11 +36,11 @@ public class URLParser {
 
     public void parse(RequestContext requestContext) throws CuubezException {
         URLValidatorUtil.validate(requestContext);
-        populateServiceDetails(requestContext);
+      //  populateServiceDetails(requestContext);
 
     }
 
-
+  /*
     private void populateServiceDetails(RequestContext requestContext) {
 
         HttpServletRequest request = requestContext.getRequest();
@@ -132,6 +132,6 @@ public class URLParser {
         urlContext.setQueryVariableMetaDataList(queryVariableMetaDataList);
 
     }
-
+              */
 
 }

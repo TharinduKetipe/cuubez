@@ -1,41 +1,51 @@
 package com.cuubez.core.engine.processor;
 
 
+import com.cuubez.core.context.RequestConfigurationContext;
 import com.cuubez.core.context.RequestContext;
 import com.cuubez.core.context.ResponseContext;
-import com.cuubez.core.context.URLContext;
 import com.cuubez.core.engine.executor.ServiceExecutor;
-import com.cuubez.core.engine.parser.Parser;
-import com.cuubez.core.engine.parser.ParserFactory;
 import com.cuubez.core.engine.transform.Transformer;
 import com.cuubez.core.engine.transform.json.JSONTransformer;
 import com.cuubez.core.engine.transform.xml.XMLTransformer;
 import com.cuubez.core.exception.CuubezException;
-import com.cuubez.core.resource.ResourceRepository;
-import com.cuubez.core.resource.SelectedResourceMetaData;
-import com.cuubez.core.util.HttpMethod;
+import com.cuubez.core.handler.RequestHandlerChain;
+
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class ServiceProcessor {
 
-    public ResponseContext process(HttpServletRequest request, HttpMethod httpMethod) {
+    public ResponseContext process(HttpServletRequest request, String httpMethod) {
 
         RequestContext requestContext = new RequestContext();
+        RequestConfigurationContext requestConfigurationContext = new RequestConfigurationContext(httpMethod, request);
+        RequestHandlerChain requestHandlerChain = new RequestHandlerChain();
+
+
         ResponseContext responseContext = null;
 
                try {
 
-                   populateValues(requestContext, request, httpMethod);
+                   requestHandlerChain.doChain(requestContext, requestConfigurationContext);
+
+
+
+               /*    populateValues(requestContext, request, httpMethod);
 
 
                    ParserFactory factory = new ParserFactory();
-                   factory.parse(requestContext, Parser.URL);
+                   factory.parse(requestContext, Parser.URL);           */
                   // factory.parse(requestContext, Parser.PARAMETER);
                    ServiceExecutor serviceExecutor = new ServiceExecutor();
+
                    responseContext = serviceExecutor.execute(requestContext);
-                   transform(responseContext);
+
+                   if(responseContext != null) {
+                     transform(responseContext);
+                   }
 
                }catch (CuubezException e) {
 
@@ -46,7 +56,7 @@ public class ServiceProcessor {
     }
 
 
-    private void populateValues(RequestContext requestContext, HttpServletRequest request, HttpMethod httpMethod) throws CuubezException {
+/*    private void populateValues(RequestContext requestContext, HttpServletRequest request, HttpMethod httpMethod) throws CuubezException {
 
             requestContext.setRequest(request);
 
@@ -56,7 +66,7 @@ public class ServiceProcessor {
             requestContext.setUrlContext(urlContext);
 
         }
-
+             */
 
 
     private void transform(ResponseContext responseContext) {

@@ -16,7 +16,7 @@ package com.cuubez.core.initiator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.cuubez.core.util.HttpMethod;
+import javax.ws.rs.HttpMethod;
 
 
 public class ServiceInitiator extends ServletContainer {

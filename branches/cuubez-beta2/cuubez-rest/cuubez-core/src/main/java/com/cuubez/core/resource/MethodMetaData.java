@@ -1,7 +1,5 @@
 package com.cuubez.core.resource;
 
-import com.cuubez.core.util.HttpMethod;
-
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -13,7 +11,7 @@ public class MethodMetaData {
     private String[] consume;
 	private String[] produce;
     private Class<?> clazz;
-    private HttpMethod httpMethod;
+    private String httpMethod;
     private List<PathVariableMetaData> pathVariableMetaDataList;
     private List<QueryVariableMetaData> queryVariableMetaDataList;
     private List<HeaderVariableMetaData> headerVariableMetaDataList;
@@ -49,11 +47,11 @@ public class MethodMetaData {
         this.produce = produce;
     }
 
-    public HttpMethod getHttpMethod() {
+    public String getHttpMethod() {
         return httpMethod;
     }
 
-    public void setHttpMethod(HttpMethod httpMethod) {
+    public void setHttpMethod(String httpMethod) {
         this.httpMethod = httpMethod;
     }
 

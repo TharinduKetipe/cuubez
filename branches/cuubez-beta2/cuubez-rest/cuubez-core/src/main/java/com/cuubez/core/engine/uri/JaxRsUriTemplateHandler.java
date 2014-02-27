@@ -6,7 +6,7 @@ import com.cuubez.core.resource.MethodMetaData;
 import com.cuubez.core.resource.PathMetaData;
 import com.cuubez.core.engine.uri.template.UriTemplate;
 
-public class JaxRsUriTemplateProcessor extends UriTemplateProcessor {
+public class JaxRsUriTemplateHandler extends UriTemplateProcessor {
 
 
     @Override
@@ -24,6 +24,10 @@ public class JaxRsUriTemplateProcessor extends UriTemplateProcessor {
 
     @Override
     public UriTemplate compile(MethodMetaData methodMetaData) {
+
+        if(methodMetaData.getPath() == null ) {
+            return null;
+        }
 
         UriTemplateBuilder uriTemplateBuilder = new UriTemplateBuilder();
         PathMetaData pathMetaData = uriTemplateBuilder.build(methodMetaData.getPath());
