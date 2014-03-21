@@ -1,7 +1,8 @@
-package com.cuubez.core.engine.uri;
+package com.cuubez.core.handler;
 
 
 import com.cuubez.core.context.ApplicationConfigurationContext;
+import com.cuubez.core.context.MessageContext;
 import com.cuubez.core.context.RequestConfigurationContext;
 import com.cuubez.core.context.RequestContext;
 import com.cuubez.core.exception.CuubezException;
@@ -17,15 +18,10 @@ public class URIValidateHandler implements RequestHandler {
 
 
     @Override
-    public void handle(RequestContext requestContext, RequestConfigurationContext requestConfigurationContext) throws CuubezException {
-        validate(requestConfigurationContext);
-    }
-
-
-    private void validate(RequestConfigurationContext requestConfigurationContext) throws CuubezException {
+    public void handle(MessageContext messageContext) throws CuubezException {
 
         String applicationName = ApplicationConfigurationContext.getInstance().getApplicationName();
-        HttpServletRequest request = requestConfigurationContext.getRequest();
+        HttpServletRequest request = messageContext.getRequestConfigurationContext().getRequest();
         String url = request.getRequestURL().toString();
 
         if (!url.contains(applicationName)) {
@@ -47,8 +43,6 @@ public class URIValidateHandler implements RequestHandler {
         if (serviceInfoUrl.startsWith(PARAMETER_SEPARATOR)) {
             throw new CuubezException("No service name found", CuubezException.INVALIDE_URL);
         }
-
     }
-
 
 }

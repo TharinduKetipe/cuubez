@@ -1,5 +1,8 @@
 package com.cuubez.core.resource;
 
+import com.cuubez.core.resource.metaData.ClassMetaData;
+import com.cuubez.core.resource.metaData.MethodMetaData;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import javax.ws.rs.*;

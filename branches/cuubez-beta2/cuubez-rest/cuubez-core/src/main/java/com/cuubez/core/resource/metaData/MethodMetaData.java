@@ -1,4 +1,4 @@
-package com.cuubez.core.resource;
+package com.cuubez.core.resource.metaData;
 
 import java.lang.reflect.Method;
 import java.util.List;

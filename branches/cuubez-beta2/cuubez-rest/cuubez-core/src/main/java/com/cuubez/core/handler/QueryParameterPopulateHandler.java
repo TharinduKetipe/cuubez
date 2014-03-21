@@ -1,5 +1,6 @@
-package com.cuubez.core.engine.param;
+package com.cuubez.core.handler;
 
+import com.cuubez.core.context.MessageContext;
 import com.cuubez.core.context.RequestConfigurationContext;
 import com.cuubez.core.context.RequestContext;
 import com.cuubez.core.exception.CuubezException;
@@ -8,15 +9,15 @@ import com.cuubez.core.handler.RequestHandler;
 import javax.servlet.http.HttpServletRequest;
 
 
-public class QueryParameterHandler implements RequestHandler {
+public class QueryParameterPopulateHandler implements RequestHandler {
 
     private static String PARAMETER_SEPARATOR = "&";
     private static String NAME_VALUE_SEPARATOR = "=";
 
     @Override
-    public void handle(RequestContext requestContext, RequestConfigurationContext requestConfigurationContext) throws CuubezException {
+    public void handle(MessageContext messageContext) throws CuubezException {
 
-        HttpServletRequest httpServletRequest = requestConfigurationContext.getRequest();
+        HttpServletRequest httpServletRequest = messageContext.getRequestConfigurationContext().getRequest();
         String queryString = httpServletRequest.getQueryString();
 
         if (queryString != null) {
@@ -28,7 +29,7 @@ public class QueryParameterHandler implements RequestHandler {
                 for (String queryParameter : queryParameters) {
 
                     String[] queryParam = queryParameter.split(NAME_VALUE_SEPARATOR);
-                    requestContext.getUrlContext().addQueryVariableMetaData(queryParam[0], queryParam[1]);
+                    messageContext.getRequestContext().getUrlContext().addQueryVariableMetaData(queryParam[0], queryParam[1]);
 
 
                 }
@@ -37,7 +38,7 @@ public class QueryParameterHandler implements RequestHandler {
             } else {
 
                 String[] queryParam = queryString.split(NAME_VALUE_SEPARATOR);
-                requestContext.getUrlContext().addQueryVariableMetaData(queryParam[0], queryParam[1]);
+                messageContext.getRequestContext().getUrlContext().addQueryVariableMetaData(queryParam[0], queryParam[1]);
 
             }
 

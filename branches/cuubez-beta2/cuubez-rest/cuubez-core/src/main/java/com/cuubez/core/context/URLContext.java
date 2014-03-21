@@ -14,12 +14,10 @@
  */
 package com.cuubez.core.context;
 
-import com.cuubez.core.resource.HeaderVariableMetaData;
-import com.cuubez.core.resource.PathVariableMetaData;
-import com.cuubez.core.resource.QueryVariableMetaData;
+import com.cuubez.core.resource.metaData.HeaderVariableMetaData;
+import com.cuubez.core.resource.metaData.PathVariableMetaData;
+import com.cuubez.core.resource.metaData.QueryVariableMetaData;
 
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 

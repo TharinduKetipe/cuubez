@@ -1,5 +1,6 @@
-package com.cuubez.core.engine.param;
+package com.cuubez.core.handler;
 
+import com.cuubez.core.context.MessageContext;
 import com.cuubez.core.context.RequestConfigurationContext;
 import com.cuubez.core.context.RequestContext;
 import com.cuubez.core.exception.CuubezException;
@@ -9,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 
-public class HeaderParameterHandler implements RequestHandler {
+public class HeaderParameterPopulateHandler implements RequestHandler {
 
     @Override
-    public void handle(RequestContext requestContext, RequestConfigurationContext requestConfigurationContext) throws CuubezException {
+    public void handle(MessageContext messageContext) throws CuubezException {
 
-        HttpServletRequest request = requestConfigurationContext.getRequest();
+        HttpServletRequest request = messageContext.getRequestConfigurationContext().getRequest();
         Enumeration headerNames = request.getHeaderNames();
 
         while (headerNames.hasMoreElements()) {
@@ -22,7 +23,7 @@ public class HeaderParameterHandler implements RequestHandler {
             String paramName = (String) headerNames.nextElement();
             String paramValue = request.getHeader(paramName);
 
-            requestContext.getUrlContext().addHeaderVariableMetaData(paramName, paramValue);
+            messageContext.getRequestContext().getUrlContext().addHeaderVariableMetaData(paramName, paramValue);
         }
     }
 }

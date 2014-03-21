@@ -10,11 +10,6 @@ public class ResponseContext {
    private String mediaType;
 
 
-    public ResponseContext(String mediaType, Object returnObject) {
-        this.mediaType = mediaType;
-        this.returnObject = returnObject;
-    }
-
     public String getContent() {
         return content;
     }

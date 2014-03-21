@@ -1,11 +1,10 @@
 package com.cuubez.core.engine.uri;
 
 
-import com.cuubez.core.resource.PathMetaData;
-import com.cuubez.core.resource.PathVariableMetaData;
+import com.cuubez.core.resource.metaData.PathMetaData;
+import com.cuubez.core.resource.metaData.PathVariableMetaData;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;

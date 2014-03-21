@@ -14,6 +14,8 @@
  */
 package com.cuubez.core.context;
 
+import com.cuubez.core.resource.metaData.SelectedResourceMetaData;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.HttpMethod;
 
@@ -21,6 +23,7 @@ public class RequestContext extends Context {
 
     private URLContext urlContext;
     private String httpMethod;
+    private SelectedResourceMetaData selectedResource;
 
     public URLContext getUrlContext() {
         return urlContext;
@@ -37,5 +40,14 @@ public class RequestContext extends Context {
     public void setHttpMethod(String httpMethod) {
         this.httpMethod = httpMethod;
     }
+
+    public SelectedResourceMetaData getSelectedResource() {
+        return selectedResource;
+    }
+
+    public void setSelectedResource(SelectedResourceMetaData selectedResource) {
+        this.selectedResource = selectedResource;
+    }
+
 }
  

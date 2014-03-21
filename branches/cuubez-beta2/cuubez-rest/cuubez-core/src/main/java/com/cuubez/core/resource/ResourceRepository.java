@@ -1,8 +1,9 @@
 package com.cuubez.core.resource;
 
 import com.cuubez.core.exception.CuubezException;
+import com.cuubez.core.resource.metaData.PathMetaData;
+import com.cuubez.core.resource.metaData.SelectedResourceMetaData;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

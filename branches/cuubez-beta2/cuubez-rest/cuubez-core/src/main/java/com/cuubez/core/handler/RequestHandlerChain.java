@@ -1,36 +1,36 @@
 package com.cuubez.core.handler;
 
 
-import com.cuubez.core.context.RequestConfigurationContext;
-import com.cuubez.core.context.RequestContext;
-import com.cuubez.core.engine.param.HeaderParameterHandler;
-import com.cuubez.core.engine.param.QueryParameterHandler;
-import com.cuubez.core.engine.request.RequestContextInitiateHandler;
-import com.cuubez.core.engine.uri.URINormalizeHandler;
-import com.cuubez.core.engine.uri.URIValidateHandler;
+import com.cuubez.core.context.MessageContext;
 import com.cuubez.core.exception.CuubezException;
 
 public class RequestHandlerChain {
 
-    public void doChain(RequestContext requestContext, RequestConfigurationContext requestConfigurationContext)throws CuubezException{
+    public void doChain(MessageContext messageContext)throws CuubezException{
 
         RequestHandler requestHandlerContextInitiate = new RequestContextInitiateHandler();
-        requestHandlerContextInitiate.handle(requestContext, requestConfigurationContext);
+        requestHandlerContextInitiate.handle(messageContext);
 
         RequestHandler uriValidateHandler = new URIValidateHandler();
-        uriValidateHandler.handle(requestContext, requestConfigurationContext);
+        uriValidateHandler.handle(messageContext);
 
         RequestHandler uriNormalizeHandler = new URINormalizeHandler();
-        uriNormalizeHandler.handle(requestContext, requestConfigurationContext);
+        uriNormalizeHandler.handle(messageContext);
 
         RequestContextInitiateHandler requestContextInitiateHandler = new RequestContextInitiateHandler();
-        requestContextInitiateHandler.handle(requestContext, requestConfigurationContext);
+        requestContextInitiateHandler.handle(messageContext);
 
-        HeaderParameterHandler headerParameterHandler = new HeaderParameterHandler();
-        headerParameterHandler.handle(requestContext, requestConfigurationContext);
+        HeaderParameterPopulateHandler headerParameterHandler = new HeaderParameterPopulateHandler();
+        headerParameterHandler.handle(messageContext);
 
-        QueryParameterHandler queryParameterHandler = new QueryParameterHandler();
-        queryParameterHandler.handle(requestContext, requestConfigurationContext);
+        QueryParameterPopulateHandler queryParameterHandler = new QueryParameterPopulateHandler();
+        queryParameterHandler.handle(messageContext);
+
+        ResourceSearchHandler resourceSearchHandler = new ResourceSearchHandler();
+        resourceSearchHandler.handle(messageContext);
+
+        ResourceInvokeHandler resourceInvokeHandler = new ResourceInvokeHandler();
+        resourceInvokeHandler.handle(messageContext);
 
     }
 }

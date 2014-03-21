@@ -1,9 +1,11 @@
 package com.cuubez.core.resource;
 
 
-import com.cuubez.core.engine.uri.JaxRsUriTemplateHandler;
+import com.cuubez.core.engine.uri.JaxRsUriTemplateProcessor;
 import com.cuubez.core.engine.uri.UriTemplateProcessor;
 import com.cuubez.core.engine.uri.template.UriTemplate;
+import com.cuubez.core.resource.metaData.ClassMetaData;
+import com.cuubez.core.resource.metaData.MethodMetaData;
 
 import java.lang.reflect.Method;
 
@@ -30,7 +32,7 @@ public class ResourceGenerator {
 
           resource.setClassMetaData(classMetaData);
 
-          UriTemplateProcessor templateProcessor = new JaxRsUriTemplateHandler();
+          UriTemplateProcessor templateProcessor = new JaxRsUriTemplateProcessor();
           UriTemplate uriTemplate = templateProcessor.compile(classMetaData);
           resource.setUriTemplate(uriTemplate);
 
@@ -59,7 +61,7 @@ public class ResourceGenerator {
                     SubResource subResource = new SubResource();
                     subResource.setMethodMetaData(methodMetaData);
 
-                    UriTemplateProcessor templateProcessor = new JaxRsUriTemplateHandler();
+                    UriTemplateProcessor templateProcessor = new JaxRsUriTemplateProcessor();
                     UriTemplate uriTemplate = templateProcessor.compile(methodMetaData);
 
                     subResource.setUriTemplate(uriTemplate);

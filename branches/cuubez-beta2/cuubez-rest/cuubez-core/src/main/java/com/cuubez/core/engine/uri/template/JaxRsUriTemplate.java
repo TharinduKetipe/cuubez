@@ -1,9 +1,8 @@
 package com.cuubez.core.engine.uri.template;
 
 
-import com.cuubez.core.engine.uri.UriTemplateBuilder;
-import com.cuubez.core.resource.PathMetaData;
-import com.cuubez.core.resource.PathVariableMetaData;
+import com.cuubez.core.resource.metaData.PathMetaData;
+import com.cuubez.core.resource.metaData.PathVariableMetaData;
 
 import java.util.List;
 import java.util.regex.Matcher;

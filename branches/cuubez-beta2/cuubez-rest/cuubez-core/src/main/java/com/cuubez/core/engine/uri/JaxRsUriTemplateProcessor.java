@@ -1,12 +1,12 @@
 package com.cuubez.core.engine.uri;
 
 import com.cuubez.core.engine.uri.template.JaxRsUriTemplate;
-import com.cuubez.core.resource.ClassMetaData;
-import com.cuubez.core.resource.MethodMetaData;
-import com.cuubez.core.resource.PathMetaData;
+import com.cuubez.core.resource.metaData.ClassMetaData;
+import com.cuubez.core.resource.metaData.MethodMetaData;
+import com.cuubez.core.resource.metaData.PathMetaData;
 import com.cuubez.core.engine.uri.template.UriTemplate;
 
-public class JaxRsUriTemplateHandler extends UriTemplateProcessor {
+public class JaxRsUriTemplateProcessor extends UriTemplateProcessor {
 
 
     @Override

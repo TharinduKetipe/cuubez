@@ -1,7 +1,7 @@
 package com.cuubez.core.engine.uri.template;
 
 
-import com.cuubez.core.resource.PathMetaData;
+import com.cuubez.core.resource.metaData.PathMetaData;
 import java.util.regex.Pattern;
 
 public abstract class UriTemplate {

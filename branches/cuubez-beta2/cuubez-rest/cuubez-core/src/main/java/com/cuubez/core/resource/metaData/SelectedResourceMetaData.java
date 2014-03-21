@@ -1,5 +1,10 @@
-package com.cuubez.core.resource;
+package com.cuubez.core.resource.metaData;
 
+
+import com.cuubez.core.resource.metaData.HeaderVariableMetaData;
+import com.cuubez.core.resource.metaData.MethodMetaData;
+import com.cuubez.core.resource.metaData.PathVariableMetaData;
+import com.cuubez.core.resource.metaData.QueryVariableMetaData;
 
 import java.util.ArrayList;
 import java.util.List;

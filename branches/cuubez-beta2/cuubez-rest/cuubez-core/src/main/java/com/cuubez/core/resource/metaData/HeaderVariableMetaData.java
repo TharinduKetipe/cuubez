@@ -1,12 +1,12 @@
-package com.cuubez.core.resource;
+package com.cuubez.core.resource.metaData;
 
 
-public class QueryVariableMetaData {
+public class HeaderVariableMetaData {
 
     private String name;
     private String value;
 
-    public QueryVariableMetaData(String name, String value) {
+    public HeaderVariableMetaData(String name, String value) {
         this.name = name;
         this.value = value;
     }
@@ -26,4 +26,5 @@ public class QueryVariableMetaData {
     public void setValue(String value) {
         this.value = value;
     }
+
 }

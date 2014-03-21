@@ -2,8 +2,8 @@ package com.cuubez.core.resource;
 
 import java.util.List;
 
-import com.cuubez.core.engine.uri.UriTemplateProcessor;
 import com.cuubez.core.engine.uri.template.UriTemplate;
+import com.cuubez.core.resource.metaData.ClassMetaData;
 
 public class RootResource {
 

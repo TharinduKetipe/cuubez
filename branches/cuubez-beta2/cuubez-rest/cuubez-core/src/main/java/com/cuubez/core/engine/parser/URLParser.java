@@ -14,17 +14,9 @@
  */
 package com.cuubez.core.engine.parser;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.cuubez.core.context.ApplicationConfigurationContext;
 import com.cuubez.core.context.RequestContext;
-import com.cuubez.core.context.URLContext;
-import com.cuubez.core.resource.QueryVariableMetaData;
 import com.cuubez.core.util.URLValidatorUtil;
 import com.cuubez.core.exception.CuubezException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class URLParser {
 
