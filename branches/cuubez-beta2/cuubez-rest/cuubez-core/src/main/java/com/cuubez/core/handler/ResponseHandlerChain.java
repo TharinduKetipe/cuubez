@@ -7,8 +7,8 @@ public class ResponseHandlerChain {
 
     public void doChain(MessageContext messageContext) {
 
-        ResourceTransformHandler resourceTransformHandler = new ResourceTransformHandler();
-        resourceTransformHandler.handle(messageContext);
+        ResponseTransformHandler resourceTransformHandler = new ResponseTransformHandler();
+        resourceTransformHandler.handleResponse(messageContext);
 
 
     }

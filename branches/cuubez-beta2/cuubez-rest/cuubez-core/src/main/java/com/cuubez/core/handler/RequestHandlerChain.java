@@ -9,28 +9,34 @@ public class RequestHandlerChain {
     public void doChain(MessageContext messageContext)throws CuubezException{
 
         RequestHandler requestHandlerContextInitiate = new RequestContextInitiateHandler();
-        requestHandlerContextInitiate.handle(messageContext);
+        requestHandlerContextInitiate.handleRequest(messageContext);
 
         RequestHandler uriValidateHandler = new URIValidateHandler();
-        uriValidateHandler.handle(messageContext);
+        uriValidateHandler.handleRequest(messageContext);
 
         RequestHandler uriNormalizeHandler = new URINormalizeHandler();
-        uriNormalizeHandler.handle(messageContext);
+        uriNormalizeHandler.handleRequest(messageContext);
 
         RequestContextInitiateHandler requestContextInitiateHandler = new RequestContextInitiateHandler();
-        requestContextInitiateHandler.handle(messageContext);
+        requestContextInitiateHandler.handleRequest(messageContext);
 
         HeaderParameterPopulateHandler headerParameterHandler = new HeaderParameterPopulateHandler();
-        headerParameterHandler.handle(messageContext);
+        headerParameterHandler.handleRequest(messageContext);
 
         QueryParameterPopulateHandler queryParameterHandler = new QueryParameterPopulateHandler();
-        queryParameterHandler.handle(messageContext);
+        queryParameterHandler.handleRequest(messageContext);
 
         ResourceSearchHandler resourceSearchHandler = new ResourceSearchHandler();
-        resourceSearchHandler.handle(messageContext);
+        resourceSearchHandler.handleRequest(messageContext);
+
+        InvocationParametersHandler invocationParametersHandler = new InvocationParametersHandler();
+        invocationParametersHandler.handleRequest(messageContext);
+
+        RequestTransformHandler requestTransformHandler = new RequestTransformHandler();
+        requestTransformHandler.handleRequest(messageContext);
 
         ResourceInvokeHandler resourceInvokeHandler = new ResourceInvokeHandler();
-        resourceInvokeHandler.handle(messageContext);
+        resourceInvokeHandler.handleRequest(messageContext);
 
     }
 }

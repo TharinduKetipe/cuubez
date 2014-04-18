@@ -13,7 +13,7 @@ import java.util.Enumeration;
 public class HeaderParameterPopulateHandler implements RequestHandler {
 
     @Override
-    public void handle(MessageContext messageContext) throws CuubezException {
+    public void handleRequest(MessageContext messageContext) throws CuubezException {
 
         HttpServletRequest request = messageContext.getRequestConfigurationContext().getRequest();
         Enumeration headerNames = request.getHeaderNames();

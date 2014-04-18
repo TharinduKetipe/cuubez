@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 public class RequestContextInitiateHandler implements RequestHandler {
 
     @Override
-    public void handle(MessageContext messageContext) {
+    public void handleRequest(MessageContext messageContext) {
         URLContext urlContext = new URLContext();
         urlContext.setMediaType(messageContext.getRequestConfigurationContext().getRequest().getContentType());
         messageContext.getRequestContext().setUrlContext(urlContext);

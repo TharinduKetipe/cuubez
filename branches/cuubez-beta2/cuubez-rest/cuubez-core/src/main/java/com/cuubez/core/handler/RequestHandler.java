@@ -8,5 +8,5 @@ import com.cuubez.core.exception.CuubezException;
 
 public interface RequestHandler {
 
-    public void handle(MessageContext messageContext) throws CuubezException;
+    public void handleRequest(MessageContext messageContext) throws CuubezException;
 }

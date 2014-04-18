@@ -41,7 +41,7 @@ public class ResourceInvokeHandler implements RequestHandler {
 
 
     @Override
-    public void handle(MessageContext messageContext) throws CuubezException {
+    public void handleRequest(MessageContext messageContext) throws CuubezException {
 
         SelectedResourceMetaData selectedResourceMetaData = messageContext.getRequestContext().getSelectedResource();
 
@@ -80,7 +80,7 @@ public class ResourceInvokeHandler implements RequestHandler {
     }
 
     private Object[] getResourceArguments(SelectedResourceMetaData selectedResourceMetaData) {
-        return null;
+        return selectedResourceMetaData.getSelectedMethodMetaData().getParameters();
     }
 
     private String populateMediaType(String[] produceMediaTypes, String requestMediaType) throws CuubezException {

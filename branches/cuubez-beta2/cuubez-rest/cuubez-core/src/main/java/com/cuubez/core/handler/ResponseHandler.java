@@ -7,7 +7,7 @@ import com.cuubez.core.context.ResponseContext;
 public interface ResponseHandler {
 
 
-   public void handle(MessageContext messageContext);
+   public void handleResponse(MessageContext messageContext);
 
 
 }

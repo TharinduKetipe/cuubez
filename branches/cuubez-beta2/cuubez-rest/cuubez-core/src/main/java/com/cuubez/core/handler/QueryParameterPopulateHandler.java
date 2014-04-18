@@ -15,7 +15,7 @@ public class QueryParameterPopulateHandler implements RequestHandler {
     private static String NAME_VALUE_SEPARATOR = "=";
 
     @Override
-    public void handle(MessageContext messageContext) throws CuubezException {
+    public void handleRequest(MessageContext messageContext) throws CuubezException {
 
         HttpServletRequest httpServletRequest = messageContext.getRequestConfigurationContext().getRequest();
         String queryString = httpServletRequest.getQueryString();
@@ -38,7 +38,9 @@ public class QueryParameterPopulateHandler implements RequestHandler {
             } else {
 
                 String[] queryParam = queryString.split(NAME_VALUE_SEPARATOR);
-                messageContext.getRequestContext().getUrlContext().addQueryVariableMetaData(queryParam[0], queryParam[1]);
+                if(queryParam.length == 2) {
+                    messageContext.getRequestContext().getUrlContext().addQueryVariableMetaData(queryParam[0], queryParam[1]);
+                }
 
             }
 

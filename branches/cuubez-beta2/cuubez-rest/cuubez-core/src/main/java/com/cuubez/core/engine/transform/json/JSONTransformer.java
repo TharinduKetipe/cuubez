@@ -17,7 +17,13 @@ public class JSONTransformer implements Transformer {
     }
 
     @Override
-    public Object unMarshal(String content, Class<?> targetClass) {
+    public Object unMarshal(String content) {
+        XStream xstream = new XStream(new JettisonMappedXmlDriver());
+        return xstream.fromXML(content);
+    }
+
+    @Override
+    public Object unMarshal(String rootNode, String content, Class<?> targetClass) {
         XStream xstream = new XStream(new JettisonMappedXmlDriver());
         return targetClass.cast(xstream.fromXML(content));
     }

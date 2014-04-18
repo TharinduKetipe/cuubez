@@ -12,10 +12,10 @@ public class MethodMetaData {
 	private String[] produce;
     private Class<?> clazz;
     private String httpMethod;
-    private List<PathVariableMetaData> pathVariableMetaDataList;
-    private List<QueryVariableMetaData> queryVariableMetaDataList;
-    private List<HeaderVariableMetaData> headerVariableMetaDataList;
     private Class<?> returnType = null;
+    private Class<?> inputObjectType;
+    private int inputObjectIndex;
+    private Object[] parameters;
 
 
 	public Method getReflectionMethod() {
@@ -63,35 +63,35 @@ public class MethodMetaData {
         this.clazz = clazz;
     }
 
-    public List<HeaderVariableMetaData> getHeaderVariableMetaDataList() {
-        return headerVariableMetaDataList;
-    }
-
-    public void setHeaderVariableMetaDataList(List<HeaderVariableMetaData> headerVariableMetaDataList) {
-        this.headerVariableMetaDataList = headerVariableMetaDataList;
-    }
-
-    public List<PathVariableMetaData> getPathVariableMetaDataList() {
-        return pathVariableMetaDataList;
-    }
-
-    public void setPathVariableMetaDataList(List<PathVariableMetaData> pathVariableMetaDataList) {
-        this.pathVariableMetaDataList = pathVariableMetaDataList;
-    }
-
-    public List<QueryVariableMetaData> getQueryVariableMetaDataList() {
-        return queryVariableMetaDataList;
-    }
-
-    public void setQueryVariableMetaDataList(List<QueryVariableMetaData> queryVariableMetaDataList) {
-        this.queryVariableMetaDataList = queryVariableMetaDataList;
-    }
-
     public Class<?> getReturnType() {
         return returnType;
     }
 
     public void setReturnType(Class<?> returnType) {
         this.returnType = returnType;
+    }
+
+    public Object[] getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Object[] parameters) {
+        this.parameters = parameters;
+    }
+
+    public int getInputObjectIndex() {
+        return inputObjectIndex;
+    }
+
+    public void setInputObjectIndex(int inputObjectIndex) {
+        this.inputObjectIndex = inputObjectIndex;
+    }
+
+    public Class<?> getInputObjectType() {
+        return inputObjectType;
+    }
+
+    public void setInputObjectType(Class<?> inputObjectType) {
+        this.inputObjectType = inputObjectType;
     }
 }

@@ -17,9 +17,15 @@ public class XMLTransformer implements Transformer {
     }
 
     @Override
-    public Object unMarshal(String content, Class<?> targetClass) {
+    public Object unMarshal(String content) {
         XStream xStream = new XStream(new DomDriver());
+        return xStream.fromXML(content);
+    }
 
+    @Override
+    public Object unMarshal(String rootNode, String content, Class<?> targetClass) {
+        XStream xStream = new XStream(new DomDriver());
+        xStream.alias(rootNode, targetClass);
         return targetClass.cast(xStream.fromXML(content));
     }
 }

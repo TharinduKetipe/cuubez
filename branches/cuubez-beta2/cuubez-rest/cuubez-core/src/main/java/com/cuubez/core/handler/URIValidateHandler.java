@@ -18,7 +18,7 @@ public class URIValidateHandler implements RequestHandler {
 
 
     @Override
-    public void handle(MessageContext messageContext) throws CuubezException {
+    public void handleRequest(MessageContext messageContext) throws CuubezException {
 
         String applicationName = ApplicationConfigurationContext.getInstance().getApplicationName();
         HttpServletRequest request = messageContext.getRequestConfigurationContext().getRequest();

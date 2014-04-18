@@ -8,11 +8,11 @@ import com.cuubez.core.engine.transform.xml.XMLTransformer;
 
 import javax.ws.rs.core.MediaType;
 
-public class ResourceTransformHandler implements ResponseHandler {
+public class ResponseTransformHandler implements ResponseHandler {
 
 
     @Override
-    public void handle(MessageContext messageContext) {
+    public void handleResponse(MessageContext messageContext) {
 
 
         if (MediaType.APPLICATION_XML.equals(messageContext.getResponseContext().getMediaType())) {

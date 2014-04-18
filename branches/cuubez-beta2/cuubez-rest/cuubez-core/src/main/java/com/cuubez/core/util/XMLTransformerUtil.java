@@ -31,6 +31,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import com.cuubez.core.exception.CuubezException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -38,7 +39,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class XMLParserUtil {
+public class XMLTransformerUtil {
 
     public static List<Element> getElements(String tagName, Document doc) {
 
@@ -113,6 +114,31 @@ public class XMLParserUtil {
         return result.getWriter().toString();
     }
 
+    public static String getStreamAsString(InputStream xmlStream) throws CuubezException {
+
+        Document document = null;
+        try {
+            document = createDocument(xmlStream);
+        } catch (ParserConfigurationException e) {
+           throw new CuubezException("", 1);
+        } catch (IOException e) {
+            throw new CuubezException("", 1);
+        }
+        String content = null;
+
+        try {
+
+            if(document != null) {
+                content = getDocumentAsString(document);
+            }
+
+        } catch (TransformerException e) {
+            throw new CuubezException("", 1);
+        }
+        return content;
+
+    }
+
 
     public static void appendXmlFragment(DocumentBuilder docBuilder,
                                          Element parent, String fragment) throws IOException, SAXException {
@@ -140,5 +166,13 @@ public class XMLParserUtil {
 
         return null;
     }
+
+    public static  String getRootNodeAsString(final Document document) {
+
+        Node node = document.getDocumentElement();
+        return node.getNodeName();
+
+    }
+
 
 }

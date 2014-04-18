@@ -10,16 +10,8 @@ import com.cuubez.core.resource.metaData.SelectedResourceMetaData;
 
 public class ResourceSearchHandler implements RequestHandler {
 
-   /* public void handle(RequestContext requestContext) throws CuubezException {
-
-        String httpMethod = requestContext.getHttpMethod();
-        String path = requestContext.getUrlContext().getServiceLocation();
-        SelectedResourceMetaData selectedResourceMetaData = ResourceRepository.getInstance().findResource(path, httpMethod);
-
-    }
-      */
-    @Override
-    public void handle(MessageContext messageContext) throws CuubezException {
+   @Override
+    public void handleRequest(MessageContext messageContext) throws CuubezException {
         String httpMethod = messageContext.getRequestContext().getHttpMethod();
         String path = messageContext.getRequestContext().getUrlContext().getServiceLocation();
         messageContext.getRequestContext().setSelectedResource(ResourceRepository.getInstance().findResource(path, httpMethod));
