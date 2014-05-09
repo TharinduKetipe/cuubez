@@ -72,13 +72,13 @@ This can be configured with any URL patterns.In this example It configured to re
 
 *@RestService* annotation is used to expose Java method as a RESTful web service.
 
-*Name property :* Name of the RESTful web service (name should be unique for the application .Same service name cannot be used to different services).
+*Name property* Name of the RESTful web service (name should be unique for the application .Same service name cannot be used to different services).
 
-*Path property :* Path property specifying the specific location to the service.
+*Path property* Path property specifying the specific location to the service.
 
-*HttpMethod property :* This property specify,which HTTP method is used to expose this RESTful web service.
+*HttpMethod property* This property specify,which HTTP method is used to expose this RESTful web service.
 
-*MediaType property :* Which content type is used to communication. Cuubeze 1.0 beta 1 release only support XML as a mediaType.
+*MediaType property* Which content type is used to communication. Cuubeze 1.0 beta 1 release only support XML as a mediaType.
 
 {{{
 @RestService(name="userDetails", path="/user", httpMethod=HttpMethod.GET, mediaType = MediaType.XML)
