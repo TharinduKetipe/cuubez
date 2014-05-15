@@ -41,50 +41,7 @@ import org.xml.sax.SAXException;
 
 public class XMLTransformerUtil {
 
-    public static List<Element> getElements(String tagName, Document doc) {
-
-        List<Element> elements = new ArrayList<Element>();
-
-        if (tagName == null) {
-            return elements;
-        }
-
-        NodeList nList = doc.getElementsByTagName(tagName);
-
-        if (nList == null) {
-            return elements;
-        }
-
-
-        for (int temp = 0; temp < nList.getLength(); temp++) {
-
-            Node nNode = nList.item(temp);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-                Element element = (Element) nNode;
-                elements.add(element);
-            }
-        }
-
-        return elements;
-
-    }
-
-
-    public static String getElementContent(Element element) throws TransformerException {
-
-        javax.xml.transform.Source domSource = new DOMSource(element);
-        StringWriter sw = new StringWriter();
-        javax.xml.transform.stream.StreamResult streamResult = new StreamResult(sw);
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        javax.xml.transform.Transformer identityTransform = transformerFactory.newTransformer();
-        identityTransform.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        identityTransform.transform(domSource, streamResult);
-
-        return sw.toString();
-    }
-
-    public static Document createDocument(InputStream xmlStream) throws ParserConfigurationException, IOException {
+    public static Document createDocument(InputStream xmlStream) throws ParserConfigurationException/*, IOException*/ {
 
         javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
@@ -92,10 +49,12 @@ public class XMLTransformerUtil {
 
         try {
 
-            document = db.parse(xmlStream);
+           document = db.parse(xmlStream);
 
         } catch (SAXException e) {
-            //Do nothing
+            //TODO need to handle
+        } catch (IOException e) {
+           //TODO need to handle
         }
 
         return document;
@@ -114,64 +73,26 @@ public class XMLTransformerUtil {
         return result.getWriter().toString();
     }
 
-    public static String getStreamAsString(InputStream xmlStream) throws CuubezException {
 
-        Document document = null;
-        try {
-            document = createDocument(xmlStream);
-        } catch (ParserConfigurationException e) {
-           throw new CuubezException("", 1);
-        } catch (IOException e) {
-            throw new CuubezException("", 1);
-        }
-        String content = null;
-
-        try {
-
-            if(document != null) {
-                content = getDocumentAsString(document);
-            }
-
-        } catch (TransformerException e) {
-            throw new CuubezException("", 1);
-        }
-        return content;
-
-    }
-
-
-    public static void appendXmlFragment(DocumentBuilder docBuilder,
-                                         Element parent, String fragment) throws IOException, SAXException {
-
-        if (docBuilder != null && parent != null && fragment != null) {
-
-            Document doc = parent.getOwnerDocument();
-            Node fragmentNode = docBuilder.parse(
-                    new InputSource(new StringReader(fragment)))
-                    .getDocumentElement();
-            fragmentNode = doc.importNode(fragmentNode, true);
-            parent.appendChild(fragmentNode);
-
-        }
-
-    }
-
-
-    public static Element getDirectChild(Element parent) {
-
-        for (Node child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
-
-            if (child instanceof Element) return (Element) child;
-        }
-
-        return null;
-    }
-
-    public static  String getRootNodeAsString(final Document document) {
+    public static  String getRootNodeName(final Document document) {
 
         Node node = document.getDocumentElement();
         return node.getNodeName();
 
+    }
+
+
+    public static boolean isEmpty(final Document document) {
+
+        if(document == null) {
+            return false;
+        }
+
+        if(document.getDocumentElement() == null) {
+            return false;
+        }
+
+        return true;
     }
 
 

@@ -1,6 +1,6 @@
-package com.cuubez.core.engine.transform.xml;
+package com.cuubez.core.transform.xml;
 
-import com.cuubez.core.engine.transform.Transformer;
+import com.cuubez.core.transform.Transformer;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 

@@ -21,8 +21,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cuubez.core.context.ApplicationConfigurationContext;
-import com.cuubez.core.exception.CuubezException;
-import com.cuubez.core.engine.processor.ServiceProcessor;
 
 public class ContextLoaderListener implements ServletContextListener {
 

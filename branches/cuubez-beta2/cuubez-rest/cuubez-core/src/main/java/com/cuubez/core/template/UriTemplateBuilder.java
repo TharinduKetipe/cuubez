@@ -1,4 +1,4 @@
-package com.cuubez.core.engine.uri;
+package com.cuubez.core.template;
 
 
 import com.cuubez.core.resource.metaData.PathMetaData;
@@ -13,45 +13,63 @@ import java.util.regex.Pattern;
 public class UriTemplateBuilder {
 
     public static String VARIABLE = "([^/]+?)";
-    public static String TAIL = "((?:/.*)?)";
+    //public static String TAIL = "((?:/.*)?)";
+    public static String TAIL = "((/.*)?)";
     public static String VARIABLE_START = "{";
     public static String VARIABLE_END = "}";
     public static String TEMPLATE_START = "(";
     public static String TEMPLATE_END = ")";
+    public static String ROOT_PATH ="/";
     public static final Pattern variablePattern = Pattern.compile("\\{[ \\t]*(\\w[\\w\\.-]*)[ \\t]*(?::[ \\t]*((?:(?:[^{}])|(?:\\{[^{}]*\\}))*)[ \\t]*)?\\}");
 
 
-    public PathMetaData build(String path) {
+    public PathMetaData build(final String path, final boolean rootPath) {
 
-        List<PathVariableMetaData> pathVariableMetaData = extractVariables(path);
-        List<String> pathVariableNames = populateVariableNames(pathVariableMetaData);
-
-        StringBuffer uriTemplate = new StringBuffer();
-        uriTemplate.append(TEMPLATE_START);
-        uriTemplate.append(TEMPLATE_START);
-        uriTemplate.append(path);
-        uriTemplate.append(TEMPLATE_END);
-
-        for (String pathVariableName : pathVariableNames) {
-
-            String variableMatcher = VARIABLE_START + pathVariableName + VARIABLE_END;
-            int startIndex = uriTemplate.indexOf(variableMatcher);
-            int lastIndex = startIndex + variableMatcher.length();
-
-            uriTemplate.replace(startIndex, lastIndex, VARIABLE);
+        StringBuffer uriTemplate = null;
+        PathMetaData pathMetaData = new PathMetaData();
+        pathMetaData.setRootPath(rootPath);
 
 
+        if(path == null || path.isEmpty() || path.equals(ROOT_PATH)) {
+
+            uriTemplate = new StringBuffer();
+            uriTemplate.append(TAIL);
+            pathMetaData.setEmpty(true);
+
+
+        } else {
+
+            List<PathVariableMetaData> pathVariableMetaData = extractVariables(path);
+            List<String> pathVariableNames = populateVariableNames(pathVariableMetaData);
+
+            uriTemplate = new StringBuffer();
+            uriTemplate.append(TEMPLATE_START);
+            uriTemplate.append(TEMPLATE_START);
+            uriTemplate.append(path);
+            uriTemplate.append(TEMPLATE_END);
+
+            for (String pathVariableName : pathVariableNames) {
+
+                String variableMatcher = VARIABLE_START + pathVariableName + VARIABLE_END;
+                int startIndex = uriTemplate.indexOf(variableMatcher);
+                int lastIndex = startIndex + variableMatcher.length();
+
+                uriTemplate.replace(startIndex, lastIndex, VARIABLE);
+
+
+            }
+
+            uriTemplate.append(TAIL);
+            uriTemplate.append(TEMPLATE_END);
+
+            pathMetaData.setPathVariables(pathVariableMetaData);
         }
 
-        uriTemplate.append(TAIL);
-        uriTemplate.append(TEMPLATE_END);
-
-        PathMetaData pathMetaData = new PathMetaData(pathVariableMetaData, uriTemplate.toString());
+        pathMetaData.setTemplate(uriTemplate.toString());
 
         return pathMetaData;
 
     }
-
 
     private List<PathVariableMetaData> extractVariables(String path) {
 

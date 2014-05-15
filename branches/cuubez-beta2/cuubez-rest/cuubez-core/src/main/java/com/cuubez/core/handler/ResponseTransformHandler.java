@@ -2,9 +2,9 @@ package com.cuubez.core.handler;
 
 
 import com.cuubez.core.context.MessageContext;
-import com.cuubez.core.engine.transform.Transformer;
-import com.cuubez.core.engine.transform.json.JSONTransformer;
-import com.cuubez.core.engine.transform.xml.XMLTransformer;
+import com.cuubez.core.transform.Transformer;
+import com.cuubez.core.transform.json.JSONTransformer;
+import com.cuubez.core.transform.xml.XMLTransformer;
 
 import javax.ws.rs.core.MediaType;
 

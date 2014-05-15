@@ -1,10 +1,8 @@
-package com.cuubez.core.engine.uri;
+package com.cuubez.core.template;
 
-import com.cuubez.core.engine.uri.template.JaxRsUriTemplate;
 import com.cuubez.core.resource.metaData.ClassMetaData;
 import com.cuubez.core.resource.metaData.MethodMetaData;
 import com.cuubez.core.resource.metaData.PathMetaData;
-import com.cuubez.core.engine.uri.template.UriTemplate;
 
 public class JaxRsUriTemplateProcessor extends UriTemplateProcessor {
 
@@ -13,7 +11,7 @@ public class JaxRsUriTemplateProcessor extends UriTemplateProcessor {
     public UriTemplate compile(ClassMetaData classMetaData) {
 
         UriTemplateBuilder uriTemplateBuilder = new UriTemplateBuilder();
-        PathMetaData pathMetaData = uriTemplateBuilder.build(classMetaData.getPath());
+        PathMetaData pathMetaData = uriTemplateBuilder.build(classMetaData.getPath(), true);
 
         UriTemplate uriTemplate = new JaxRsUriTemplate();
         uriTemplate.setTemplate(pathMetaData.getTemplate());
@@ -25,12 +23,8 @@ public class JaxRsUriTemplateProcessor extends UriTemplateProcessor {
     @Override
     public UriTemplate compile(MethodMetaData methodMetaData) {
 
-        if(methodMetaData.getPath() == null ) {
-            return null;
-        }
-
         UriTemplateBuilder uriTemplateBuilder = new UriTemplateBuilder();
-        PathMetaData pathMetaData = uriTemplateBuilder.build(methodMetaData.getPath());
+        PathMetaData pathMetaData = uriTemplateBuilder.build(methodMetaData.getPath(), false);
 
         UriTemplate uriTemplate = new JaxRsUriTemplate();
         uriTemplate.setTemplate(pathMetaData.getTemplate());

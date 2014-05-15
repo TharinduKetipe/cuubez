@@ -1,9 +1,9 @@
 package com.cuubez.core.resource;
 
 
-import com.cuubez.core.engine.uri.JaxRsUriTemplateProcessor;
-import com.cuubez.core.engine.uri.UriTemplateProcessor;
-import com.cuubez.core.engine.uri.template.UriTemplate;
+import com.cuubez.core.template.JaxRsUriTemplateProcessor;
+import com.cuubez.core.template.UriTemplateProcessor;
+import com.cuubez.core.template.UriTemplate;
 import com.cuubez.core.resource.metaData.ClassMetaData;
 import com.cuubez.core.resource.metaData.MethodMetaData;
 
@@ -55,9 +55,10 @@ public class ResourceGenerator {
 
             if (ResourceMetaDataScanner.isSubResource(method)) {
                 MethodMetaData methodMetaData = resourceMetaDataScanner.scanMethods(clazz, method);
-                methodMetaData.setReturnType(method.getReturnType());
 
                 if (methodMetaData != null) {
+                    methodMetaData.setReturnType(method.getReturnType());
+
                     SubResource subResource = new SubResource();
                     subResource.setMethodMetaData(methodMetaData);
 

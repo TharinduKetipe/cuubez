@@ -1,6 +1,6 @@
 package com.cuubez.core.resource;
 
-import com.cuubez.core.engine.uri.template.UriTemplate;
+import com.cuubez.core.template.UriTemplate;
 import com.cuubez.core.resource.metaData.MethodMetaData;
 
 public class SubResource {

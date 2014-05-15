@@ -1,4 +1,4 @@
-package com.cuubez.core.engine.processor;
+package com.cuubez.core.initiator;
 
 
 import com.cuubez.core.context.MessageContext;
@@ -11,7 +11,7 @@ import com.cuubez.core.handler.ResponseHandlerChain;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class ServiceProcessor {
+public class ServiceProcessInitiator {
 
     public ResponseContext process(HttpServletRequest request, String httpMethod) {
 

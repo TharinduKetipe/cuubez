@@ -8,11 +8,8 @@ public class PathMetaData {
     private List<PathVariableMetaData> pathVariables;
     private String template;
     private String tail;
-
-    public PathMetaData(List<PathVariableMetaData> pathVariables, String template) {
-        this.pathVariables = pathVariables;
-        this.template = template;
-    }
+    private boolean empty;
+    private boolean rootPath;
 
     public List<PathVariableMetaData> getPathVariables() {
         return pathVariables;
@@ -36,5 +33,21 @@ public class PathMetaData {
 
     public void setTail(String tail) {
         this.tail = tail;
+    }
+
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
+    }
+
+    public boolean isRootPath() {
+        return rootPath;
+    }
+
+    public void setRootPath(boolean rootPath) {
+        this.rootPath = rootPath;
     }
 }

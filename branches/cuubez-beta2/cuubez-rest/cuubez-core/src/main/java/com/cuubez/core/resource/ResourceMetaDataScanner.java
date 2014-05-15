@@ -112,7 +112,7 @@ public class ResourceMetaDataScanner {
         Path path = method.getAnnotation(Path.class);
 
         if (path != null) {
-            methodMetaData.setPath(path.value());
+            methodMetaData.setPath(normalizePath(path.value()));
             return true;
         }
 
@@ -124,7 +124,7 @@ public class ResourceMetaDataScanner {
 		Path path = clazz.getAnnotation(Path.class);
 
 		if (path != null) {
-            classMetaData.setPath(path.value());
+            classMetaData.setPath(normalizePath(path.value()));
 			return true;
 		}
 		
@@ -134,7 +134,7 @@ public class ResourceMetaDataScanner {
 			Path superClassPath = superClass.getAnnotation(Path.class);
 			
 			if(superClassPath != null) {
-                classMetaData.setPath(superClassPath.value());
+                classMetaData.setPath(normalizePath(superClassPath.value()));
 				return true;
 			}
 			
@@ -146,7 +146,7 @@ public class ResourceMetaDataScanner {
 				
 				if(interfacePath != null) {
 					
-                    classMetaData.setPath(interfacePath.value());
+                    classMetaData.setPath(normalizePath(interfacePath.value()));
 					return true;
 					
 				}
@@ -273,5 +273,15 @@ public class ResourceMetaDataScanner {
                logger.trace("parseMethodParameters(), exit");
 		
 	}   */
+
+    private String normalizePath(String path) {
+
+        if(!path.startsWith("/")) {
+            path = "/".concat(path);
+        }
+
+        return path;
+
+    }
 	 
 }

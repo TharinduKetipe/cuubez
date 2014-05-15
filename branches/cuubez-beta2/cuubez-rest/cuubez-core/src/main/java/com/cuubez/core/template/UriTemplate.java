@@ -1,4 +1,4 @@
-package com.cuubez.core.engine.uri.template;
+package com.cuubez.core.template;
 
 
 import com.cuubez.core.resource.metaData.PathMetaData;
@@ -8,6 +8,7 @@ public abstract class UriTemplate {
 
     protected Pattern pattern = null;
     protected PathMetaData pathMetaData;
+
 
     public abstract PathMetaData match(String path);
 
@@ -23,4 +24,5 @@ public abstract class UriTemplate {
     public void setPathMetaData(PathMetaData pathMetaData) {
         this.pathMetaData = pathMetaData;
     }
+
 }

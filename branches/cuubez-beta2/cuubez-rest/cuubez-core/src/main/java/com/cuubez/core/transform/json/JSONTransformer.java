@@ -1,7 +1,7 @@
-package com.cuubez.core.engine.transform.json;
+package com.cuubez.core.transform.json;
 
 
-import com.cuubez.core.engine.transform.Transformer;
+import com.cuubez.core.transform.Transformer;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;

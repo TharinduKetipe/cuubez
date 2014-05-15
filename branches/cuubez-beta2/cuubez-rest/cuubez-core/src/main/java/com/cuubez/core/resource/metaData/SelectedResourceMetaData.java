@@ -29,11 +29,13 @@ public class SelectedResourceMetaData {
 
     public void addPathVariableMetaData(List<PathVariableMetaData> pathVariableMetaDataList) {
 
-        if(this.pathVariableMetaDataList == null) {
-            this.pathVariableMetaDataList = new ArrayList<PathVariableMetaData>();
-        }
+        if(pathVariableMetaDataList != null) {
+            if (this.pathVariableMetaDataList == null) {
+                this.pathVariableMetaDataList = new ArrayList<PathVariableMetaData>();
+            }
 
-        this.pathVariableMetaDataList.addAll(pathVariableMetaDataList);
+            this.pathVariableMetaDataList.addAll(pathVariableMetaDataList);
+        }
 
     }
 

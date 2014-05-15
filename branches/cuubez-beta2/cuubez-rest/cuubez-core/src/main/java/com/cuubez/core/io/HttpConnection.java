@@ -12,7 +12,7 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.engine.io;
+package com.cuubez.core.io;
 
 import com.cuubez.core.context.ResponseContext;
 

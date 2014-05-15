@@ -12,10 +12,11 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.engine.io;
+package com.cuubez.core.io;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStream;
+import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,27 +24,29 @@ import com.cuubez.core.context.ResponseContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class DefaultCompressor implements Compressor {
+public class GzipCompressor implements Compressor {
 
-    private static Log log = LogFactory.getLog(DefaultCompressor.class);
+    private static Log log = LogFactory.getLog(GzipCompressor.class);
 
     @Override
     public void compressAndWrite(HttpServletResponse response, ResponseContext responseContext) {
 
-        PrintWriter out = null;
+        response.setHeader("Content-Encoding", "gzip");
 
         try {
 
-            out = response.getWriter();
+            OutputStream out = response.getOutputStream();
+            GZIPOutputStream gout = new GZIPOutputStream(out);
+            gout.write(responseContext.getContent().getBytes());
+            gout.close();
+            out.close();
 
         } catch (IOException e) {
             log.error(e);
         }
 
-        out.write(responseContext.getContent());
-        out.flush();
-        out.close();
 
     }
+
 
 }

@@ -17,12 +17,10 @@ package com.cuubez.core.initiator;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.HttpMethod;
 
 import com.cuubez.core.context.ResponseContext;
-import com.cuubez.core.engine.io.Connection;
-import com.cuubez.core.engine.io.HttpConnection;
-import com.cuubez.core.engine.processor.ServiceProcessor;
+import com.cuubez.core.io.Connection;
+import com.cuubez.core.io.HttpConnection;
 
 
 public class ServletContainer extends HttpServlet {
@@ -31,7 +29,7 @@ public class ServletContainer extends HttpServlet {
 
     protected void process(HttpServletRequest request, HttpServletResponse response, String httpMethod) {
 
-        ResponseContext responseContext = new ServiceProcessor().process(request, httpMethod);
+        ResponseContext responseContext = new ServiceProcessInitiator().process(request, httpMethod);
 
         if (responseContext != null && responseContext.getContent() != null) {
             writeResponse(request, response, responseContext);

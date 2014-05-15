@@ -48,35 +48,29 @@ public class ResourceRepository {
                 for (SubResource subResource : subResources) {
 
                     PathMetaData subPathMetaData = null;
-                    boolean match = false;
 
                     if (subResource.getUriTemplate() != null) {
-
                         subPathMetaData = subResource.getUriTemplate().match(rootPathMetaData.getTail());
-
-                    } else {
-
-                        if (rootPathMetaData.getTail() == null || rootPathMetaData.getTail().isEmpty()) {
-                            match = true;
-                        }
-
                     }
 
-                    String subResourceHttpMethod = subResource.getMethodMetaData().getHttpMethod();
+                    if(subPathMetaData != null) {
 
-                    if ((match && subResourceHttpMethod != null && subResourceHttpMethod.equals(httpMethod))
-                            || (subPathMetaData != null && subResourceHttpMethod != null && subResourceHttpMethod.equals(httpMethod)
-                            && (subPathMetaData.getTail() == null || subPathMetaData.getTail().isEmpty()))) {
 
-                        SelectedResourceMetaData selectedResourceMetaData = new SelectedResourceMetaData();
-                        selectedResourceMetaData.setSelectedMethodMetaData(subResource.getMethodMetaData());
-                        selectedResourceMetaData.addPathVariableMetaData(rootPathMetaData.getPathVariables());
+                        String subResourceHttpMethod = subResource.getMethodMetaData().getHttpMethod();
 
-                        if (subPathMetaData != null) {
-                            selectedResourceMetaData.addPathVariableMetaData(subPathMetaData.getPathVariables());
+                        if (subResourceHttpMethod.equals(httpMethod)) {
+
+                            SelectedResourceMetaData selectedResourceMetaData = new SelectedResourceMetaData();
+                            selectedResourceMetaData.setSelectedMethodMetaData(subResource.getMethodMetaData());
+                            selectedResourceMetaData.addPathVariableMetaData(rootPathMetaData.getPathVariables());
+
+
+                            if (subPathMetaData != null) {
+                                selectedResourceMetaData.addPathVariableMetaData(subPathMetaData.getPathVariables());
+                            }
+
+                            return selectedResourceMetaData;
                         }
-
-                        return selectedResourceMetaData;
                     }
                 }
 

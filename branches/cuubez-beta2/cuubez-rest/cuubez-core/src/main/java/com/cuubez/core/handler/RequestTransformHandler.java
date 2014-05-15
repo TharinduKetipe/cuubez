@@ -2,8 +2,7 @@ package com.cuubez.core.handler;
 
 
 import com.cuubez.core.context.MessageContext;
-import com.cuubez.core.engine.transform.Transformer;
-import com.cuubez.core.engine.transform.xml.XMLTransformer;
+import com.cuubez.core.transform.xml.XMLTransformer;
 import com.cuubez.core.exception.CuubezException;
 import com.cuubez.core.util.XMLTransformerUtil;
 import org.w3c.dom.Document;
@@ -11,7 +10,6 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class RequestTransformHandler implements RequestHandler {
 
@@ -30,24 +28,27 @@ public class RequestTransformHandler implements RequestHandler {
         Object output;
         Document document = null;
 
-        Transformer transformer = new XMLTransformer();
+        XMLTransformer transformer = new XMLTransformer();
 
         try {
 
             document = XMLTransformerUtil.createDocument(messageContext.getRequestConfigurationContext().getRequest().getInputStream());
-            content = XMLTransformerUtil.getDocumentAsString(document);
+
+            if(XMLTransformerUtil.isEmpty(document)) {
+                content = XMLTransformerUtil.getDocumentAsString(document);
+            }
 
         } catch (IOException e) {
-
+            //e.printStackTrace();
         } catch (ParserConfigurationException e) {
-
+            //e.printStackTrace();
         } catch (TransformerException e) {
-            // e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+             //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
         if (content != null) {
             Class<?> inputObjectType = messageContext.getRequestContext().getSelectedResource().getSelectedMethodMetaData().getInputObjectType();
-            String rootNode = XMLTransformerUtil.getRootNodeAsString(document);
+            String rootNode = XMLTransformerUtil.getRootNodeName(document);
             output = transformer.unMarshal(rootNode, content, inputObjectType);
             setInputObjectToParameterArray(messageContext, output);
         }
