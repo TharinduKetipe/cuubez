@@ -53,7 +53,7 @@ public class ResourceRepository {
     public SelectedResourceMetaData findResource(String path, String httpMethod) throws CuubezException {
 
         if (rootResources == null || path == null || httpMethod == null) {
-            log.debug("resource not found");
+            log.trace("resource not found");
             throw new CuubezException(CuubezException.RESOURCE_NOT_FOUND);
         }
 
@@ -63,7 +63,7 @@ public class ResourceRepository {
 
             if (rootPathMetaData != null) {
 
-                log.debug("root resource found");
+                log.trace("root resource found");
                 List<SubResource> subResources = rootResource.getSubResources();
 
                 for (SubResource subResource : subResources) {
@@ -86,7 +86,7 @@ public class ResourceRepository {
                             selectedResourceMetaData.addPathVariableMetaData(rootPathMetaData.getPathVariables());
                             selectedResourceMetaData.addPathVariableMetaData(subPathMetaData.getPathVariables());
 
-                            log.debug("sub resource found");
+                            log.trace("sub resource found");
                             return selectedResourceMetaData;
                         }
                     }
@@ -95,7 +95,7 @@ public class ResourceRepository {
             }
         }
 
-        log.debug("resource not found");
+        log.trace("resource not found");
         throw new CuubezException(CuubezException.RESOURCE_NOT_FOUND);
     }
 

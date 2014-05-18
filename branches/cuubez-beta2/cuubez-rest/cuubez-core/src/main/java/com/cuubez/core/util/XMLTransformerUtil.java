@@ -16,12 +16,8 @@ package com.cuubez.core.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -32,16 +28,18 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import com.cuubez.core.exception.CuubezException;
+import com.cuubez.core.exception.CuubezExceptionConstance;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class XMLTransformerUtil {
 
-    public static Document createDocument(InputStream xmlStream) throws ParserConfigurationException/*, IOException*/ {
+    private static Log log = LogFactory.getLog(XMLTransformerUtil.class);
+
+    public static Document createDocument(HttpServletRequest httpServletRequest) throws ParserConfigurationException, CuubezException/*, IOException*/ {
 
         javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
@@ -49,12 +47,17 @@ public class XMLTransformerUtil {
 
         try {
 
-           document = db.parse(xmlStream);
+            if(httpServletRequest.getContentLength() > 0) {
+
+                document = db.parse(httpServletRequest.getInputStream());
+            }
 
         } catch (SAXException e) {
-            //TODO need to handle
+            log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.PARSING_EXCEPTION);
         } catch (IOException e) {
-           //TODO need to handle
+            log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.PARSING_EXCEPTION);
         }
 
         return document;

@@ -15,13 +15,14 @@
 package com.cuubez.core.context;
 
 
-import javax.ws.rs.core.MediaType;
+import javax.servlet.http.HttpServletResponse;
 
 public class ResponseContext {
 
    private String content;
    private Object returnObject;
    private String mediaType;
+   private int responseCode = HttpServletResponse.SC_OK; //Default set to success code
 
 
     public String getContent() {
@@ -46,5 +47,13 @@ public class ResponseContext {
 
     public void setReturnObject(Object returnObject) {
         this.returnObject = returnObject;
+    }
+
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
     }
 }

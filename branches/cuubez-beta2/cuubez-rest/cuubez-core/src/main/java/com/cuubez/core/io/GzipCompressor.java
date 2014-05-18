@@ -37,6 +37,7 @@ public class GzipCompressor implements Compressor {
 
             OutputStream out = response.getOutputStream();
             GZIPOutputStream gout = new GZIPOutputStream(out);
+
             gout.write(responseContext.getContent().getBytes());
             gout.close();
             out.close();

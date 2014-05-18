@@ -31,7 +31,7 @@ public class HttpConnection implements Connection {
         }
 
         response.setContentType(contentType);
-
+        response.setStatus(responseContext.getResponseCode());
 
         String encoding = request.getHeader("Accept-Encoding");
 

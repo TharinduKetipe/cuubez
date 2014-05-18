@@ -22,6 +22,7 @@ import com.cuubez.core.context.ResponseContext;
 import com.cuubez.core.exception.CuubezException;
 import com.cuubez.core.handler.RequestHandlerChain;
 import com.cuubez.core.handler.ResponseHandlerChain;
+import com.cuubez.core.util.ResponseCodeTransformUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -52,7 +53,7 @@ public class ServiceProcessInitiator {
 
 
         } catch (CuubezException e) {
-           //TODO need to handle
+            ResponseCodeTransformUtil.transform(messageContext, e);
         }
 
 

@@ -51,7 +51,7 @@ public class RequestTransformHandler implements RequestHandler {
     }
 
 
-    private void transformFromXML(MessageContext messageContext) {
+    private void transformFromXML(MessageContext messageContext) throws CuubezException {
 
         String content = null;
         Object output;
@@ -62,19 +62,18 @@ public class RequestTransformHandler implements RequestHandler {
 
         try {
 
-            document = XMLTransformerUtil.createDocument(messageContext.getRequestConfigurationContext().getRequest().getInputStream());
+            document = XMLTransformerUtil.createDocument(messageContext.getRequestConfigurationContext().getRequest());
 
             if(XMLTransformerUtil.isEmpty(document)) {
                 content = XMLTransformerUtil.getDocumentAsString(document);
             }
 
-        } catch (IOException e) {
-            //TODO need to handle
-            //e.printStackTrace();
         } catch (ParserConfigurationException e) {
-            //e.printStackTrace();
+            log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.PARSING_EXCEPTION);
         } catch (TransformerException e) {
-             //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.PARSING_EXCEPTION);
         }
 
         if (content != null) {
@@ -87,7 +86,7 @@ public class RequestTransformHandler implements RequestHandler {
     }
 
 
-    private void transformFromJSON(MessageContext messageContext) {
+    private void transformFromJSON(MessageContext messageContext) throws CuubezException {
 
         Object output;
         log.trace("request transformation[JSON] started");
@@ -99,15 +98,11 @@ public class RequestTransformHandler implements RequestHandler {
             output = transformer.unMarshal(new InputStreamReader(messageContext.getRequestConfigurationContext().getRequest().getInputStream()), inputObjectType);
             setInputObjectToParameterArray(messageContext, output);
         } catch (IOException e) {
-            //TODO need to handle
+            log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.PARSING_EXCEPTION);
         }
 
-
-
     }
-
-
-
 
     private void setInputObjectToParameterArray(MessageContext messageContext, Object input) {
 

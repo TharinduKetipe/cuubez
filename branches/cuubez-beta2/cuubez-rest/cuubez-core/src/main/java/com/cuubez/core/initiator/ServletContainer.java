@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cuubez.core.context.ResponseContext;
+import com.cuubez.core.exception.CuubezExceptionConstance;
 import com.cuubez.core.io.Connection;
 import com.cuubez.core.io.HttpConnection;
 
@@ -31,8 +32,10 @@ public class ServletContainer extends HttpServlet {
 
         ResponseContext responseContext = new ServiceProcessInitiator().process(request, httpMethod);
 
-        if (responseContext != null && responseContext.getContent() != null) {
+        if (responseContext != null && responseContext.getContent() != null && responseContext.getResponseCode() == HttpServletResponse.SC_OK) {
             writeResponse(request, response, responseContext);
+        } else {
+           response.setStatus(responseContext.getResponseCode());
         }
     }
 

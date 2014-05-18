@@ -48,14 +48,14 @@ public class URIValidateHandler implements RequestHandler {
 
         if(startIndexOf == -1) {
             log.error("Invalid request URI");
-            throw new CuubezException(CuubezException.INVALIDE_URI);
+            throw new CuubezException(CuubezException.INVALID_URI);
         }
 
         String resourceURI = uri.substring(startIndexOf+applicationName.length());
 
         if (resourceURI.startsWith(PARAMETER_SEPARATOR) || resourceURI.isEmpty()) {
             log.error("Invalid request URI");
-            throw new CuubezException(CuubezException.INVALIDE_URI);
+            throw new CuubezException(CuubezException.INVALID_URI);
         }
     }
 

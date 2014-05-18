@@ -58,14 +58,19 @@ public class ResourceInvokeHandler implements RequestHandler {
 
         } catch (InvocationTargetException e) {
             log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.INVOCATION_EXCEPTION);
         } catch (InstantiationException e) {
             log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.INVOCATION_EXCEPTION);
         } catch (IllegalAccessException e) {
             log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.INVOCATION_EXCEPTION);
         } catch (SecurityException e) {
             log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.INVOCATION_EXCEPTION);
         } catch (IllegalArgumentException e) {
-            log.error(e); //TODO need to handle
+            log.error(e);
+            throw new CuubezException(CuubezExceptionConstance.ILLEGAL_ARGUMENT_EXCEPTION);
         }
 
     }
