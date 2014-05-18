@@ -23,7 +23,6 @@
 
     <modules>
         <module>cuubez-core</module>
-        <module>cuubez-client</module>
         <module>cuubez-example</module>
     </modules>
 
