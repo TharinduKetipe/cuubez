@@ -33,7 +33,7 @@ public class URLValidatorUtil {
         String url = request.getRequestURL().toString();
 
         if (!url.contains(applicationName)) {
-            throw new CuubezException("Invalid URL", CuubezException.INVALIDE_URL);
+            throw new CuubezException("Invalid URL", CuubezException.INVALIDE_URI);
         }
 
         if (url.endsWith(PATH_SEPARATOR)) {
@@ -43,13 +43,13 @@ public class URLValidatorUtil {
         String[] urlContents = url.split(applicationName);
 
         if (urlContents.length != 2) {
-            throw new CuubezException("Invalid URL", CuubezException.INVALIDE_URL);
+            throw new CuubezException("Invalid URL", CuubezException.INVALIDE_URI);
         }
 
         String serviceInfoUrl = urlContents[1];
 
         if (serviceInfoUrl.startsWith(PARAMETER_SEPARATOR)) {
-            throw new CuubezException("No service name found", CuubezException.INVALIDE_URL);
+            throw new CuubezException("No service name found", CuubezException.INVALIDE_URI);
         }  */
 
     }

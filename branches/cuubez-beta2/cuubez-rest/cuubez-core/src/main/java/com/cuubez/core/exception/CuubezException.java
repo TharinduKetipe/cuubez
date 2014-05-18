@@ -20,26 +20,21 @@ public class CuubezException extends Exception implements CuubezExceptionConstan
 
     private String description;
     private Throwable nestedThrowable = null;
-    private int exceptionCode;
 
-
-    public CuubezException(String description, int exceptionCode) {
+    public CuubezException(String description) {
         super();
         this.description = description;
-        this.exceptionCode = exceptionCode;
     }
 
-    public CuubezException(Throwable throwable, int exceptionCode) {
+    public CuubezException(Throwable throwable) {
         super();
         this.nestedThrowable = throwable;
-        this.exceptionCode = exceptionCode;
     }
 
-    public CuubezException(String description, Throwable throwable, int exceptionCode) {
+    public CuubezException(String description, Throwable throwable) {
         super();
         this.description = description;
         this.nestedThrowable = throwable;
-        this.exceptionCode = exceptionCode;
     }
 
     public String getDescription() {
@@ -61,12 +56,5 @@ public class CuubezException extends Exception implements CuubezExceptionConstan
         this.nestedThrowable = nestedThrowable;
     }
 
-    public int getExceptionCode() {
-        return exceptionCode;
-    }
-
-    public void setExceptionCode(int exceptionCode) {
-        this.exceptionCode = exceptionCode;
-    }
 
 }

@@ -120,7 +120,7 @@ public class URLContext {
         return pathVariableMetaDataList;
     }
 
-    public void setPathVariableMetaDataList(List<PathVariableMetaData> pathVariableMetaDataList) {                //TODO need to move pathvariables to this variable list
+    public void setPathVariableMetaDataList(List<PathVariableMetaData> pathVariableMetaDataList) {
         this.pathVariableMetaDataList = pathVariableMetaDataList;
     }
 

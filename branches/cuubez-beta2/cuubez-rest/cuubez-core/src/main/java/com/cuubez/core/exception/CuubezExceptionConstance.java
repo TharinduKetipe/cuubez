@@ -17,9 +17,10 @@ package com.cuubez.core.exception;
 
 public interface CuubezExceptionConstance {
 
-    public static final int INTERNAL_EXCEPTION = 1000;
-    public static final int SERVICE_NOT_FOUND = 1001;
-    public static final int INVALIDE_PARAMETERS = 1002;
-    public static final int INVALIDE_URL = 1003;
+    public static final String INTERNAL_EXCEPTION = "";
+    public static final String RESOURCE_NOT_FOUND = "Resource not found";
+    public static final String INVALIDE_PARAMETERS = "";
+    public static final String INVALIDE_URI = "Invalid URI";
+    public static final String UNSUPPORTED_MEDIA_TYPE = "unsupported media type";
 
 }

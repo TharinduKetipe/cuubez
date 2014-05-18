@@ -15,18 +15,12 @@
 package com.cuubez.core.handler;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import com.cuubez.core.context.MessageContext;
-import com.cuubez.core.context.RequestConfigurationContext;
-import com.cuubez.core.context.RequestContext;
-import com.cuubez.core.context.ResponseContext;
 
 import javax.ws.rs.core.MediaType;
 
-import com.cuubez.core.resource.ResourceRepository;
+import com.cuubez.core.exception.CuubezExceptionConstance;
 import com.cuubez.core.resource.metaData.SelectedResourceMetaData;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,6 +39,7 @@ public class ResourceInvokeHandler implements RequestHandler {
 
         SelectedResourceMetaData selectedResourceMetaData = messageContext.getRequestContext().getSelectedResource();
 
+        log.trace("resource invocation process started");
         try {
 
             Object[] arguments = getResourceArguments(selectedResourceMetaData);
@@ -56,7 +51,7 @@ public class ResourceInvokeHandler implements RequestHandler {
 
             if (selectedMethod.getReturnType() != null && returnObject != null) {
                 messageContext.getResponseContext().setReturnObject(returnObject);
-                messageContext.getResponseContext().setMediaType(populateMediaType(selectedResourceMetaData.getSelectedMethodMetaData().getProduce(), messageContext.getRequestContext().getUrlContext().getMediaType()));
+                messageContext.getResponseContext().setMediaType(populateResponseMediaType(selectedResourceMetaData.getSelectedMethodMetaData().getProduce(), messageContext.getRequestContext().getUrlContext().getMediaType()));
 
             }
 
@@ -70,20 +65,20 @@ public class ResourceInvokeHandler implements RequestHandler {
         } catch (SecurityException e) {
             log.error(e);
         } catch (IllegalArgumentException e) {
-            log.error(e);
+            log.error(e); //TODO need to handle
         }
 
     }
 
     private boolean validateArguments(java.lang.reflect.Method selectedMethod, Object[] arguments) {
-        return true;
+        return true; //TODO need to implement
     }
 
     private Object[] getResourceArguments(SelectedResourceMetaData selectedResourceMetaData) {
         return selectedResourceMetaData.getSelectedMethodMetaData().getParameters();
     }
 
-    private String populateMediaType(String[] produceMediaTypes, String requestMediaType) throws CuubezException {
+    private String populateResponseMediaType(String[] produceMediaTypes, String requestMediaType) throws CuubezException {
 
         if (requestMediaType == null && isNotSpecifyMediaType(produceMediaTypes)) {
 
@@ -103,10 +98,12 @@ public class ResourceInvokeHandler implements RequestHandler {
             }
 
         } else {
-            throw new CuubezException("Unsupported MediaTYpe", 1);
+            log.error("unsupported response media type");
+            throw new CuubezException(CuubezExceptionConstance.UNSUPPORTED_MEDIA_TYPE);
         }
 
-        throw new CuubezException("Unsupported MediaTYpe", 1);
+        log.error("unsupported response media type");
+        throw new CuubezException(CuubezExceptionConstance.UNSUPPORTED_MEDIA_TYPE);
     }
 
 

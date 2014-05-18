@@ -31,7 +31,7 @@ public class ContextLoaderListener implements ServletContextListener {
     }
 
     public void contextInitialized(ServletContextEvent contextEvent) {
-
+        log.trace("Context initialization started");
         initiateApplicationConfigurationContext(contextEvent);
         new ServiceRepositoryInitiator().initiate();
 

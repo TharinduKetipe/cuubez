@@ -1,3 +1,17 @@
+/**
+ *	Copyright [2013] [www.cuubez.com]
+ *	Licensed under the Apache License, Version 2.0 (the "License");
+ *	you may not use this file except in compliance with the License.
+ *	You may obtain a copy of the License at
+ *
+ *	http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *	Unless required by applicable law or agreed to in writing, software
+ *	distributed under the License is distributed on an "AS IS" BASIS,
+ *	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *	See the License for the specific language governing permissions and
+ *	limitations under the License.
+ */
 package com.cuubez.core.resource;
 
 import com.cuubez.core.resource.metaData.ClassMetaData;
@@ -47,14 +61,11 @@ public class ResourceMetaDataScanner {
 	public static boolean isResource(Class<?> cls) {
         
 		if (Modifier.isInterface(cls.getModifiers()) || Modifier.isAbstract(cls.getModifiers())) {
-           // logger.trace("isResource() exit returning false because interface or abstract");
-
-            return false;
+           return false;
         }
 
         if (cls.getAnnotation(Path.class) != null) {
-          //  logger.trace("isResource() exit returning true");
-            return true;
+          return true;
         }
 
         Class<?> declaringClass = cls;
@@ -63,32 +74,18 @@ public class ResourceMetaDataScanner {
             // try a superclass
             Class<?> superclass = declaringClass.getSuperclass();
             if (superclass.getAnnotation(Path.class) != null) {
-               /* if (logger.isWarnEnabled()) {
-                    logger.warn(Messages
-                        .getMessage("rootResourceShouldBeAnnotatedDirectly", cls, superclass)); //$NON-NLS-1$
-                }
-                logger.trace("isResource() exit returning true because {} has @Path",
-                             superclass);*/
-                return true;
+              return true;
             }
 
             // try interfaces
             Class<?>[] interfaces = declaringClass.getInterfaces();
             for (Class<?> interfaceClass : interfaces) {
                 if (interfaceClass.getAnnotation(Path.class) != null) {
-                   /* if (logger.isWarnEnabled()) {
-                        logger.warn(Messages.getMessage("rootResourceShouldBeAnnotatedDirectly", //$NON-NLS-1$
-                                                        cls,
-                                                        interfaceClass));
-                    }
-                    logger.trace("isResource() exit returning true because {} has @Path",
-                                 interfaceClass);*/
-                    return true;
+                   return true;
                 }
             }
             declaringClass = declaringClass.getSuperclass();
         }
-      //  logger.trace("isResource() exit returning false");
         return false;
     }
 
@@ -98,7 +95,6 @@ public class ResourceMetaDataScanner {
         if (method.getAnnotation(GET.class) != null ||
                 method.getAnnotation(POST.class) != null || method.getAnnotation(PUT.class) != null || method.getAnnotation(DELETE.class) != null) {
 
-            //  logger.trace("isResource() exit returning true");
             return true;
         }
 
@@ -244,35 +240,6 @@ public class ResourceMetaDataScanner {
 		return false;
 	}
 	
-	/*private void scanPathParameter(MethodMetaData methodMetaData, Method method) {
-
-       Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-       Type[] paramTypes = getParamTypesFilterByXmlElementAnnotation(method);
-               boolean entityParamExists = false;
-               for (int pos = 0, limit = paramTypes.length; pos < limit; pos++) {
-                   Injectable fp =
-                       InjectableFactory.getInstance().create(paramTypes[pos],
-                                                              parameterAnnotations[pos],
-                                                              method,
-                                                              getMetadata().isEncoded() || methodMetadata
-                                                                  .isEncoded(),
-                                                              methodMetadata.getDefaultValue());
-                   if (fp.getParamType() == Injectable.ParamType.ENTITY) {
-                       if (entityParamExists) {
-                           // we are allowed to have only one entity parameter
-                           String methodName =
-                               method.getDeclaringClass().getName() + "." + method.getName(); //$NON-NLS-1$
-                           throw new IllegalStateException(Messages
-                               .getMessage("resourceMethodMoreThanOneEntityParam", methodName)); //$NON-NLS-1$
-                       }
-                       entityParamExists = true;
-                   }
-                   methodMetadata.getFormalParameters().add(fp);
-                   logger.trace("Adding formal parameter {}", fp);
-               }
-               logger.trace("parseMethodParameters(), exit");
-		
-	}   */
 
     private String normalizePath(String path) {
 
