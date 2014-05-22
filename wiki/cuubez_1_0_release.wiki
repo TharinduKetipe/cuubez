@@ -153,7 +153,7 @@ public class UserDetail {
 }
 }}}
 
- @Produces can be applied at both the class and the method levels and more than one media type may be declared in the same @Produces declaration.
+@Produces can be applied at both the class and the method levels and more than one media type may be declared in the same @Produces declaration.
 
  
 
