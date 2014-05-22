@@ -5,8 +5,7 @@ Cuubez|Rest is a project that enables development and consumption of REST style 
 =2. REST Architecture=
 For a detailed understanding of the REST architecture refer to the description by Roy Fielding in his dissertation, The Design of Network-based Software Architectures. In particular, Chapter 5 Representational State Transfer (REST) describes the principles of the architecture.
  
- 
-Figure 1: REST architecture 
+  Figure 1: REST architecture 
 
 http://www.cuubez.com/images/Drawing1.png
  
