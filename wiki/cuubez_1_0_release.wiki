@@ -244,7 +244,7 @@ public class School {
 When you put on your browser:
 
 {{{
-http://localhost:8080/ school-info /rest/members
+http://localhost:8080/school-info/rest/members
 }}}
 
 Outputs:
@@ -255,7 +255,7 @@ This is the list of our members:
 
 
 {{{
-http://localhost:8080/ school-info /rest/members/students
+http://localhost:8080/school-info/rest/members/students
 }}}
 Outputs:
 
@@ -265,7 +265,7 @@ This is the list of our students:
  
 
 {{{
-http://localhost:8080/ school-info /rest/members/teachers
+http://localhost:8080/school-info/rest/members/teachers
 }}}
 Outputs:
 {{{
@@ -314,7 +314,7 @@ This is all the info on : james
  
 
 {{{
-http://localhost:8080/ school-info /rest/members/lisa
+http://localhost:8080/school-info/rest/members/lisa
 }}}
 
 Outputs:
