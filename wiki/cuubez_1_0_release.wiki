@@ -1,9 +1,8 @@
-1. Introduction
+=1. Introduction=
 Cuubez|Rest is a project that enables development and consumption of REST style web services. The core server runtime is based on the unique way to the Cuubez . The project also introduces a client runtime which can leverage certain components of the server-side runtime. Cuubez|Rest will deliver component technology that can be easily integrated into a variety of environments. Simplicity is the major strength of the Cuubez|Rest.
  
  
- 
-2. REST Architecture
+=2. REST Architecture=
 For a detailed understanding of the REST architecture refer to the description by Roy Fielding in his dissertation, The Design of Network-based Software Architectures. In particular, Chapter 5 Representational State Transfer (REST) describes the principles of the architecture.
  
  
@@ -12,27 +11,27 @@ Figure 1: REST architecture
  
  Figure 1 demonstrates the design principles and components that comprise a REST web service. Cuubez reflects these design principles in the implementation of web services. 
 
-3. JAX-RS Compliancy
+=3. JAX-RS Compliancy=
 Cuubez 1.0 is a partial implementation of the JAX-RS v2.0 specification. 
 JAX-RS is a Java based API for RESTful Web Services is a Java programming language API that provides support in creating web services according to the Representational State Transfer (REST) architectural style. JAX-RS uses annotations, introduced in Java SE 5, to simplify the development and deployment of web service clients and endpoints.
  
-4. Framework Architecture
+=4. Framework Architecture=
 TBD
 
-5. JAX-RS Concepts
+=5. JAX-RS Concepts=
 
 TBD
 
-6. Cuubez Server
+=6. Cuubez Server=
 
 Cuubez server module is a partial implementation of the JAX-RS v 2.0 . Remaining features will release with future release. Majority of most required features released with server 1.0 release.  
 6.1 Configuration
 TBD
 
-6.2 Annotation 
+==6.2 Annotation== 
 
 
-@Path
+===@Path===
 @Path annotation specify the URL path on which this method will be invoked.
 {{{
 @Path("/users/{userId}")
@@ -48,7 +47,7 @@ public class UserDetail {
 }}}
  
 
-@GET
+===@GET===
 Annotate your Get request methods with @GET
 {{{
 @Path("/users/{userId}")
@@ -62,7 +61,7 @@ public class UserDetail {
 }
 }}}
 
-@POST
+===@POST===
 Annotate POST request methods with @POST.
 {{{
 @Path("/users/")
@@ -76,7 +75,7 @@ public class UserDetail {
 }
 }}} 
 
-@DELETE
+===@DELETE===
 Annotate DELETE request methods with @DELETE.
 {{{
 @Path("/users")
@@ -91,7 +90,7 @@ public class UserDetail {
  
 }}}
  
-@PUT
+===@PUT===
 Annotate PUT request methods with @PUT.
 {{{
 @Path("/users")
@@ -106,7 +105,7 @@ public class UserDetail {
 }
 }}} 
 
-@Consume
+===@Consume===
 The @Consumes annotation is used to specify the MIME media types a REST resource can consume.
 {{{
 @Path("/users/")
@@ -138,7 +137,7 @@ The addAddress method defaults to the MIME type of the @Consume annotation at th
  
 }}}
 
-@Produce
+===@Produce===
 @Produces annotation specifies the type of output this method (or web service) will produce.
 {{{
 @Path("/users/{userId}")
@@ -157,7 +156,7 @@ public class UserDetail {
 
  
 
-@PathParam
+===@PathParam===
 We can bind REST-style URL parameters to method arguments using @PathParam annotation as shown below.
 {{{
     @GET
@@ -169,7 +168,7 @@ We can bind REST-style URL parameters to method arguments using @PathParam annot
  }}}
 
  
-@QueryParam
+===@QueryParam===
 Request parameters in query string can be accessed using @QueryParam annotation as shown below.
 {{{
     @GET
@@ -180,7 +179,7 @@ Request parameters in query string can be accessed using @QueryParam annotation 
 }}} 
 
  
-@HeaderParam
+===@HeaderParam===
 The @HeaderParam annotation allows you to map a request HTTP header onto your method invocation.
 {{{
 @Path("/users/{userId}")
@@ -195,9 +194,9 @@ public class UserDetail {
 }
 }}}
 
-Resource Matching
+==6.3 Resource Matching==
  
-Normal URI Matching
+===Normal URI Matching===
 Imagine that you have a school-like database structure that has members, and members can be students and teachers. You want to make an REST API that will return a list of all members and then specifically the list of students and the list of teachers. Let’s see how you could do that:
  
 {{{ 
@@ -260,7 +259,7 @@ http://localhost:8080/ school-info /rest/members/teachers
 This is the list of our teachers:
  
 
-Parameterized URI Matching
+===Parameterized URI Matching===
 
 This works similarly to the normal URI matching, except this enables user input and the form of  the URI is not restricted to /students or/members. The user can put any form of URI he wants. Then the method can parse that URI and act accordingly. For example let’s say we want to list all information available  about a member and the client has to provide just a username:
 
@@ -305,6 +304,6 @@ This is all the info on : lisa
 
  
 
-Regular Expression URI Matching
+===Regular Expression URI Matching===
 
 Cuubez server 1.0 release is not support to regular expression URI matching
