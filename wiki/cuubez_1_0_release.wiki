@@ -18,15 +18,11 @@ JAX-RS is a Java based API for RESTful Web Services is a Java programming langua
 =4. Framework Architecture=
 TBD
 
-=5. JAX-RS Concepts=
-
-TBD
-
-=6. Cuubez Server=
+=5. Cuubez Server=
 
 Cuubez server module is a partial implementation of the JAX-RS v 2.0 . Remaining features will release with future release. Majority of most required features released with server 1.0 release.  
 
-==6.1 Configuration==
+==5.1 Configuration==
 
 The *ContextLoaderListner* context listener has to be deployed in order to create the registry for *cuubez* ,while the *ServiceInitiator*  servlet is used so that incoming requests are correctly routed to the appropriate services. We have configured the specific servlet, named “cuubez”, to intercept requests under the “/rest/*” path.  
 
@@ -63,7 +59,7 @@ Note that the value does not containing the trailing slash nor the wildcard.
 </web-app>
 }}}
 
-==6.2 Annotation== 
+==5.2 Annotation== 
 
 
 ===@Path===
@@ -229,7 +225,7 @@ public class UserDetail {
 }
 }}}
 
-==6.3 Resource Matching==
+==5.3 Resource Matching==
  
 ===Normal URI Matching===
 Imagine that you have a school-like database structure that has members, and members can be students and teachers. You want to make an REST API that will return a list of all members and then specifically the list of students and the list of teachers. Let’s see how you could do that:
