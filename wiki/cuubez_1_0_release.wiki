@@ -25,7 +25,8 @@ TBD
 =6. Cuubez Server=
 
 Cuubez server module is a partial implementation of the JAX-RS v 2.0 . Remaining features will release with future release. Majority of most required features released with server 1.0 release.  
-6.1 Configuration
+
+==6.1 Configuration==
 TBD
 
 ==6.2 Annotation== 
