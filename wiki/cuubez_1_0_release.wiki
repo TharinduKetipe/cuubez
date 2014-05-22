@@ -126,8 +126,8 @@ public class UserDetail {
 }
 }}}
 
-The addAddress method defaults to the MIME type of the @Consume annotation at the class level. The createUser method's @Consume annotation overrides the class-level @Consume setting, and specifies that the method can produce JSON rather than XML.
- More than one media type may be declared in the same @Produces declaration, for example:
+The addAddress method defaults to the MIME type of the @Consume annotation at the class level. The createUser method's @Consume annotation overrides the class-level @Consume setting, and specifies that the method can produce JSON rather than XML.More than one media type may be declared in the same @Consumes declaration, for example:
+
 {{{
     @POST
     @Consumes({MediaType.APPLICATION_JSON,   MediaType.APPLICATION_XML})
