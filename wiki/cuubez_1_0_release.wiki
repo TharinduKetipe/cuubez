@@ -242,21 +242,34 @@ public class School {
 
 When you put on your browser:
 
-{{{http://localhost:8080/ school-info /rest/members}}}
+{{{
+http://localhost:8080/ school-info /rest/members
+}}}
+
 Outputs:
 
-{{{This is the list of our members:}}}
+{{{
+This is the list of our members:
+}}}
 
 
-{{{http://localhost:8080/ school-info /rest/members/students}}}
- Outputs:
+{{{
+http://localhost:8080/ school-info /rest/members/students
+}}}
+Outputs:
 
-{{{This is the list of our students:}}}
+{{{
+This is the list of our students:
+}}}
  
 
-{{{http://localhost:8080/ school-info /rest/members/teachers}}}
- Outputs:
-{{{This is the list of our teachers:}}}
+{{{
+http://localhost:8080/ school-info /rest/members/teachers
+}}}
+Outputs:
+{{{
+This is the list of our teachers:
+}}}
  
 
 ===Parameterized URI Matching===
@@ -287,20 +300,27 @@ As you can see we define a Path Parameter using /{ parameter_name } syntax ( you
 When you put on your browser:
 
  
-
-{{{http://localhost:8080/school-info/rest/members/james}}}
+{{{
+http://localhost:8080/school-info/rest/members/james
+}}}
 
 Outputs:
 
-{{{This is all the info on : james}}}
+{{{
+This is all the info on : james
+}}}
 
  
 
-{{{http://localhost:8080/ school-info /rest/members/lisa}}}
+{{{
+http://localhost:8080/ school-info /rest/members/lisa
+}}}
 
 Outputs:
 
-{{{This is all the info on : lisa}}}
+{{{
+This is all the info on : lisa
+}}}
 
  
 
