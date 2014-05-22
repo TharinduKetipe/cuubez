@@ -8,6 +8,7 @@ For a detailed understanding of the REST architecture refer to the description b
  
 Figure 1: REST architecture 
 
+http://www.cuubez.com/images/Drawing1.png
  
  Figure 1 demonstrates the design principles and components that comprise a REST web service. Cuubez reflects these design principles in the implementation of web services. 
 
