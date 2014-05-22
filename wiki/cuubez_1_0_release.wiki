@@ -242,21 +242,21 @@ public class School {
 
 When you put on your browser:
 
-http://localhost:8080/ school-info /rest/members
+{{{http://localhost:8080/ school-info /rest/members}}}
 Outputs:
 
-This is the list of our members:
+{{{This is the list of our members:}}}
 
 
-http://localhost:8080/ school-info /rest/members/students
+{{{http://localhost:8080/ school-info /rest/members/students}}}
  Outputs:
 
-This is the list of our students:
+{{{This is the list of our students:}}}
  
 
-http://localhost:8080/ school-info /rest/members/teachers
+{{{http://localhost:8080/ school-info /rest/members/teachers}}}
  Outputs:
-This is the list of our teachers:
+{{{This is the list of our teachers:}}}
  
 
 ===Parameterized URI Matching===
@@ -264,8 +264,7 @@ This is the list of our teachers:
 This works similarly to the normal URI matching, except this enables user input and the form of  the URI is not restricted to /students or/members. The user can put any form of URI he wants. Then the method can parse that URI and act accordingly. For example let’s say we want to list all information available  about a member and the client has to provide just a username:
 
  
- 
-
+{{{
 @Path("/members")
 public class School {
 
@@ -281,6 +280,7 @@ public class School {
 	}	
 }
  
+}}}
 
 As you can see we define a Path Parameter using /{ parameter_name } syntax ( you can also just put { parameter_name } without the /). The Path Parameter can be parsed using @PathParam annotation, on the argument of getMemberInfo method. If parsed correctly, the value of the Path Parameter will be available to the method through the String username variable.
 
@@ -288,19 +288,19 @@ When you put on your browser:
 
  
 
-http://localhost:8080/school-info/rest/members/james
+{{{http://localhost:8080/school-info/rest/members/james}}}
 
 Outputs:
 
-This is all the info on : james
+{{{This is all the info on : james}}}
 
  
 
-http://localhost:8080/ school-info /rest/members/lisa
+{{{http://localhost:8080/ school-info /rest/members/lisa}}}
 
 Outputs:
 
-This is all the info on : lisa
+{{{This is all the info on : lisa}}}
 
  
 
