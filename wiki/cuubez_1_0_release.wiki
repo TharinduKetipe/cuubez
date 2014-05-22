@@ -156,7 +156,7 @@ public class UserDetail {
 
  
 
-===@PathParam===
+===@PathParam ===
 We can bind REST-style URL parameters to method arguments using @PathParam annotation as shown below.
 {{{
     @GET
@@ -168,7 +168,7 @@ We can bind REST-style URL parameters to method arguments using @PathParam annot
  }}}
 
  
-===@QueryParam===
+===@QueryParam ===
 Request parameters in query string can be accessed using @QueryParam annotation as shown below.
 {{{
     @GET
@@ -179,7 +179,7 @@ Request parameters in query string can be accessed using @QueryParam annotation 
 }}} 
 
  
-===@HeaderParam===
+===@HeaderParam ===
 The @HeaderParam annotation allows you to map a request HTTP header onto your method invocation.
 {{{
 @Path("/users/{userId}")
