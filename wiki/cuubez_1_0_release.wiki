@@ -1,13 +1,310 @@
-#summary One-sentence summary of this page.
+1. Introduction
+Cuubez|Rest is a project that enables development and consumption of REST style web services. The core server runtime is based on the unique way to the Cuubez . The project also introduces a client runtime which can leverage certain components of the server-side runtime. Cuubez|Rest will deliver component technology that can be easily integrated into a variety of environments. Simplicity is the major strength of the Cuubez|Rest.
+ 
+ 
+ 
+2. REST Architecture
+For a detailed understanding of the REST architecture refer to the description by Roy Fielding in his dissertation, The Design of Network-based Software Architectures. In particular, Chapter 5 Representational State Transfer (REST) describes the principles of the architecture.
+ 
+ 
+Figure 1: REST architecture 
 
-= Introduction =
+ 
+ Figure 1 demonstrates the design principles and components that comprise a REST web service. Cuubez reflects these design principles in the implementation of web services. 
 
-Add your content here.
+3. JAX-RS Compliancy
+Cuubez 1.0 is a partial implementation of the JAX-RS v2.0 specification. 
+JAX-RS is a Java based API for RESTful Web Services is a Java programming language API that provides support in creating web services according to the Representational State Transfer (REST) architectural style. JAX-RS uses annotations, introduced in Java SE 5, to simplify the development and deployment of web service clients and endpoints.
+ 
+4. Framework Architecture
+TBD
+
+5. JAX-RS Concepts
+
+TBD
+
+6. Cuubez Server
+
+Cuubez server module is a partial implementation of the JAX-RS v 2.0 . Remaining features will release with future release. Majority of most required features released with server 1.0 release.  
+6.1 Configuration
+TBD
+
+6.2 Annotation 
 
 
-= Details =
+@Path
+@Path annotation specify the URL path on which this method will be invoked.
+{{{
+@Path("/users/{userId}")
+public class UserDetail {
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+    @Path("/address")   
+    @Consumes(MediaType.APPLICATION_JSON)
+    @GET
+    public Address getUserAddress(@PathParam(value = "userId")String userId) {
+    }
+}
+
+}}}
+ 
+
+@GET
+Annotate your Get request methods with @GET
+{{{
+@Path("/users/{userId}")
+public class UserDetail {
+
+    @GET
+    @Path("/")   
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam(value = "userId")String userId) {
+    }
+}
+}}}
+
+@POST
+Annotate POST request methods with @POST.
+{{{
+@Path("/users/")
+public class UserDetail {
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createUser(User user) {
+
+    }
+}
+}}} 
+
+@DELETE
+Annotate DELETE request methods with @DELETE.
+{{{
+@Path("/users")
+public class UserDetail {
+
+    @DELETE
+    @Path("/{userId}")   
+    public void deleteUser(@PathParam(value = "userId")String userId) {
+
+    }
+}
+ 
+}}}
+ 
+@PUT
+Annotate PUT request methods with @PUT.
+{{{
+@Path("/users")
+public class UserDetail {
+
+    @PUT
+    @Path("/{userId}")   
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateUser(@PathParam(value = "userId")String id, User user) {
+
+    }
+}
+}}} 
+
+@Consume
+The @Consumes annotation is used to specify the MIME media types a REST resource can consume.
+{{{
+@Path("/users/")
+@Consumes(MediaType.APPLICATION_XML)
+public class UserDetail {
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createUser(User user) {
+
+    }
+
+    @POST
+    @Path("/{userId}/address")
+    public void addAddress(@PathParam(value = "userId")String userId, Address address) {
+    
+    }
+}
+}}}
+
+The addAddress method defaults to the MIME type of the @Consume annotation at the class level. The createUser method's @Consume annotation overrides the class-level @Consume setting, and specifies that the method can produce JSON rather than XML.
+ More than one media type may be declared in the same @Produces declaration, for example:
+{{{
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON,   MediaType.APPLICATION_XML})
+    public void createUser(User user) {
+
+    }
+ 
+}}}
+
+@Produce
+@Produces annotation specifies the type of output this method (or web service) will produce.
+{{{
+@Path("/users/{userId}")
+public class UserDetail {
+
+    @GET
+    @Path("/")   
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser() {
+
+    }
+}
+}}}
+
+ @Produces can be applied at both the class and the method levels and more than one media type may be declared in the same @Produces declaration.
+
+ 
+
+@PathParam
+We can bind REST-style URL parameters to method arguments using @PathParam annotation as shown below.
+{{{
+    @GET
+    @Path("/users/{userId}/address")   
+    @Produces(MediaType.APPLICATION_JSON)
+    public Address getUserAddress(@PathParam(value = "userId")String userId) {
+
+    }
+ }}}
+
+ 
+@QueryParam
+Request parameters in query string can be accessed using @QueryParam annotation as shown below.
+{{{
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public User searchUserDetails(@PathParam(value = "name")String name) {
+
+    }
+}}} 
+
+ 
+@HeaderParam
+The @HeaderParam annotation allows you to map a request HTTP header onto your method invocation.
+{{{
+@Path("/users/{userId}")
+public class UserDetail {
+
+    @GET
+    @Path("/")   
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@HeaderParam(value = "userName")String userName, @PathParam(value = "userId")String userId) {
+
+    }
+}
+}}}
+
+Resource Matching
+ 
+Normal URI Matching
+Imagine that you have a school-like database structure that has members, and members can be students and teachers. You want to make an REST API that will return a list of all members and then specifically the list of students and the list of teachers. Let’s see how you could do that:
+ 
+{{{ 
+@Path("/members")
+public class School {
+
+	@GET
+	public String getMembers() {
+
+		String output = " This is the list of our members:";
+
+		// . . . work to retrieve the list of members
+
+		return output;
+
+	}
+
+	@GET
+	@Path("/teachers")
+	public String getTeachers() {
+
+		String output = " This is the list of our teachers:";
+
+		// . . . work to retrieve the list of teachers
+
+		return output;
+
+	}
+
+	@GET
+	@Path("/students")
+	public String getStudents() {
+
+		String output = " This is the list of our students:";
+
+		// . . . work to retrieve the list of students
+
+		return output;
+	}
+}
+
+}}}
+
+When you put on your browser:
+
+http://localhost:8080/ school-info /rest/members
+Outputs:
+
+This is the list of our members:
+
+
+http://localhost:8080/ school-info /rest/members/students
+ Outputs:
+
+This is the list of our students:
+ 
+
+http://localhost:8080/ school-info /rest/members/teachers
+ Outputs:
+This is the list of our teachers:
+ 
+
+Parameterized URI Matching
+
+This works similarly to the normal URI matching, except this enables user input and the form of  the URI is not restricted to /students or/members. The user can put any form of URI he wants. Then the method can parse that URI and act accordingly. For example let’s say we want to list all information available  about a member and the client has to provide just a username:
+
+ 
+ 
+
+@Path("/members")
+public class School {
+
+	@GET
+	@Path("/{username}")
+	public String getMemberInfo( @PathParam("username") String username ) {
+
+		String output = " This is all the info on : " + username;
+
+		// . . . work to retrieve the info of {username}
+
+		return output;
+	}	
+}
+ 
+
+As you can see we define a Path Parameter using /{ parameter_name } syntax ( you can also just put { parameter_name } without the /). The Path Parameter can be parsed using @PathParam annotation, on the argument of getMemberInfo method. If parsed correctly, the value of the Path Parameter will be available to the method through the String username variable.
+
+When you put on your browser:
+
+ 
+
+http://localhost:8080/school-info/rest/members/james
+
+Outputs:
+
+This is all the info on : james
+
+ 
+
+http://localhost:8080/ school-info /rest/members/lisa
+
+Outputs:
+
+This is all the info on : lisa
+
+ 
+
+Regular Expression URI Matching
+
+Cuubez server 1.0 release is not support to regular expression URI matching
