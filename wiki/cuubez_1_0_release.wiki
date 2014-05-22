@@ -27,7 +27,41 @@ TBD
 Cuubez server module is a partial implementation of the JAX-RS v 2.0 . Remaining features will release with future release. Majority of most required features released with server 1.0 release.  
 
 ==6.1 Configuration==
-TBD
+
+The *ContextLoaderListner* context listener has to be deployed in order to create the registry for *cuubez* ,while the *ServiceInitiator*  servlet is used so that incoming requests are correctly routed to the appropriate services. We have configured the specific servlet, named “cuubez”, to intercept requests under the “/rest/*” path.  
+
+Note that the value does not containing the trailing slash nor the wildcard. 
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    
+<display-name>cuubez</display-name>
+
+<listener>
+ <listener-class>
+   com.cuubez.core.initiator.ContextLoaderListner
+ </listener-class>
+</listener>
+
+
+<servlet-mapping>
+ <servlet-name>cuubez</servlet-name>
+ <url-pattern>/rest</url-pattern>
+</servlet-mapping>
+
+<servlet>
+ <servlet-name>init</servlet-name>
+ <servlet-class>
+    com.cuubez.core.initiator.ServiceInitiator
+ </servlet-class>
+</servlet>
+    
+</web-app>
+}}}
 
 ==6.2 Annotation== 
 
