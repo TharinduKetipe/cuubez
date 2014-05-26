@@ -18,6 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.cuubez.core.context.MessageContext;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 import com.cuubez.core.exception.CuubezExceptionConstance;
@@ -49,10 +50,13 @@ public class ResourceInvokeHandler implements RequestHandler {
             validateArguments(selectedMethod, arguments);
             Object returnObject = selectedMethod.invoke(obj, arguments);
 
-            if (selectedMethod.getReturnType() != null && returnObject != null) {
+            if (selectedMethod.getReturnType().equals(Void.TYPE)) {
+
+                messageContext.getResponseContext().setResponseCode(HttpServletResponse.SC_NO_CONTENT);
+
+            } else if (returnObject != null) {
                 messageContext.getResponseContext().setReturnObject(returnObject);
                 messageContext.getResponseContext().setMediaType(populateResponseMediaType(selectedResourceMetaData.getSelectedMethodMetaData().getProduce(), messageContext.getRequestContext().getUrlContext().getMediaType()));
-
             }
 
 

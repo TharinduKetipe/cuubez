@@ -50,7 +50,7 @@ public class ResourceGenerator {
           UriTemplate uriTemplate = templateProcessor.compile(classMetaData);
           resource.setUriTemplate(uriTemplate);
 
-          resource.setSubResources(generateSubResource(resourceMetaDataScanner, clazz));
+          resource.setSubResources(generateSubResource(resourceMetaDataScanner, classMetaData));
 
       }
 
@@ -59,8 +59,9 @@ public class ResourceGenerator {
   }
 
 
-    private List<SubResource> generateSubResource(ResourceMetaDataScanner resourceMetaDataScanner, Class<?> clazz) {
+    private List<SubResource> generateSubResource(ResourceMetaDataScanner resourceMetaDataScanner, ClassMetaData classMetaData) {
 
+        Class<?> clazz = classMetaData.getClazz();
         Method[] methods = clazz.getDeclaredMethods();
 
         List<SubResource> subResources = new ArrayList<SubResource>();
@@ -71,6 +72,8 @@ public class ResourceGenerator {
                 MethodMetaData methodMetaData = resourceMetaDataScanner.scanMethods(clazz, method);
 
                 if (methodMetaData != null) {
+
+                    populateRootLevelValues(classMetaData, methodMetaData);
                     methodMetaData.setReturnType(method.getReturnType());
 
                     SubResource subResource = new SubResource();
@@ -89,5 +92,18 @@ public class ResourceGenerator {
         return subResources;
     }
 
+    private void populateRootLevelValues(ClassMetaData classMetaData, MethodMetaData methodMetaData) {
+
+        if(methodMetaData.getConsume() == null || methodMetaData.getConsume().length == 0) {
+
+            methodMetaData.setConsume(classMetaData.getConsume());
+
+        }
+
+        if(methodMetaData.getProduce() == null || methodMetaData.getProduce().length == 0) {
+            methodMetaData.setProduce(classMetaData.getProduce());
+        }
+
+    }
 
 }

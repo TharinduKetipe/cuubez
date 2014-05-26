@@ -12,19 +12,20 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.initiator;
+package com.cuubez.core.servlet;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.cuubez.core.initiator.ServiceRepositoryInitiator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.cuubez.core.context.ApplicationConfigurationContext;
 
-public class ContextLoaderListener implements ServletContextListener {
+public class BootstrapContextListener implements ServletContextListener {
 
-    private static Log log = LogFactory.getLog(ContextLoaderListener.class);
+    private static Log log = LogFactory.getLog(BootstrapContextListener.class);
 
     public void contextDestroyed(ServletContextEvent arg0) {
 

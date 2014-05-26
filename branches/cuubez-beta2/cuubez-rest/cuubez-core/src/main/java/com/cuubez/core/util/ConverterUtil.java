@@ -39,7 +39,13 @@ public class ConverterUtil {
 
     public static Object convert(String value, Class<?> destClass) {
         if ((value == null) || "".equals(value)) {
-            return value;
+
+            if(isNeedToUseDefaultValue(value, destClass)) {
+                value = "0";
+            } else {
+                return value;
+            }
+
         }
 
         if (destClass.isPrimitive()) {
@@ -65,6 +71,16 @@ public class ConverterUtil {
         }
 
         return value;
+    }
+
+    private static boolean isNeedToUseDefaultValue(String value, Class<?> destClass) {
+
+        if(destClass.isPrimitive() && !(destClass.equals(boolean.class) && destClass.equals(byte.class) && destClass.equals(char.class))) {
+            return true;
+        }
+
+        return false;
+
     }
 
 

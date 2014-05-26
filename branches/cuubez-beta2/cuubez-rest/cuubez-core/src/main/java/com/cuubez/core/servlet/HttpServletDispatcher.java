@@ -12,14 +12,16 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.initiator;
+package com.cuubez.core.servlet;
+
+import com.cuubez.core.initiator.ServletContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.HttpMethod;
 
 
-public class ServiceInitiator extends ServletContainer {
+public class HttpServletDispatcher extends ServletContainer {
 
 
     private static final long serialVersionUID = 5810807706716748267L;
