@@ -7,7 +7,7 @@
 
 
     <listener>
-        <listener-class>com.cuubez.core.initiator.ContextLoaderListener</listener-class>
+        <listener-class>com.cuubez.core.servlet.BootstrapContextListener</listener-class>
     </listener>
 
 
@@ -18,7 +18,7 @@
 
     <servlet>
      <servlet-name>init</servlet-name>
-     <servlet-class>com.cuubez.core.initiator.ServiceInitiator</servlet-class>
+     <servlet-class>com.cuubez.core.servlet.HttpServletDispatcher</servlet-class>
     </servlet>
 
 </web-app>

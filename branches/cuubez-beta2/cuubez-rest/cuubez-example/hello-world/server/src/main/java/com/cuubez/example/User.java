@@ -5,19 +5,19 @@ public class User {
 
     private String id;
     private String name;
-    private int age;
+    private Double age;
 
-    public User(String id, int age, String name) {
+    public User(String id, Double age, String name) {
         this.id = id;
         this.age = age;
         this.name = name;
     }
 
-    public int getAge() {
+    public double getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(double age) {
         this.age = age;
     }
 
