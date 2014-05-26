@@ -18,37 +18,32 @@ public class CuubezException extends Exception implements CuubezExceptionConstan
 
     private static final long serialVersionUID = 6889728891031940898L;
 
-    private String description;
+    private String message;
     private Throwable nestedThrowable = null;
-    private int exceptionCode;
 
-
-    public CuubezException(String description, int exceptionCode) {
+    public CuubezException(String message) {
         super();
-        this.description = description;
-        this.exceptionCode = exceptionCode;
+        this.message = message;
     }
 
-    public CuubezException(Throwable throwable, int exceptionCode) {
+    public CuubezException(Throwable throwable) {
         super();
         this.nestedThrowable = throwable;
-        this.exceptionCode = exceptionCode;
     }
 
-    public CuubezException(String description, Throwable throwable, int exceptionCode) {
+    public CuubezException(String description, Throwable throwable) {
         super();
-        this.description = description;
+        this.message = description;
         this.nestedThrowable = throwable;
-        this.exceptionCode = exceptionCode;
     }
 
-    public String getDescription() {
-        return description;
+    public String getMessage() {
+        return this.message;
     }
 
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 
@@ -61,12 +56,5 @@ public class CuubezException extends Exception implements CuubezExceptionConstan
         this.nestedThrowable = nestedThrowable;
     }
 
-    public int getExceptionCode() {
-        return exceptionCode;
-    }
-
-    public void setExceptionCode(int exceptionCode) {
-        this.exceptionCode = exceptionCode;
-    }
 
 }

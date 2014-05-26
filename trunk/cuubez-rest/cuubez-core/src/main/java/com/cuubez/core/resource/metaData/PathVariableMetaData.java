@@ -12,16 +12,32 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.exception;
+package com.cuubez.core.resource.metaData;
 
 
-public interface CuubezExceptionConstance {
+public class PathVariableMetaData {
 
-    public static final String RESOURCE_NOT_FOUND = "resource not found";
-    public static final String INVALID_URI = "invalid URI";
-    public static final String UNSUPPORTED_MEDIA_TYPE = "unsupported media type";
-    public static final String INVOCATION_EXCEPTION = "exception occurred while executing resource";
-    public static final String ILLEGAL_ARGUMENT_EXCEPTION = "illegal argument exception";
-    public static final String PARSING_EXCEPTION = "parsing exception";
+    private String name;
+    private String value;
 
+    public PathVariableMetaData(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

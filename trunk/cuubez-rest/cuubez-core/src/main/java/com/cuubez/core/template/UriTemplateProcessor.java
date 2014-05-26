@@ -12,16 +12,15 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.exception;
+package com.cuubez.core.template;
 
+import com.cuubez.core.resource.metaData.ClassMetaData;
+import com.cuubez.core.resource.metaData.MethodMetaData;
 
-public interface CuubezExceptionConstance {
+public abstract class UriTemplateProcessor {
 
-    public static final String RESOURCE_NOT_FOUND = "resource not found";
-    public static final String INVALID_URI = "invalid URI";
-    public static final String UNSUPPORTED_MEDIA_TYPE = "unsupported media type";
-    public static final String INVOCATION_EXCEPTION = "exception occurred while executing resource";
-    public static final String ILLEGAL_ARGUMENT_EXCEPTION = "illegal argument exception";
-    public static final String PARSING_EXCEPTION = "parsing exception";
+    public abstract UriTemplate compile(ClassMetaData classMetaData);
+
+    public abstract UriTemplate compile(MethodMetaData methodMetaData);
 
 }

@@ -15,35 +15,34 @@
 package com.cuubez.core.context;
 
 
-public class MessageContext extends Context {
+public class MessageContext {
 
-    private String content = null;
-    private MediaType mediaType = null;
-    private Object returnObject;
+    private RequestContext requestContext;
+    private ResponseContext responseContext;
+    private RequestConfigurationContext requestConfigurationContext;
 
-    public String getContent() {
-        return content;
+
+    public RequestContext getRequestContext() {
+        return requestContext;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setRequestContext(RequestContext requestContext) {
+        this.requestContext = requestContext;
     }
 
-    public MediaType getMediaType() {
-        return mediaType;
+    public ResponseContext getResponseContext() {
+        return responseContext;
     }
 
-    public void setMediaType(MediaType mediaType) {
-        this.mediaType = mediaType;
+    public void setResponseContext(ResponseContext responseContext) {
+        this.responseContext = responseContext;
     }
 
-    public Object getReturnObject() {
-        return returnObject;
+    public RequestConfigurationContext getRequestConfigurationContext() {
+        return requestConfigurationContext;
     }
 
-    public void setReturnObject(Object returnObject) {
-        this.returnObject = returnObject;
+    public void setRequestConfigurationContext(RequestConfigurationContext requestConfigurationContext) {
+        this.requestConfigurationContext = requestConfigurationContext;
     }
-
-
 }

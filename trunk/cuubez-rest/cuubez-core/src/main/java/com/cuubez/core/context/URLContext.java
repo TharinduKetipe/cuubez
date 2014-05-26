@@ -14,34 +14,25 @@
  */
 package com.cuubez.core.context;
 
+import com.cuubez.core.resource.metaData.HeaderVariableMetaData;
+import com.cuubez.core.resource.metaData.PathVariableMetaData;
+import com.cuubez.core.resource.metaData.QueryVariableMetaData;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class URLContext {
 
-    private String serviceUrl;
-    private String serviceName;
+    private String servletPath;
+    private String pathInfo;
+    private StringBuffer requestURL;
+    private String requestURI;
     private String serviceLocation;
-    private String httpMethods;
-    private List<Object> parameters;
-    private MediaType mediaType;
+    private String mediaType;
+    private List<QueryVariableMetaData> queryVariableMetaDataList;
+    private List<PathVariableMetaData> pathVariableMetaDataList;
+    private List<HeaderVariableMetaData> headerVariableMetaDataList;
 
-
-    public String getServiceUrl() {
-        return serviceUrl;
-    }
-
-    public void setServiceUrl(String serviceUrl) {
-        this.serviceUrl = serviceUrl;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
 
     public String getServiceLocation() {
         return serviceLocation;
@@ -51,32 +42,86 @@ public class URLContext {
         this.serviceLocation = serviceLocation;
     }
 
-    public List<Object> getParameters() {
-        return parameters;
-    }
-
-    public void addParameter(Object value) {
-        if (this.parameters == null) {
-            this.parameters = new ArrayList<Object>();
-        }
-
-        this.parameters.add(value);
-    }
-
-    public String getHttpMethods() {
-        return httpMethods;
-    }
-
-    public void setHttpMethods(String httpMethods) {
-        this.httpMethods = httpMethods;
-    }
-
-    public MediaType getMediaType() {
+    public String getMediaType() {
         return mediaType;
     }
 
-    public void setMediaType(MediaType mediaType) {
+    public void setMediaType(String mediaType) {
         this.mediaType = mediaType;
+    }
+
+    public String getPathInfo() {
+        return pathInfo;
+    }
+
+    public void setPathInfo(String pathInfo) {
+        this.pathInfo = pathInfo;
+    }
+
+    public String getRequestURI() {
+        return requestURI;
+    }
+
+    public void setRequestURI(String requestURI) {
+        this.requestURI = requestURI;
+    }
+
+    public StringBuffer getRequestURL() {
+        return requestURL;
+    }
+
+    public void setRequestURL(StringBuffer requestURL) {
+        this.requestURL = requestURL;
+    }
+
+    public String getServletPath() {
+        return servletPath;
+    }
+
+    public void setServletPath(String servletPath) {
+        this.servletPath = servletPath;
+    }
+
+    public List<QueryVariableMetaData> getQueryVariableMetaDataList() {
+        return queryVariableMetaDataList;
+    }
+
+    public void addQueryVariableMetaData(String name, String value) {
+
+        if(this.queryVariableMetaDataList == null) {
+            this.queryVariableMetaDataList = new ArrayList<QueryVariableMetaData>();
+        }
+
+        QueryVariableMetaData queryVariableMetaData = new QueryVariableMetaData(name, value);
+
+        this.queryVariableMetaDataList.add(queryVariableMetaData);
+    }
+
+    public void setQueryVariableMetaDataList(List<QueryVariableMetaData> queryVariableMetaDataList) {
+         this.queryVariableMetaDataList = queryVariableMetaDataList;
+    }
+
+    public List<HeaderVariableMetaData> getHeaderVariableMetaDataList() {
+        return headerVariableMetaDataList;
+    }
+
+    public void addHeaderVariableMetaData(String name, String value) {
+
+        if(this.headerVariableMetaDataList == null) {
+          this.headerVariableMetaDataList = new ArrayList<HeaderVariableMetaData>();
+        }
+
+        HeaderVariableMetaData headerVariableMetaData = new HeaderVariableMetaData(name, value);
+
+        this.headerVariableMetaDataList.add(headerVariableMetaData);
+    }
+
+    public List<PathVariableMetaData> getPathVariableMetaDataList() {
+        return pathVariableMetaDataList;
+    }
+
+    public void setPathVariableMetaDataList(List<PathVariableMetaData> pathVariableMetaDataList) {
+        this.pathVariableMetaDataList = pathVariableMetaDataList;
     }
 
 

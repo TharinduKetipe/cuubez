@@ -14,7 +14,7 @@
  */
 package com.cuubez.core.context;
 
-import com.cuubez.core.annotation.context.ServiceAnnotationMetaData;
+import javax.ws.rs.core.MediaType;
 
 public class ServiceContext {
 
@@ -22,7 +22,6 @@ public class ServiceContext {
     private Class<?> serviceClass = null;
     private String serviceName = null;
     private MediaType mediaType = null;
-    private ServiceAnnotationMetaData serviceAnnotationMetaData = null;
 
 
     public String getPackageName() {
@@ -55,14 +54,6 @@ public class ServiceContext {
 
     public void setMediaType(MediaType mediaType) {
         this.mediaType = mediaType;
-    }
-
-    public ServiceAnnotationMetaData getServiceAnnotationMetaData() {
-        return serviceAnnotationMetaData;
-    }
-
-    public ServiceAnnotationMetaData addServiceAnnotationMetaData(String annotationName, String serviceLocation) {
-        return this.serviceAnnotationMetaData = new ServiceAnnotationMetaData(annotationName, serviceLocation);
     }
 
 

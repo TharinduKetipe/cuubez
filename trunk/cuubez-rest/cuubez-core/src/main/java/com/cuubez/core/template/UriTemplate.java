@@ -12,16 +12,31 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.exception;
+package com.cuubez.core.template;
 
 
-public interface CuubezExceptionConstance {
+import com.cuubez.core.resource.metaData.PathMetaData;
+import java.util.regex.Pattern;
 
-    public static final String RESOURCE_NOT_FOUND = "resource not found";
-    public static final String INVALID_URI = "invalid URI";
-    public static final String UNSUPPORTED_MEDIA_TYPE = "unsupported media type";
-    public static final String INVOCATION_EXCEPTION = "exception occurred while executing resource";
-    public static final String ILLEGAL_ARGUMENT_EXCEPTION = "illegal argument exception";
-    public static final String PARSING_EXCEPTION = "parsing exception";
+public abstract class UriTemplate {
+
+    protected Pattern pattern = null;
+    protected PathMetaData pathMetaData;
+
+
+    public abstract PathMetaData match(String path);
+
+
+    public void setTemplate(String template) {
+        this.pattern = Pattern.compile(template);
+    }
+
+    public PathMetaData getPathMetaData() {
+        return pathMetaData;
+    }
+
+    public void setPathMetaData(PathMetaData pathMetaData) {
+        this.pathMetaData = pathMetaData;
+    }
 
 }
