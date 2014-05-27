@@ -466,12 +466,12 @@ public class UserDetail {
 
 }}}
 
-The *@Path* annotation at class level is used to specify the base URL of the Web service. Then you can assign a @Path annotation at method level to specify the single action you want to invoke.
+The *@Path* annotation at class level is used to specify the base URL of the Web service. Then you can assign a *@Path* annotation at method level to specify the single action you want to invoke.
 
 In this example, if you need to invoke the userDetail service, you have to use the following URL: (we suppose that the web application is named cuubez.war)
 
 {{{
-http://localhost:8080/cuubez/rest/user/id11001
+http://localhost:8080/cuubez/rest/users/id11001
 }}}
 
 would return: 
