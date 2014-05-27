@@ -416,26 +416,63 @@ In the first example, we will recall a RESTful Web service which returns a *User
 
 public class User {
     
+    private String id;
     private String name;
     private int age;
-    private String address;
+    
 
-    public User(String name, int age, String address) {
-        this.name = name;
+    public User(String id, String name, int age) {
+        this.name = id;
         this.age = age;
-        this.address = address;
+        this.name = name;
     }
 
-    public String getName() {return name;}
+    public String getId() {return id;}
 
     public int getAge() {return age;}
 
-    public String getAddress() {return address;}
+    public String getName() {return name;}
 
-    public void setName(String name) {this.name = name;}
+    public void setId(String id) {this.id = id;}
 
     public void setAge(int age) {this.age = age;}
 
-    public void setAddress(String address) {this.address = address;}
+    public void setName(String name) {this.name = name;}
+}
+}}}
+
+*REST service class :*
+
+{{{
+
+@Path("/users")
+public class UserDetail {
+
+    @GET
+    @Path("/{userId}")   
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam(value = "userId")String userId) {
+      User user = new User(userId, "jhone", 35);
+      return user;
+    }
+}
+
+}}}
+
+The *@Path* annotation at class level is used to specify the base URL of the Web service. Then you can assign a @Path annotation at method level to specify the single action you want to invoke.
+
+In this example, if you need to invoke the userDetail service, you have to use the following URL: (we suppose that the web application is named cuubez.war)
+
+{{{
+http://localhost:8080/cuubez/rest/user/id11001
+}}}
+
+would return: 
+
+{{{
+{
+"id":"id11001",
+ "name": "jhone",
+ "age": 35
 }
 }}}
