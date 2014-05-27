@@ -370,7 +370,14 @@ The first step is to download the latest cuubez stable release from:
 [http://www.cuubez.com/index.php/2014-05-20-11-01-54]
 
 === 6.1.2 Step 2: Add the following libraries to your Web application ===
-TBD
+{{{
+  com.thoughtworks.xstream
+  commons-logging
+  javax.servlet
+  javassist
+  javax.ws.rs
+  com.google.code.gson
+}}}
 
 === 6.1.3 Step 3: Define listeners and bootstrap classes ===
 
