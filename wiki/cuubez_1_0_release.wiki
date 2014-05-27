@@ -359,4 +359,83 @@ Outputs:
 
 ===Regular Expression URI Matching===
 
-Cuubez server 1.0 release is not support to regular expression URI matching
+Cuubez server 1.0 release is not support to regular expression URI matching.
+
+=6.Quick Start=
+
+==6.1 Installing Cuubez ==
+
+=== 6.1.1 Step 1: Download cuubez from the Repository ===
+The first step is to download the latest cuubez stable release from:
+[http://www.cuubez.com/index.php/2014-05-20-11-01-54]
+
+=== 6.1.2 Step 2: Add the following libraries to your Web application ===
+TBD
+
+=== 6.1.3 Step 3: Define listeners and bootstrap classes ===
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    
+<display-name>cuubez</display-name>
+
+<listener>
+ <listener-class>
+   com.cuubez.core.initiator.ContextLoaderListner
+ </listener-class>
+</listener>
+
+
+<servlet-mapping>
+ <servlet-name>cuubez</servlet-name>
+ <url-pattern>/rest</url-pattern>
+</servlet-mapping>
+
+<servlet>
+ <servlet-name>init</servlet-name>
+ <servlet-class>
+    com.cuubez.core.initiator.ServiceInitiator
+ </servlet-class>
+</servlet>
+    
+</web-app>
+}}}
+
+=== 6.1.4 Step 4: Create your first RESTful service ===
+
+In a REST based architecture everything is a resource. A resource is accessed via a common interface based on the HTTP standard methods (e.g., POST, GET, PUT or DELETE). Every resource should support the HTTP common operations. Resources are identified by global ID's (which are typically URIs).
+In the first example, we will recall a RESTful Web service which returns a *User* object when a certain path is request with an HTTP GET:
+
+*User object :*
+
+{{{
+
+public class User {
+    
+    private String name;
+    private int age;
+    private String address;
+
+    public User(String name, int age, String address) {
+        this.name = name;
+        this.age = age;
+        this.address = address;
+    }
+
+    public String getName() {return name;}
+
+    public int getAge() {return age;}
+
+    public String getAddress() {return address;}
+
+    public void setName(String name) {this.name = name;}
+
+    public void setAge(int age) {this.age = age;}
+
+    public void setAddress(String address) {this.address = address;}
+}
+}}}
