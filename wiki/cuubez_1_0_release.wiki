@@ -232,12 +232,13 @@ Imagine that you have a school-like database structure that has members, and mem
  
 {{{ 
 @Path("/members")
+@Produces(MediaType.APPLICATION_JSON)
 public class School {
 
 	@GET
-	public String getMembers() {
+	public Member getMember() {
 
-		String output = " This is the list of our members:";
+		Member output = new Member("This is the list of our members:");
 
 		// . . . work to retrieve the list of members
 
@@ -247,9 +248,9 @@ public class School {
 
 	@GET
 	@Path("/teachers")
-	public String getTeachers() {
+	public Teacher getTeachers() {
 
-		String output = " This is the list of our teachers:";
+		Teacher output = new Teacher("This is the list of our teachers:");
 
 		// . . . work to retrieve the list of teachers
 
@@ -259,9 +260,9 @@ public class School {
 
 	@GET
 	@Path("/students")
-	public String getStudents() {
+	public Student getStudents() {
 
-		String output = " This is the list of our students:";
+		Student output = new Student("This is the list of our students:");
 
 		// . . . work to retrieve the list of students
 
@@ -280,7 +281,7 @@ http://localhost:8080/school-info/rest/members
 Outputs:
 
 {{{
-This is the list of our members:
+{"description":"This is the list of our members:"}
 }}}
 
 
@@ -290,7 +291,7 @@ http://localhost:8080/school-info/rest/members/students
 Outputs:
 
 {{{
-This is the list of our students:
+{"description":"This is the list of our students:"}
 }}}
  
 
@@ -299,7 +300,7 @@ http://localhost:8080/school-info/rest/members/teachers
 }}}
 Outputs:
 {{{
-This is the list of our teachers:
+{"description":"This is the list of our teachers:"}
 }}}
  
 
@@ -314,9 +315,10 @@ public class School {
 
 	@GET
 	@Path("/{username}")
-	public String getMemberInfo( @PathParam("username") String username ) {
+        @Produces(MediaType.APPLICATION_JSON)
+	public Member getMemberInfo( @PathParam("username") String username ) {
 
-		String output = " This is all the info on : " + username;
+		Member output = new Member("This is all the info on : " + username);
 
 		// . . . work to retrieve the info of {username}
 
@@ -338,7 +340,7 @@ http://localhost:8080/school-info/rest/members/james
 Outputs:
 
 {{{
-This is all the info on : james
+{"description":"This is all the info on : james"}
 }}}
 
  
@@ -350,7 +352,7 @@ http://localhost:8080/school-info/rest/members/lisa
 Outputs:
 
 {{{
-This is all the info on : lisa
+{"description":"This is all the info on : lisa"}
 }}}
 
  
