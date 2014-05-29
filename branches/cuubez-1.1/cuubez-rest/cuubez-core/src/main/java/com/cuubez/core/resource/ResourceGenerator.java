@@ -59,7 +59,7 @@ public class ResourceGenerator {
   }
 
 
-    private List<SubResource> generateSubResource(ResourceMetaDataScanner resourceMetaDataScanner, ClassMetaData classMetaData) {
+  private List<SubResource> generateSubResource(ResourceMetaDataScanner resourceMetaDataScanner, ClassMetaData classMetaData) {
 
         Class<?> clazz = classMetaData.getClazz();
         Method[] methods = clazz.getDeclaredMethods();
@@ -92,7 +92,7 @@ public class ResourceGenerator {
         return subResources;
     }
 
-    private void populateRootLevelValues(ClassMetaData classMetaData, MethodMetaData methodMetaData) {
+  private void populateRootLevelValues(ClassMetaData classMetaData, MethodMetaData methodMetaData) {
 
         if(methodMetaData.getConsume() == null || methodMetaData.getConsume().length == 0) {
 
@@ -105,5 +105,17 @@ public class ResourceGenerator {
         }
 
     }
+
+  public InterceptorProvider generateInterceptorProvide(final Class<?> clazz) {
+
+      InterceptorProvider interceptorProvider = null;
+
+      if(ResourceMetaDataScanner.isProvider(clazz) && ResourceMetaDataScanner.isInterceptor(clazz)) {
+          interceptorProvider = new InterceptorProvider();
+          interceptorProvider.setClazz(clazz);
+      }
+
+    return interceptorProvider;
+  }
 
 }

@@ -16,6 +16,7 @@ package com.cuubez.core.initiator;
 
 
 import com.cuubez.core.context.ApplicationConfigurationContext;
+import com.cuubez.core.resource.InterceptorProvider;
 import com.cuubez.core.resource.ResourceGenerator;
 import com.cuubez.core.resource.ResourceRepository;
 import com.cuubez.core.resource.RootResource;
@@ -52,6 +53,12 @@ public class ServiceRepositoryInitiator {
 
                 if(rootResource != null) {
                     ResourceRepository.getInstance().addRootResource(rootResource);
+                }
+
+                InterceptorProvider interceptorProvider = resourceGenerator.generateInterceptorProvide(clazz);
+
+                if(interceptorProvider != null) {
+                    ResourceRepository.getInstance().addInterceptorProvider(interceptorProvider);
                 }
             }
         }

@@ -14,12 +14,14 @@
  */
 package com.cuubez.core.resource;
 
+import com.cuubez.core.Interceptor.Interceptor;
 import com.cuubez.core.resource.metaData.ClassMetaData;
 import com.cuubez.core.resource.metaData.MethodMetaData;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import javax.ws.rs.*;
+import javax.ws.rs.ext.Provider;
 
 public class ResourceMetaDataScanner {
 	
@@ -58,17 +60,17 @@ public class ResourceMetaDataScanner {
     }
 
 
-	public static boolean isResource(Class<?> cls) {
+	public static boolean isResource(Class<?> clazz) {
         
-		if (Modifier.isInterface(cls.getModifiers()) || Modifier.isAbstract(cls.getModifiers())) {
+		if (Modifier.isInterface(clazz.getModifiers()) || Modifier.isAbstract(clazz.getModifiers())) {
            return false;
         }
 
-        if (cls.getAnnotation(Path.class) != null) {
+        if (clazz.getAnnotation(Path.class) != null) {
           return true;
         }
 
-        Class<?> declaringClass = cls;
+        Class<?> declaringClass = clazz;
 
         while (!declaringClass.equals(Object.class)) {
             // try a superclass
@@ -102,6 +104,24 @@ public class ResourceMetaDataScanner {
 
     }
 
+    public static boolean isProvider(Class<?> clazz) {
+
+        if(clazz.getAnnotation(Provider.class) != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isInterceptor(Class<?> clazz) {
+
+        if(Interceptor.class.isAssignableFrom(clazz)) {
+            return true;
+        }
+
+        return false;
+
+    }
 
     private boolean scanPath(MethodMetaData methodMetaData, Method method) {
 

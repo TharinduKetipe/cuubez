@@ -29,7 +29,6 @@ public class ResponseTransformHandler implements ResponseHandler {
 
     private static Log log = LogFactory.getLog(ResponseTransformHandler.class);
 
-    @Override
     public void handleResponse(MessageContext messageContext) {
 
 

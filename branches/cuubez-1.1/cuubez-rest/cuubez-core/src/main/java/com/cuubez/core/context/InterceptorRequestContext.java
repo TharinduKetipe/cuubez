@@ -12,15 +12,8 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.handler;
+package com.cuubez.core.context;
 
 
-import com.cuubez.core.context.MessageContext;
-import com.cuubez.core.exception.CuubezException;
-
-public class URINormalizeHandler implements RequestHandler {
-
-    public void handleRequest(MessageContext messageContext) throws CuubezException {
-       //TODO implement
-    }
+public class InterceptorRequestContext {
 }

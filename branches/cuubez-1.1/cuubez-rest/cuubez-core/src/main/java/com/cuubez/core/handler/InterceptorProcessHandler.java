@@ -18,9 +18,10 @@ package com.cuubez.core.handler;
 import com.cuubez.core.context.MessageContext;
 import com.cuubez.core.exception.CuubezException;
 
-public class URINormalizeHandler implements RequestHandler {
+public class InterceptorProcessHandler implements RequestHandler {
 
     public void handleRequest(MessageContext messageContext) throws CuubezException {
-       //TODO implement
+
     }
+    
 }

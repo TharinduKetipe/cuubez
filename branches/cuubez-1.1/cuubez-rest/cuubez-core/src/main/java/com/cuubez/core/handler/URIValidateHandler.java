@@ -31,7 +31,6 @@ public class URIValidateHandler implements RequestHandler {
     private static String PATH_SEPARATOR = "/";
 
 
-    @Override
     public void handleRequest(MessageContext messageContext) throws CuubezException {
 
         log.trace("URI validation process started");

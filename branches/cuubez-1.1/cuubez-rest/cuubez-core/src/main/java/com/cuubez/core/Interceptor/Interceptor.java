@@ -12,15 +12,18 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.handler;
+
+package com.cuubez.core.Interceptor;
 
 
-import com.cuubez.core.context.MessageContext;
+import com.cuubez.core.context.InterceptorRequestContext;
+import com.cuubez.core.context.InterceptorResponseContext;
 import com.cuubez.core.exception.CuubezException;
 
-public class URINormalizeHandler implements RequestHandler {
+import javax.ws.rs.WebApplicationException;
 
-    public void handleRequest(MessageContext messageContext) throws CuubezException {
-       //TODO implement
-    }
+public interface Interceptor {
+
+    public InterceptorResponseContext process(final InterceptorRequestContext interceptorRequestContext)throws CuubezException, WebApplicationException;
+
 }

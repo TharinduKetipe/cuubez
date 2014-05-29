@@ -25,7 +25,6 @@ public class RequestContextInitiateHandler implements RequestHandler {
     private static Log log = LogFactory.getLog(RequestContextInitiateHandler.class);
 
 
-    @Override
     public void handleRequest(MessageContext messageContext) {
 
         log.trace("request context initialization started");
