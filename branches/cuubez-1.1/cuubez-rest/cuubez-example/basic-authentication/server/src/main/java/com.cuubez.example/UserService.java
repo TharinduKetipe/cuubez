@@ -14,25 +14,27 @@
  */
 package com.cuubez.example;
 
+import com.cuubez.core.annotation.security.DenyAll;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("/users/{userId}")
 @Produces(MediaType.APPLICATION_JSON)
-public class HelloWorld {
+public class UserService {
 
+    @DenyAll
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public User userGet(@HeaderParam(value="name")String name, @PathParam(value = "userId")String id, @QueryParam(value = "age")Double age) {
+    public com.cuubez.example.User userGet(@HeaderParam(value="name")String name, @PathParam(value = "userId")String id, @QueryParam(value = "age")Double age) {
 
-        User user = new User(id, age, name);
+        com.cuubez.example.User user = new com.cuubez.example.User(id, age, name);
         return user;
     }
 
     @Consumes(MediaType.APPLICATION_JSON)
     @POST
-    public void userPost(User user) {
+    public void userPost(com.cuubez.example.User user) {
         System.out.println("POST");
         System.out.println("Name =" + user.getName());
         System.out.println("Age =" + user.getAge());

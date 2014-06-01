@@ -186,7 +186,6 @@ public class ResourceMetaDataScanner {
 		return false;
 	}
 
-
     private boolean scanHttpMethod(MethodMetaData methodMetaData, Method method) {
 
         GET get = method.getAnnotation(GET.class);
@@ -233,7 +232,8 @@ public class ResourceMetaDataScanner {
 		
 		return false;
 	}
-	
+
+
 	private boolean scanConsume(MethodMetaData methodMetaData, Method method) {
 
 		Consumes consume = method.getAnnotation(Consumes.class);

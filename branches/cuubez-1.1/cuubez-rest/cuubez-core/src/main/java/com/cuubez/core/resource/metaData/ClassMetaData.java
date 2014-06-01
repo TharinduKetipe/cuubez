@@ -15,18 +15,19 @@
 package com.cuubez.core.resource.metaData;
 
 public class ClassMetaData {
-	
-	private String path;
-	private String[] consume;
-	private String[] produce;
+
+    private String path;
+    private String[] consume;
+    private String[] produce;
     private Class<?> clazz;
-	
-	public String getPath() {
-		return path;
-	}
-	public void setPath(String path) {
-		this.path = path;
-	}
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public String[] getConsume() {
         return consume;

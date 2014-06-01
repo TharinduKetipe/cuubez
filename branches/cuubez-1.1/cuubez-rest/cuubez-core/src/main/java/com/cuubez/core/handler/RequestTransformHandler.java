@@ -156,9 +156,7 @@ public class RequestTransformHandler implements RequestHandler {
     private boolean isNotSpecifyMediaType(String[] consume) {
 
         if (consume == null || consume.length == 0 || (consume.length == 1 && consume[0] == "*/*")) {
-
             return true;
-
         }
 
         return false;

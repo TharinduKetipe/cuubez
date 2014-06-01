@@ -36,6 +36,7 @@ public class ServletContainer extends HttpServlet {
             writeResponse(request, response, responseContext);
         } else {
            response.setStatus(responseContext.getResponseCode());
+           response.setContentType(responseContext.getMediaType());
         }
     }
 

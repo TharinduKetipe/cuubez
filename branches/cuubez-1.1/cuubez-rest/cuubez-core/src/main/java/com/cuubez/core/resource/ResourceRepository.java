@@ -55,6 +55,9 @@ public class ResourceRepository {
         this.interceptorProviders.add(providerResource);
     }
 
+    public List<InterceptorProvider> getInterceptorProviders() {
+        return interceptorProviders;
+    }
 
     public SelectedResourceMetaData findResource(String path, String httpMethod) throws CuubezException {
 

@@ -23,6 +23,7 @@ public class ResponseContext {
    private Object returnObject;
    private String mediaType;
    private int responseCode = HttpServletResponse.SC_OK; //Default set to success code
+   private String responseMessage;
 
 
     public String getContent() {
@@ -55,5 +56,13 @@ public class ResponseContext {
 
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
+    }
+
+    public String getResponseMessage() {
+        return responseMessage;
+    }
+
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
     }
 }

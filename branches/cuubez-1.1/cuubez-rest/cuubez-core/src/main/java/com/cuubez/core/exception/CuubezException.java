@@ -14,16 +14,25 @@
  */
 package com.cuubez.core.exception;
 
+import javax.servlet.http.HttpServletResponse;
+
 public class CuubezException extends Exception implements CuubezExceptionConstance {
 
     private static final long serialVersionUID = 6889728891031940898L;
 
     private String message;
     private Throwable nestedThrowable = null;
+    private int responseCode = 0;
 
     public CuubezException(String message) {
         super();
         this.message = message;
+    }
+
+    public CuubezException(String message, int code) {
+        super();
+        this.message = message;
+        this.responseCode = code;
     }
 
     public CuubezException(Throwable throwable) {
@@ -56,5 +65,7 @@ public class CuubezException extends Exception implements CuubezExceptionConstan
         this.nestedThrowable = nestedThrowable;
     }
 
-
+    public int getResponseCode() {
+        return responseCode;
+    }
 }

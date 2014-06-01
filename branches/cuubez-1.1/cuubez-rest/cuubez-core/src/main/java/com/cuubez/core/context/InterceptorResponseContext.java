@@ -16,4 +16,20 @@ package com.cuubez.core.context;
 
 
 public class InterceptorResponseContext {
+
+    String message;
+    int code;
+
+    public InterceptorResponseContext(String message, int code) {
+        this.message = message;
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public int getCode() {
+        return code;
+    }
 }

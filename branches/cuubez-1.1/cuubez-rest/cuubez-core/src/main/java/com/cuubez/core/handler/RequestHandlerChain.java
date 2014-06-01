@@ -43,6 +43,9 @@ public class RequestHandlerChain {
         ResourceSearchHandler resourceSearchHandler = new ResourceSearchHandler();
         resourceSearchHandler.handleRequest(messageContext);
 
+        InterceptorProcessHandler interceptorProcessHandler = new InterceptorProcessHandler();
+        interceptorProcessHandler.handleRequest(messageContext);
+
         InvocationParametersHandler invocationParametersHandler = new InvocationParametersHandler();
         invocationParametersHandler.handleRequest(messageContext);
 

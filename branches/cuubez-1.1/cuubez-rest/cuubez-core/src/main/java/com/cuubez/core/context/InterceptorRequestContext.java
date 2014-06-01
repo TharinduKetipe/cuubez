@@ -15,5 +15,68 @@
 package com.cuubez.core.context;
 
 
+import com.cuubez.core.util.AnnotationUtil;
+import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.List;
+
 public class InterceptorRequestContext {
+
+    private HttpServletRequest request;
+    private String httpMethod;
+    private Class<?> clazz;
+    private Method method;
+
+    public InterceptorRequestContext(HttpServletRequest request, String httpMethod, Class<?> clazz, Method method) {
+        this.request = request;
+        this.httpMethod = httpMethod;
+        this.clazz = clazz;
+        this.method = method;
+    }
+
+    public String getHeader(final String name) {
+        return request.getHeader(name);
+    }
+
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public List<Annotation> getAnnotations() {
+        return AnnotationUtil.getMethodLevelAnnotations(clazz, method);
+    }
+
+    public boolean isAnnotationContain(final Class<?> annotation) {
+
+        List<Annotation> annotations = AnnotationUtil.getMethodLevelAnnotations(clazz, method);
+
+        for (final Annotation ann: annotations) {
+
+            if(ann.annotationType().equals(annotation)) {
+                return  true;
+            }
+
+        }
+        return false;
+    }
+
+    public Annotation getAnnotation(final Class<?> annotation) {
+
+        List<Annotation> annotations = AnnotationUtil.getMethodLevelAnnotations(clazz, method);
+
+        for (final Annotation ann: annotations) {
+
+            if(ann.getClass().equals(annotation)) {
+                return  ann;
+            }
+
+        }
+        return null;
+
+    }
 }

@@ -12,18 +12,12 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
+package com.cuubez.core.annotation.security;
 
-package com.cuubez.core.Interceptor;
+import java.lang.annotation.*;
 
-
-import com.cuubez.core.context.InterceptorRequestContext;
-import com.cuubez.core.context.InterceptorResponseContext;
-import com.cuubez.core.exception.CuubezException;
-
-import javax.ws.rs.WebApplicationException;
-
-public interface Interceptor {
-
-    public InterceptorResponseContext process(final InterceptorRequestContext interceptorRequestContext);
-
+@Documented
+@Retention(value= RetentionPolicy.RUNTIME)
+@Target(value={ElementType.TYPE,ElementType.METHOD})
+public @interface DenyAll {
 }
