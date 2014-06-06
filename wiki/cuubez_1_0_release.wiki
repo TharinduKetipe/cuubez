@@ -369,6 +369,15 @@ Cuubez server 1.0 release is not support to regular expression URI matching.
 The first step is to download the latest cuubez stable release from:
 [http://www.cuubez.com/index.php/2014-05-20-11-01-54]
 
+*Maven repo *
+{{{
+<dependency>
+    <groupId>com.cuubez</groupId>
+    <artifactId>cuubez-core</artifactId>
+    <version>1.0.0</version>
+</dependency>
+}}}
+
 === 6.1.2 Step 2: Add the following libraries to your Web application ===
 {{{
   com.thoughtworks.xstream
