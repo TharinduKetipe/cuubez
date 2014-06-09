@@ -39,7 +39,7 @@ Note that the value does not containing the trailing slash nor the wildcard.
 
 <listener>
  <listener-class>
-   com.cuubez.core.initiator.ContextLoaderListner
+   com.cuubez.core.servlet.BootstrapContextListener
  </listener-class>
 </listener>
 
@@ -52,7 +52,7 @@ Note that the value does not containing the trailing slash nor the wildcard.
 <servlet>
  <servlet-name>init</servlet-name>
  <servlet-class>
-    com.cuubez.core.initiator.ServiceInitiator
+    com.cuubez.core.servlet.HttpServletDispatcher
  </servlet-class>
 </servlet>
     
@@ -401,7 +401,7 @@ The first step is to download the latest cuubez stable release from:
 
 <listener>
  <listener-class>
-   com.cuubez.core.initiator.ContextLoaderListner
+   com.cuubez.core.servlet.BootstrapContextListener
  </listener-class>
 </listener>
 
@@ -414,7 +414,7 @@ The first step is to download the latest cuubez stable release from:
 <servlet>
  <servlet-name>init</servlet-name>
  <servlet-class>
-    com.cuubez.core.initiator.ServiceInitiator
+    com.cuubez.core.servlet.HttpServletDispatcher
  </servlet-class>
 </servlet>
     
