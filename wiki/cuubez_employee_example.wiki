@@ -16,6 +16,8 @@ If you want to know what and how REST works, just search on Google, ton of avail
 === 1. Directory Structure===
 This is the final web project structure of this tutorial.
 
+http://cuubez.com/downloads/examples/employee_example/Screenshot1.png
+
 ===2. Standard Web Project===
 Create a standard Maven web project structure.
 {{{
@@ -101,3 +103,7 @@ In this example, web request from *projectURL/rest/employees* will match to *Emp
 And the *{empId}* from *projectURL/rest/employees/{empId}* will match to parameter annotated with @PathParam.
 
 _URL : http://localhost:8080/employee-example-1.0.0/rest/employees/eId-0001_
+
+http://cuubez.com/downloads/examples/employee_example/Screenshot2.png
+
+===Download this Cuubez Employee example - [http://cuubez.com/downloads/examples/employee_example/Employee-example.zip Employee-example.zip ]===
