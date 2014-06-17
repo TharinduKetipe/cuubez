@@ -379,6 +379,9 @@ The first step is to download the latest cuubez stable release from:
 }}}
 
 === 6.1.2 Step 2: Add the following libraries to your Web application ===
+
+*Note:* No need to add following libraries if you use maven dependency
+
 {{{
   com.thoughtworks.xstream
   commons-logging
