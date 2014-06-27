@@ -21,7 +21,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 public class DefaultXMLTransformer implements Transformer {
 
 
-    @Override
+
     public String marshal(Object object) {
 
         XStream xStream = new XStream(new DomDriver());
@@ -31,7 +31,7 @@ public class DefaultXMLTransformer implements Transformer {
     }
 
 
-    @Override
+
     public <T> T unMarshal(String rootNode, String content, Class<T> targetClass) {
         XStream xStream = new XStream(new DomDriver());
         xStream.alias(rootNode, targetClass);

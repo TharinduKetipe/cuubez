@@ -18,10 +18,11 @@ import com.cuubez.core.context.ResponseContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 public class HttpConnection implements Connection {
 
-    @Override
+
     public void write(HttpServletRequest request, HttpServletResponse response, ResponseContext responseContext) {
 
         String contentType = "Application/XML";
@@ -34,6 +35,7 @@ public class HttpConnection implements Connection {
         response.setStatus(responseContext.getResponseCode());
 
         String encoding = request.getHeader("Accept-Encoding");
+        populateHeaderValues(response, responseContext);
 
         if (encoding != null) {
 
@@ -51,6 +53,22 @@ public class HttpConnection implements Connection {
 
             Compressor compressor = new DefaultCompressor();
             compressor.compressAndWrite(response, responseContext);
+        }
+
+    }
+
+    private void populateHeaderValues(HttpServletResponse response, ResponseContext responseContext) {
+
+        Map<String, String> headerValues = responseContext.getHeaderValues();
+
+        if (headerValues != null) {
+
+            for (String name : headerValues.keySet()) {
+
+                response.addHeader(name, headerValues.get(name));
+            }
+
+
         }
 
     }

@@ -28,7 +28,6 @@ public class GzipCompressor implements Compressor {
 
     private static Log log = LogFactory.getLog(GzipCompressor.class);
 
-    @Override
     public void compressAndWrite(HttpServletResponse response, ResponseContext responseContext) {
 
         response.setHeader("Content-Encoding", "gzip");

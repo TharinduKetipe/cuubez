@@ -100,29 +100,20 @@ public class AnnotationUtil {
 
         if(method.getAnnotation(DenyAll.class) != null) {
             return method.getAnnotation(DenyAll.class);
-        }
-
-        if(method.getAnnotation(PermitAll.class) != null) {
+        }else if(method.getAnnotation(PermitAll.class) != null) {
             return method.getAnnotation(PermitAll.class);
-        }
-
-        if(method.getAnnotation(RolesAllowed.class) != null) {
+        }else if(method.getAnnotation(RolesAllowed.class) != null) {
             return method.getAnnotation(RolesAllowed.class);
-        }
-
-        if(clazz.getAnnotation(DenyAll.class) != null) {
+        }else if(clazz.getAnnotation(DenyAll.class) != null) {
             return clazz.getAnnotation(DenyAll.class);
-        }
-
-        if(clazz.getAnnotation(PermitAll.class) != null) {
+        }else if(clazz.getAnnotation(PermitAll.class) != null) {
             return clazz.getAnnotation(PermitAll.class);
-        }
-
-        if(clazz.getAnnotation(RolesAllowed.class) != null) {
+        }else if(clazz.getAnnotation(RolesAllowed.class) != null) {
             return clazz.getAnnotation(RolesAllowed.class);
-        }
+        }else {
 
-        return null;
+            return null;
+        }
 
     }
 }

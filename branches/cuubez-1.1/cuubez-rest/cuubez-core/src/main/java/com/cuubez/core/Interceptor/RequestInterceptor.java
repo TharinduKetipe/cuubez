@@ -18,11 +18,8 @@ package com.cuubez.core.Interceptor;
 
 import com.cuubez.core.context.InterceptorRequestContext;
 import com.cuubez.core.context.InterceptorResponseContext;
-import com.cuubez.core.exception.CuubezException;
 
-import javax.ws.rs.WebApplicationException;
-
-public interface Interceptor {
+public interface RequestInterceptor {
 
     public InterceptorResponseContext process(final InterceptorRequestContext interceptorRequestContext);
 

@@ -30,12 +30,12 @@ public class DefaultJSONTransformer implements Transformer {
                 .create();
     }
 
-    @Override
+
     public String marshal(Object object) {
         return gson.toJson(object);
     }
 
-    @Override
+
     public <T>T unMarshal(String rootNode, String content, Class<T> type) {
         return gson.fromJson((String) content, type);
     }

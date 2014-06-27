@@ -14,7 +14,7 @@
  */
 package com.cuubez.core.resource;
 
-import com.cuubez.core.Interceptor.Interceptor;
+import com.cuubez.core.Interceptor.RequestInterceptor;
 import com.cuubez.core.resource.metaData.ClassMetaData;
 import com.cuubez.core.resource.metaData.MethodMetaData;
 
@@ -115,7 +115,7 @@ public class ResourceMetaDataScanner {
 
     public static boolean isInterceptor(Class<?> clazz) {
 
-        if(Interceptor.class.isAssignableFrom(clazz)) {
+        if(RequestInterceptor.class.isAssignableFrom(clazz)) {
             return true;
         }
 

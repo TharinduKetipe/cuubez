@@ -71,7 +71,7 @@ public class InterceptorRequestContext {
 
         for (final Annotation ann: annotations) {
 
-            if(ann.getClass().equals(annotation)) {
+            if(ann.annotationType().equals(annotation)) {
                 return  ann;
             }
 
