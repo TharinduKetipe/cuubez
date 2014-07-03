@@ -17,12 +17,16 @@ package com.cuubez.core.handler;
 
 import com.cuubez.core.context.MessageContext;
 import com.cuubez.core.exception.CuubezException;
+import com.cuubez.core.util.ResponseCodeTransformUtil;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.CaseInsensitiveMap;
+import sun.security.provider.certpath.OCSPResponse;
 
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ResponseNormalizerHandler implements ResponseHandler {
@@ -86,15 +90,16 @@ public class ResponseNormalizerHandler implements ResponseHandler {
             populateCookies(messageContext, metadata);
             populateExpiresDate(messageContext, metadata);
             populateCacheControl(messageContext, metadata);
-            populateHeaders(messageContext, metadata);
             populateLanguage(messageContext, metadata);
             populateLastModified(messageContext, metadata);
             populateLocation(messageContext, metadata);
             populateType(messageContext, metadata);
-            populateSeeOther(messageContext, metadata);
-            populateTemporaryRedirect(messageContext, metadata);
-            populateNoContent(messageContext, metadata);
-            populateServerError(messageContext, metadata);
+            populateSeeOther(messageContext, metadata, response.getStatus());
+            populateTemporaryRedirect(messageContext, metadata, response.getStatus());
+            populateNoContent(messageContext, response);
+            populateServerError(messageContext, response);
+            populateHeaders(messageContext, metadata);
+
 
         }
 
@@ -104,92 +109,200 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
 
 
-    //return Response.ok().cacheControl(new CacheControl()).build(); //Cache-Control:
-    //return Response.ok().header("header-name", "header-value").build();  //header-name: header-value
-   // return Response.status(Response.Status.FORBIDDEN).language(new Locale("sinhala","srilanka")).build(); //Content-Language
-    //return Response.ok().lastModified(new Date()).build();//Last-Modified
-    //return Response.ok().location(new URI("www.cuubez.com")).build(); //error need to chk
-    //return Response.ok().type(MediaType.APPLICATION_JSON_TYPE).build(); //Return Json content type if producer is anything
-    //return Response.noContent().build(); //2-4 not content
-    //return Response.seeOther(new URI("http://www.cuubez.com")).build();   //error need to inversigate
-    //return Response.serverError().build(); //500 error response
-    // return Response.temporaryRedirect(new URI("http://www.cuubez.com")).build(); //redirect to the url need to investigate
-
-
     private void populateContentLocation(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
 
-        Object object = metadata.get("Content-Location");
+        Object object = metadata.getFirst(HttpHeaders.CONTENT_LOCATION);
 
         if(object != null) {
 
-           ArrayList<URI> uri = (ArrayList<URI>) object;
+            URI uri = (URI) object;
 
-            if(uri != null && uri.size() > 0) {
-                URI uriInfo = uri.get(0);
-                messageContext.getResponseContext().addHeaderValues("Content-Location", uriInfo.toString());
-            }
+            messageContext.getResponseContext().addHeaderValues(HttpHeaders.CONTENT_LOCATION, uri.toString());
 
         }
+
+        metadata.remove(HttpHeaders.CONTENT_LOCATION);
 
     }
 
     private void populateCookies(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
 
-        Object object = metadata.get("Set-Cookie");
+        Object object = metadata.getFirst(HttpHeaders.SET_COOKIE);
 
         if(object != null) {
 
-            ArrayList<NewCookie> newCookies = (ArrayList<NewCookie>) object;
-            NewCookie newCookie = newCookies.get(0);
-
-            if(newCookie != null) {
-                messageContext.getResponseContext().addHeaderValues("Set-Cookie", newCookie.getName() + "=" + newCookie.getValue() + ",Version=" + newCookie.getVersion());
-            }
+            NewCookie newCookie = (NewCookie) object;
+            messageContext.getResponseContext().addHeaderValues(HttpHeaders.SET_COOKIE, newCookie.getName() + "=" + newCookie.getValue() + ",Version=" + newCookie.getVersion());
 
         }
+
+        metadata.remove(HttpHeaders.SET_COOKIE);
 
     }
 
     private void populateExpiresDate(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
 
+        Object object = metadata.getFirst(HttpHeaders.EXPIRES);
+
+        if(object != null) {
+
+            String expiresDate = (String) object;
+            messageContext.getResponseContext().addHeaderValues(HttpHeaders.EXPIRES, expiresDate);
+
+        }
+
+        metadata.remove(HttpHeaders.EXPIRES);
+
     }
 
     private void populateCacheControl(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
 
-    }
-    private void populateHeaders(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
+        Object object = metadata.getFirst(HttpHeaders.CACHE_CONTROL);
+
+        if(object != null) {
+
+            CacheControl cacheControl = (CacheControl) object;
+            messageContext.getResponseContext().addHeaderValues(HttpHeaders.CACHE_CONTROL,cacheControl.toString());
+
+        }
+
+        metadata.remove(HttpHeaders.CACHE_CONTROL);
 
     }
+
 
     private void populateLanguage(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
 
+        Object object = metadata.getFirst(HttpHeaders.CONTENT_LANGUAGE);
+
+        if(object != null) {
+
+            Locale locale = (Locale) object;
+
+            String language = locale.getLanguage();
+            String country = locale.getCountry();
+
+                if(language != null && !language.isEmpty() && country != null && !country.isEmpty()) {
+
+                    String contentLanguage = locale.getLanguage() + "-" + locale.getCountry();
+                    messageContext.getResponseContext().addHeaderValues(HttpHeaders.CONTENT_LANGUAGE, contentLanguage.toLowerCase());
+                }
+
+        }
+
+        metadata.remove(HttpHeaders.CONTENT_LANGUAGE);
     }
 
     private void populateLastModified(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
+
+        Object object = metadata.getFirst(HttpHeaders.LAST_MODIFIED);
+
+        if(object != null) {
+
+            String lastModified = (String) object;
+
+            if(lastModified != null && !lastModified.isEmpty()) {
+                messageContext.getResponseContext().addHeaderValues(HttpHeaders.LAST_MODIFIED, lastModified);
+            }
+
+        }
+
+        metadata.remove(HttpHeaders.LAST_MODIFIED);
 
     }
 
     private void populateLocation(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
 
+        Object object = metadata.getFirst(HttpHeaders.LOCATION);
+
+        if(object != null) {
+
+            URI location = (URI) object;
+            messageContext.getResponseContext().addHeaderValues(HttpHeaders.LOCATION, location.toString());
+        }
+
+        metadata.remove(HttpHeaders.LOCATION);
+
     }
 
     private void populateType(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
 
+        Object object = metadata.getFirst(HttpHeaders.CONTENT_TYPE);
+
+        if(object != null) {
+
+            MediaType mediaType = (MediaType) object;
+            messageContext.getResponseContext().setMediaType(mediaType.toString());
+
+        }
+
+        metadata.remove(HttpHeaders.CONTENT_TYPE);
+
     }
 
-    private void populateSeeOther(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
+    private void populateSeeOther(MessageContext messageContext, MultivaluedMap<String, Object> metadata, int status) {
+
+        if(status == HttpServletResponse.SC_SEE_OTHER) {
+            Object object = metadata.getFirst(HttpHeaders.LOCATION);
+
+            if (object != null) {
+
+                URI location = (URI) object;
+
+                messageContext.getResponseContext().addHeaderValues(HttpHeaders.LOCATION, location.toString());
+
+            }
+            messageContext.getResponseContext().setResponseCode(HttpServletResponse.SC_SEE_OTHER);
+        }
+
+        metadata.remove(HttpHeaders.LOCATION);
 
     }
 
-    private void populateTemporaryRedirect(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
+    private void populateTemporaryRedirect(MessageContext messageContext, MultivaluedMap<String, Object> metadata, int status) {
+
+        if(status == HttpServletResponse.SC_TEMPORARY_REDIRECT) {
+            Object object = metadata.getFirst(HttpHeaders.LOCATION);
+
+            if (object != null) {
+
+                URI location = (URI) object;
+
+                messageContext.getResponseContext().addHeaderValues(HttpHeaders.LOCATION, location.toString());
+
+            }
+            messageContext.getResponseContext().setResponseCode(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+        }
+
+        metadata.remove(HttpHeaders.LOCATION);
 
     }
 
-    private void populateNoContent(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
-
+    private void populateNoContent(MessageContext messageContext, Response response) {
+        if(HttpServletResponse.SC_NO_CONTENT == response.getStatus()) {
+            messageContext.getResponseContext().setResponseCode(HttpServletResponse.SC_NO_CONTENT);
+        }
     }
 
-    private void populateServerError(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
+    private void populateServerError(MessageContext messageContext, Response response) {
+        if(HttpServletResponse.SC_INTERNAL_SERVER_ERROR == response.getStatus()) {
+            messageContext.getResponseContext().setResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    private void populateHeaders(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
+
+        for(String key : metadata.keySet()) {
+
+            Object value = metadata.get(key);
+
+            if(value != null) {
+                List<Object> values = (List<Object>)value;
+                messageContext.getResponseContext().addHeaderValues(key, String.valueOf(values.get(0)));
+            }
+
+        }
 
     }
 

@@ -35,7 +35,6 @@ public class HttpConnection implements Connection {
         response.setStatus(responseContext.getResponseCode());
 
         String encoding = request.getHeader("Accept-Encoding");
-        populateHeaderValues(response, responseContext);
 
         if (encoding != null) {
 
@@ -57,20 +56,5 @@ public class HttpConnection implements Connection {
 
     }
 
-    private void populateHeaderValues(HttpServletResponse response, ResponseContext responseContext) {
-
-        Map<String, String> headerValues = responseContext.getHeaderValues();
-
-        if (headerValues != null) {
-
-            for (String name : headerValues.keySet()) {
-
-                response.addHeader(name, headerValues.get(name));
-            }
-
-
-        }
-
-    }
 
 }

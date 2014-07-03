@@ -23,6 +23,8 @@ import com.cuubez.core.exception.CuubezExceptionConstance;
 import com.cuubez.core.io.Connection;
 import com.cuubez.core.io.HttpConnection;
 
+import java.util.Map;
+
 
 public class ServletContainer extends HttpServlet {
 
@@ -32,11 +34,13 @@ public class ServletContainer extends HttpServlet {
 
         ResponseContext responseContext = new ServiceProcessInitiator().process(request, httpMethod);
 
+        populateHeaderValues(response,responseContext);
+
         if (responseContext != null && responseContext.getContent() != null && responseContext.getResponseCode() == HttpServletResponse.SC_OK) {
             writeResponse(request, response, responseContext);
         } else {
            response.setStatus(responseContext.getResponseCode());
-           response.setContentType(responseContext.getMediaType());
+          // response.setContentType(responseContext.getMediaType());
         }
     }
 
@@ -45,6 +49,24 @@ public class ServletContainer extends HttpServlet {
 
         Connection connection = new HttpConnection();
         connection.write(request, response, responseContext);
+    }
+
+
+
+    private void populateHeaderValues(HttpServletResponse response, ResponseContext responseContext) {
+
+        Map<String, String> headerValues = responseContext.getHeaderValues();
+
+        if (headerValues != null) {
+
+            for (String name : headerValues.keySet()) {
+
+                response.addHeader(name, headerValues.get(name));
+            }
+
+
+        }
+
     }
 
 
