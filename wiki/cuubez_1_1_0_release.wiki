@@ -399,11 +399,16 @@ Outputs:
 
 Cuubez server 1.0 release is not support to regular expression URI matching.
 
-=6.Quick Start=
+== 6.Security ==
 
-==6.1 Installing Cuubez ==
+===6.1 Basic Authentication
 
-=== 6.1.1 Step 1: Download cuubez from the Repository ===
+
+=7.Quick Start=
+
+==7.1 Installing Cuubez ==
+
+=== 7.1.1 Step 1: Download cuubez from the Repository ===
 The first step is to download the latest cuubez stable release from:
 [http://www.cuubez.com/index.php/2014-05-20-11-01-54]
 
@@ -416,7 +421,7 @@ The first step is to download the latest cuubez stable release from:
 </dependency>
 }}}
 
-=== 6.1.2 Step 2: Add the following libraries to your Web application ===
+=== 7.1.2 Step 2: Add the following libraries to your Web application ===
 
 *Note:* No need to add following libraries if you use maven dependency
 
@@ -429,7 +434,7 @@ The first step is to download the latest cuubez stable release from:
   com.google.code.gson
 }}}
 
-=== 6.1.3 Step 3: Define listeners and bootstrap classes ===
+=== 7.1.3 Step 3: Define listeners and bootstrap classes ===
 
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
@@ -462,7 +467,7 @@ The first step is to download the latest cuubez stable release from:
 </web-app>
 }}}
 
-=== 6.1.4 Step 4: Create your first RESTful service ===
+=== 7.1.4 Step 4: Create your first RESTful service ===
 
 In a REST based architecture everything is a resource. A resource is accessed via a common interface based on the HTTP standard methods (e.g., POST, GET, PUT or DELETE). Every resource should support the HTTP common operations. Resources are identified by global ID's (which are typically URIs).
 In the first example, we will recall a RESTful Web service which returns a *User* object when a certain path is request with an HTTP GET:
