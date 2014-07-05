@@ -226,6 +226,43 @@ public class UserDetail {
 }
 }}}
 
+===@PermitAll ===
+Specifies that all security roles are allowed to invoke the specified method(s). This logic should be define inside the Authentication filter.
+
+{{{
+    @PermitAll
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchUserDetails(@PathParam(value = "name")String name) {
+
+    }
+}}} 
+
+===@RolesAllowed===
+Specifies the list of roles permitted to access method(s). This logic should be define inside the Authentication filter.
+
+{{{
+    @RolesAllowed("ADMIN")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchUserDetails(@PathParam(value = "name")String name) {
+
+    }
+}}}
+
+===@DenyAll===
+Specifies that no security roles are allowed to invoke the specified method(s).  This logic should be define inside the Authentication filter.
+
+{{{
+    @DenyAll
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchUserDetails(@PathParam(value = "name")String name) {
+
+    }
+}}}
+
+
 ==5.3 Resource Matching==
  
 ===Normal URI Matching===
