@@ -16,6 +16,8 @@ package com.cuubez.core.context;
 
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResponseContext {
 
@@ -23,6 +25,9 @@ public class ResponseContext {
    private Object returnObject;
    private String mediaType;
    private int responseCode = HttpServletResponse.SC_OK; //Default set to success code
+   private String responseMessage;
+   private boolean needToTransform = true;
+   private Map<String, String> headerValues;
 
 
     public String getContent() {
@@ -55,5 +60,33 @@ public class ResponseContext {
 
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
+    }
+
+    public String getResponseMessage() {
+        return responseMessage;
+    }
+
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
+    }
+
+    public boolean isNeedToTransform() {
+        return needToTransform;
+    }
+
+    public void setNeedToTransform(boolean needToTransform) {
+        this.needToTransform = needToTransform;
+    }
+
+    public Map<String, String> getHeaderValues() {
+        return headerValues;
+    }
+
+    public void addHeaderValues(final String headerName, final String headerValue) {
+        if(this.headerValues == null) {
+            this.headerValues = new HashMap<String, String>();
+        }
+
+        this.headerValues.put(headerName, headerValue);
     }
 }

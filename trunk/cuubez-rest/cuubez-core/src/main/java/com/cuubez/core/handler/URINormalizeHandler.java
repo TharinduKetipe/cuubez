@@ -20,7 +20,6 @@ import com.cuubez.core.exception.CuubezException;
 
 public class URINormalizeHandler implements RequestHandler {
 
-    @Override
     public void handleRequest(MessageContext messageContext) throws CuubezException {
        //TODO implement
     }

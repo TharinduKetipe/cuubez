@@ -15,9 +15,11 @@
 package com.cuubez.core.transform;
 
 
+import com.cuubez.core.exception.CuubezException;
+
 public interface Transformer {
 
-    public String marshal(Object object);
+    public String marshal(Object object) throws CuubezException;
 
-    public <T> T unMarshal(String rootNode, String content, Class<T> type);
+    public <T> T unMarshal(String rootNode, String content, Class<T> type)throws CuubezException;
 }

@@ -36,7 +36,6 @@ public class RequestTransformHandler implements RequestHandler {
     private static Log log = LogFactory.getLog(RequestTransformHandler.class);
 
 
-    @Override
     public void handleRequest(MessageContext messageContext) throws CuubezException {
 
         if(MediaType.APPLICATION_XML.equals(getConsumeType(messageContext))) {
@@ -157,9 +156,7 @@ public class RequestTransformHandler implements RequestHandler {
     private boolean isNotSpecifyMediaType(String[] consume) {
 
         if (consume == null || consume.length == 0 || (consume.length == 1 && consume[0] == "*/*")) {
-
             return true;
-
         }
 
         return false;

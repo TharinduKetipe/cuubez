@@ -12,11 +12,12 @@
  *	See the License for the specific language governing permissions and
  *	limitations under the License.
  */
-package com.cuubez.core.util;
+package com.cuubez.core.annotation.security;
 
+import java.lang.annotation.*;
 
-public class JSONTransformerUtil {
-
-
-
+@Documented
+@Retention(value= RetentionPolicy.RUNTIME)
+@Target(value={ElementType.TYPE,ElementType.METHOD})
+public @interface DenyAll {
 }

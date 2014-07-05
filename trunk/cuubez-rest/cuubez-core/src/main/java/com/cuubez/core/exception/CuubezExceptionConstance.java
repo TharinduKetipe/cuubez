@@ -23,5 +23,6 @@ public interface CuubezExceptionConstance {
     public static final String INVOCATION_EXCEPTION = "exception occurred while executing resource";
     public static final String ILLEGAL_ARGUMENT_EXCEPTION = "illegal argument exception";
     public static final String PARSING_EXCEPTION = "parsing exception";
+    public static final String UNSUPPORTED_CONSUMER_TYPE = "Unsupported consumer type";
 
 }

@@ -16,10 +16,14 @@ package com.cuubez.core.handler;
 
 
 import com.cuubez.core.context.MessageContext;
+import com.cuubez.core.exception.CuubezException;
 
 public class ResponseHandlerChain {
 
-    public void doChain(MessageContext messageContext) {
+    public void doChain(MessageContext messageContext) throws CuubezException {
+
+        ResponseNormalizerHandler responseNormalizerHandler = new ResponseNormalizerHandler();
+        responseNormalizerHandler.handleResponse(messageContext);
 
         ResponseTransformHandler resourceTransformHandler = new ResponseTransformHandler();
         resourceTransformHandler.handleResponse(messageContext);

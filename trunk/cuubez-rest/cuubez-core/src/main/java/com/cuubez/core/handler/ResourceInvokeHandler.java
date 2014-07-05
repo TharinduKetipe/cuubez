@@ -35,7 +35,6 @@ public class ResourceInvokeHandler implements RequestHandler {
     private static Log log = LogFactory.getLog(ResourceInvokeHandler.class);
 
 
-    @Override
     public void handleRequest(MessageContext messageContext) throws CuubezException {
 
         SelectedResourceMetaData selectedResourceMetaData = messageContext.getRequestContext().getSelectedResource();
@@ -80,6 +79,7 @@ public class ResourceInvokeHandler implements RequestHandler {
     }
 
     private boolean validateArguments(java.lang.reflect.Method selectedMethod, Object[] arguments) {
+
         return true; //TODO need to implement
     }
 

@@ -14,26 +14,28 @@
  */
 package com.cuubez.core.resource;
 
+import com.cuubez.core.Interceptor.RequestInterceptor;
 import com.cuubez.core.resource.metaData.ClassMetaData;
 import com.cuubez.core.resource.metaData.MethodMetaData;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import javax.ws.rs.*;
+import javax.ws.rs.ext.Provider;
 
 public class ResourceMetaDataScanner {
-	
-	public ClassMetaData scanClass(Class<?> clazz) {
+
+    public ClassMetaData scanClass(Class<?> clazz) {
 
         ClassMetaData classMetaData = new ClassMetaData();
-		
-		scanPath(clazz, classMetaData);
+
+        scanPath(clazz, classMetaData);
         scanConsume(clazz, classMetaData);
-		scanProduce(clazz, classMetaData);
+        scanProduce(clazz, classMetaData);
         classMetaData.setClazz(clazz);
         return classMetaData;
-		
-	}
+
+    }
 
 
     public MethodMetaData scanMethods(Class<?> clazz, Method method) {
@@ -58,30 +60,30 @@ public class ResourceMetaDataScanner {
     }
 
 
-	public static boolean isResource(Class<?> cls) {
-        
-		if (Modifier.isInterface(cls.getModifiers()) || Modifier.isAbstract(cls.getModifiers())) {
-           return false;
+    public static boolean isResource(Class<?> clazz) {
+
+        if (Modifier.isInterface(clazz.getModifiers()) || Modifier.isAbstract(clazz.getModifiers())) {
+            return false;
         }
 
-        if (cls.getAnnotation(Path.class) != null) {
-          return true;
+        if (clazz.getAnnotation(Path.class) != null) {
+            return true;
         }
 
-        Class<?> declaringClass = cls;
+        Class<?> declaringClass = clazz;
 
         while (!declaringClass.equals(Object.class)) {
             // try a superclass
             Class<?> superclass = declaringClass.getSuperclass();
             if (superclass.getAnnotation(Path.class) != null) {
-              return true;
+                return true;
             }
 
             // try interfaces
             Class<?>[] interfaces = declaringClass.getInterfaces();
             for (Class<?> interfaceClass : interfaces) {
                 if (interfaceClass.getAnnotation(Path.class) != null) {
-                   return true;
+                    return true;
                 }
             }
             declaringClass = declaringClass.getSuperclass();
@@ -102,6 +104,24 @@ public class ResourceMetaDataScanner {
 
     }
 
+    public static boolean isProvider(Class<?> clazz) {
+
+        if (clazz.getAnnotation(Provider.class) != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isInterceptor(Class<?> clazz) {
+
+        if (RequestInterceptor.class.isAssignableFrom(clazz)) {
+            return true;
+        }
+
+        return false;
+
+    }
 
     private boolean scanPath(MethodMetaData methodMetaData, Method method) {
 
@@ -117,55 +137,54 @@ public class ResourceMetaDataScanner {
 
     private boolean scanPath(Class<?> clazz, ClassMetaData classMetaData) {
 
-		Path path = clazz.getAnnotation(Path.class);
+        Path path = clazz.getAnnotation(Path.class);
 
-		if (path != null) {
+        if (path != null) {
             classMetaData.setPath(normalizePath(path.value()));
-			return true;
-		}
-		
-		if (!clazz.equals(Object.class)) {
-			
-			Class<?> superClass = clazz.getSuperclass();
-			Path superClassPath = superClass.getAnnotation(Path.class);
-			
-			if(superClassPath != null) {
+            return true;
+        }
+
+        if (!clazz.equals(Object.class)) {
+
+            Class<?> superClass = clazz.getSuperclass();
+            Path superClassPath = superClass.getAnnotation(Path.class);
+
+            if (superClassPath != null) {
                 classMetaData.setPath(normalizePath(superClassPath.value()));
-				return true;
-			}
-			
-			Class<?>[] interfaces = clazz.getInterfaces();
-			
-			for(Class<?> intface : interfaces) {
-				
-				Path interfacePath = intface.getAnnotation(Path.class);
-				
-				if(interfacePath != null) {
-					
+                return true;
+            }
+
+            Class<?>[] interfaces = clazz.getInterfaces();
+
+            for (Class<?> intface : interfaces) {
+
+                Path interfacePath = intface.getAnnotation(Path.class);
+
+                if (interfacePath != null) {
+
                     classMetaData.setPath(normalizePath(interfacePath.value()));
-					return true;
-					
-				}
-			}
-			
-		}
+                    return true;
 
-		return false;
-	}
-	
-	private boolean scanProduce(MethodMetaData methodMetaData, Method method) {
+                }
+            }
 
-		Produces produce = method.getAnnotation(Produces.class);
+        }
 
-		if (produce != null) {
-			methodMetaData.setProduce(produce.value());
+        return false;
+    }
 
-			return true;
-		}
+    private boolean scanProduce(MethodMetaData methodMetaData, Method method) {
 
-		return false;
-	}
+        Produces produce = method.getAnnotation(Produces.class);
 
+        if (produce != null) {
+            methodMetaData.setProduce(produce.value());
+
+            return true;
+        }
+
+        return false;
+    }
 
     private boolean scanHttpMethod(MethodMetaData methodMetaData, Method method) {
 
@@ -202,53 +221,53 @@ public class ResourceMetaDataScanner {
 
 
     private boolean scanProduce(Class<?> clazz, ClassMetaData classMetaData) {
-		
-		Produces produce = clazz.getAnnotation(Produces.class);
-		
-		if(produce != null) {
+
+        Produces produce = clazz.getAnnotation(Produces.class);
+
+        if (produce != null) {
             classMetaData.setProduce(produce.value());
-			
-			return true;
-		}
-		
-		return false;
-	}
-	
-	private boolean scanConsume(MethodMetaData methodMetaData, Method method) {
 
-		Consumes consume = method.getAnnotation(Consumes.class);
+            return true;
+        }
 
-		if (consume != null) {
-			methodMetaData.setConsume(consume.value());
+        return false;
+    }
 
-			return true;
-		}
 
-		return false;
-	}
-	
-	private boolean scanConsume(Class<?> clazz, ClassMetaData classMetaData) {
+    private boolean scanConsume(MethodMetaData methodMetaData, Method method) {
 
-		Consumes consume = clazz.getAnnotation(Consumes.class);
+        Consumes consume = method.getAnnotation(Consumes.class);
 
-		if (consume != null) {
+        if (consume != null) {
+            methodMetaData.setConsume(consume.value());
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean scanConsume(Class<?> clazz, ClassMetaData classMetaData) {
+
+        Consumes consume = clazz.getAnnotation(Consumes.class);
+
+        if (consume != null) {
             classMetaData.setConsume(consume.value());
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
-	
+        return false;
+    }
+
 
     private String normalizePath(String path) {
 
-        if(!path.startsWith("/")) {
+        if (!path.startsWith("/")) {
             path = "/".concat(path);
         }
 
         return path;
 
     }
-	 
+
 }

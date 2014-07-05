@@ -16,8 +16,10 @@ package com.cuubez.core.handler;
 
 
 import com.cuubez.core.context.MessageContext;
+import com.cuubez.core.exception.CuubezException;
 import com.cuubez.core.transform.Transformer;
 import com.cuubez.core.transform.json.DefaultJSONTransformer;
+import com.cuubez.core.transform.text.DefaultTextTransformer;
 import com.cuubez.core.transform.xml.DefaultXMLTransformer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,21 +31,36 @@ public class ResponseTransformHandler implements ResponseHandler {
 
     private static Log log = LogFactory.getLog(ResponseTransformHandler.class);
 
-    @Override
-    public void handleResponse(MessageContext messageContext) {
+    public void handleResponse(MessageContext messageContext) throws CuubezException {
 
 
-        if (MediaType.APPLICATION_XML.equals(messageContext.getResponseContext().getMediaType())) {
+        if(!messageContext.getResponseContext().isNeedToTransform()) {
+
+            String responseContent = "";
+            if(messageContext.getResponseContext().getReturnObject() != null) {
+                responseContent = messageContext.getResponseContext().getReturnObject().toString();
+            }
+
+           messageContext.getResponseContext().setContent(responseContent);
+
+        } else if (MediaType.APPLICATION_XML.equals(messageContext.getResponseContext().getMediaType()) && messageContext.getResponseContext().isNeedToTransform()) {
 
             log.trace("response transformation[XML] started");
             Transformer transformer = new DefaultXMLTransformer();
             String output = transformer.marshal(messageContext.getResponseContext().getReturnObject());
             messageContext.getResponseContext().setContent(output);
 
-        } else if (MediaType.APPLICATION_JSON.equals(messageContext.getResponseContext().getMediaType())) {
+        } else if (MediaType.APPLICATION_JSON.equals(messageContext.getResponseContext().getMediaType()) && messageContext.getResponseContext().isNeedToTransform()) {
 
             log.trace("response transformation[JSON] started");
             Transformer transformer = new DefaultJSONTransformer();
+            String output = transformer.marshal(messageContext.getResponseContext().getReturnObject());
+            messageContext.getResponseContext().setContent(output);
+
+        } else if (MediaType.TEXT_PLAIN.equals(messageContext.getResponseContext().getMediaType()) && messageContext.getResponseContext().isNeedToTransform()) {
+
+            log.trace("response transformation[Text] started");
+            Transformer transformer = new DefaultTextTransformer();
             String output = transformer.marshal(messageContext.getResponseContext().getReturnObject());
             messageContext.getResponseContext().setContent(output);
 

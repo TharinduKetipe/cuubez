@@ -24,19 +24,29 @@ public class ResponseCodeTransformUtil {
 
     public static void transform(MessageContext messageContext, CuubezException e) {
 
-        int errorCode;
+        int responseCode;
+        String responseMessage;
 
-        if(e.getMessage().equals(CuubezExceptionConstance.RESOURCE_NOT_FOUND)) {
-            errorCode = HttpServletResponse.SC_NOT_FOUND;
+        if(e.getResponseCode() != 0) {
+            responseCode = e.getResponseCode();
+            responseMessage = e.getMessage();
+
+        } else if(e.getMessage().equals(CuubezExceptionConstance.RESOURCE_NOT_FOUND)) {
+            responseCode = HttpServletResponse.SC_NOT_FOUND;
+            responseMessage = e.getMessage();
         } else if(e.getMessage().equals(CuubezExceptionConstance.INVALID_URI) ||  e.getMessage().equals(CuubezExceptionConstance.ILLEGAL_ARGUMENT_EXCEPTION)){
-            errorCode = HttpServletResponse.SC_BAD_REQUEST;
+            responseCode = HttpServletResponse.SC_BAD_REQUEST;
+            responseMessage = e.getMessage();
         } else if(e.getMessage().equals(CuubezExceptionConstance.UNSUPPORTED_MEDIA_TYPE)) {
-            errorCode = HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
+            responseCode = HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
+            responseMessage = e.getMessage();
         } else {
-            errorCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+            responseCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+            responseMessage = e.getMessage();
         }
 
-        messageContext.getResponseContext().setResponseCode(errorCode);
+        messageContext.getResponseContext().setResponseCode(responseCode);
+        messageContext.getResponseContext().setResponseMessage(responseMessage);
 
     }
 }

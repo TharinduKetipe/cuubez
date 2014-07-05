@@ -34,7 +34,7 @@ public class InvocationParametersHandler implements RequestHandler{
 
     private static Log log = LogFactory.getLog(InvocationParametersHandler.class);
 
-    @Override
+
     public void handleRequest(MessageContext messageContext) throws CuubezException {
 
         SelectedResourceMetaData selectedResourceMetaData = messageContext.getRequestContext().getSelectedResource();

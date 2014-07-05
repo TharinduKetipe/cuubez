@@ -20,7 +20,7 @@ import com.cuubez.core.resource.metaData.SelectedResourceMetaData;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResourceRepository {
@@ -28,6 +28,7 @@ public class ResourceRepository {
     private static Log log = LogFactory.getLog(ResourceRepository.class);
 
     private List<RootResource> rootResources = null;
+    private List<InterceptorProvider> interceptorProviders = null;
     private static ResourceRepository instance = null;
 	
 	public static ResourceRepository getInstance() {
@@ -42,13 +43,21 @@ public class ResourceRepository {
 
 	private ResourceRepository() {
 		super();
-		this.rootResources = new LinkedList<RootResource>();
+		this.rootResources = new ArrayList<RootResource>();
+        this.interceptorProviders = new ArrayList<InterceptorProvider>();
 	}
 
 	public void addRootResource(RootResource rootResource) {
         this.rootResources.add(rootResource);
 	}
 
+    public void addInterceptorProvider(InterceptorProvider providerResource) {
+        this.interceptorProviders.add(providerResource);
+    }
+
+    public List<InterceptorProvider> getInterceptorProviders() {
+        return interceptorProviders;
+    }
 
     public SelectedResourceMetaData findResource(String path, String httpMethod) throws CuubezException {
 

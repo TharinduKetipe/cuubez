@@ -18,10 +18,11 @@ import com.cuubez.core.context.ResponseContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 public class HttpConnection implements Connection {
 
-    @Override
+
     public void write(HttpServletRequest request, HttpServletResponse response, ResponseContext responseContext) {
 
         String contentType = "Application/XML";
@@ -54,5 +55,6 @@ public class HttpConnection implements Connection {
         }
 
     }
+
 
 }

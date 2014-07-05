@@ -29,34 +29,34 @@ import java.util.List;
 public class ResourceGenerator {
 
 
-  public RootResource generateResource(Class<?> clazz) {
+    public RootResource generateResource(Class<?> clazz) {
 
-      RootResource resource = null;
+        RootResource resource = null;
 
-      if(ResourceMetaDataScanner.isResource(clazz)){
+        if (ResourceMetaDataScanner.isResource(clazz)) {
 
-          resource = new RootResource();
+            resource = new RootResource();
 
-          ResourceMetaDataScanner resourceMetaDataScanner = new ResourceMetaDataScanner();
-          ClassMetaData classMetaData = resourceMetaDataScanner.scanClass(clazz);
+            ResourceMetaDataScanner resourceMetaDataScanner = new ResourceMetaDataScanner();
+            ClassMetaData classMetaData = resourceMetaDataScanner.scanClass(clazz);
 
-          if(classMetaData == null) {
-            return null;
-          }
+            if (classMetaData == null) {
+                return null;
+            }
 
-          resource.setClassMetaData(classMetaData);
+            resource.setClassMetaData(classMetaData);
 
-          UriTemplateProcessor templateProcessor = new JaxRsUriTemplateProcessor();
-          UriTemplate uriTemplate = templateProcessor.compile(classMetaData);
-          resource.setUriTemplate(uriTemplate);
+            UriTemplateProcessor templateProcessor = new JaxRsUriTemplateProcessor();
+            UriTemplate uriTemplate = templateProcessor.compile(classMetaData);
+            resource.setUriTemplate(uriTemplate);
 
-          resource.setSubResources(generateSubResource(resourceMetaDataScanner, classMetaData));
+            resource.setSubResources(generateSubResource(resourceMetaDataScanner, classMetaData));
 
-      }
+        }
 
-      return resource;
+        return resource;
 
-  }
+    }
 
 
     private List<SubResource> generateSubResource(ResourceMetaDataScanner resourceMetaDataScanner, ClassMetaData classMetaData) {
@@ -94,16 +94,26 @@ public class ResourceGenerator {
 
     private void populateRootLevelValues(ClassMetaData classMetaData, MethodMetaData methodMetaData) {
 
-        if(methodMetaData.getConsume() == null || methodMetaData.getConsume().length == 0) {
-
+        if (methodMetaData.getConsume() == null || methodMetaData.getConsume().length == 0) {
             methodMetaData.setConsume(classMetaData.getConsume());
-
         }
 
-        if(methodMetaData.getProduce() == null || methodMetaData.getProduce().length == 0) {
+        if (methodMetaData.getProduce() == null || methodMetaData.getProduce().length == 0) {
             methodMetaData.setProduce(classMetaData.getProduce());
         }
 
+    }
+
+    public InterceptorProvider generateInterceptorProvide(final Class<?> clazz) {
+
+        InterceptorProvider interceptorProvider = null;
+
+        if (ResourceMetaDataScanner.isProvider(clazz) && ResourceMetaDataScanner.isInterceptor(clazz)) {
+            interceptorProvider = new InterceptorProvider();
+            interceptorProvider.setClazz(clazz);
+        }
+
+        return interceptorProvider;
     }
 
 }

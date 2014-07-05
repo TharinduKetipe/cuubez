@@ -24,7 +24,6 @@ public class ResourceSearchHandler implements RequestHandler {
 
     private static Log log = LogFactory.getLog(ResourceSearchHandler.class);
 
-   @Override
     public void handleRequest(MessageContext messageContext) throws CuubezException {
 
         log.trace("resource search started");

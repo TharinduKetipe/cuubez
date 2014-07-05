@@ -27,7 +27,7 @@ public class DefaultCompressor implements Compressor {
 
     private static Log log = LogFactory.getLog(DefaultCompressor.class);
 
-    @Override
+
     public void compressAndWrite(HttpServletResponse response, ResponseContext responseContext) {
 
         PrintWriter out = null;
