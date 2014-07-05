@@ -2,13 +2,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.cuubez</groupId>
+        <artifactId>cuubez-rest</artifactId>
+        <version>1.1.0</version>
+    </parent>
+
     <name>cuubez-example</name>
     <description>
         Cuubez RESTful web services framework examples
     </description>
     <groupId>com.cuubez</groupId>
-    <artifactId>example</artifactId>
-    <version>1.1</version>
+    <artifactId>cuubez-example</artifactId>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
 
     <url>http://www.cuubez.com</url>

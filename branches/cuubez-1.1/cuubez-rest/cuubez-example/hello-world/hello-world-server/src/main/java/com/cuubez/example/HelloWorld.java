@@ -17,36 +17,19 @@ package com.cuubez.example;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URISyntaxException;
 
 @Path("/users/{userId}")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(MediaType.TEXT_PLAIN)
 public class HelloWorld {
 
     @GET
-    @Produces(MediaType.APPLICATION_XML)
-    public User userGet(@HeaderParam(value="name")String name, @PathParam(value = "userId")String id, @QueryParam(value = "age")Double age) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response userGet(@PathParam(value = "userId") String id) throws URISyntaxException {
 
-        User user = new User(id, age, name);
-        return user;
-    }
-
-    @Consumes(MediaType.APPLICATION_JSON)
-    @POST
-    public void userPost(User user) {
-        System.out.println("POST");
-        System.out.println("Name =" + user.getName());
-        System.out.println("Age =" + user.getAge());
+        return Response.ok().entity("Hello World!!!!  [" + id + "]").build();
 
     }
 
-    @PUT
-    public void userPut() {
-        System.out.println("PUT");
-
-    }
-
-    @DELETE
-    public void userDelete() {
-        System.out.println("DELETE");
-    }
 }

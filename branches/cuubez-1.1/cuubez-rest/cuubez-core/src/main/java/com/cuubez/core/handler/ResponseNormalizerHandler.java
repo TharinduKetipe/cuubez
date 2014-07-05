@@ -40,7 +40,7 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
     private void populateResponseObjectValues(MessageContext messageContext) {
 
-        if(messageContext.getResponseContext().getReturnObject() != null && messageContext.getResponseContext().getReturnObject() instanceof Response) {
+        if (messageContext.getResponseContext().getReturnObject() != null && messageContext.getResponseContext().getReturnObject() instanceof Response) {
 
             Response response = (Response) messageContext.getResponseContext().getReturnObject();
             int responseCode = response.getStatus();
@@ -48,13 +48,13 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
             Object entity = response.getEntity();
 
-            if(entity == null) {
+            if (entity == null) {
                 entity = "";
             }
             messageContext.getResponseContext().setReturnObject(entity);
 
 
-            if(isVariable(entity)) {
+            if (isVariable(entity)) {
                 messageContext.getResponseContext().setNeedToTransform(false);
             }
 
@@ -66,11 +66,11 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
     private boolean isVariable(Object object) {
 
-        if(object == null) {
+        if (object == null) {
             return false;
         }
 
-        if(object.getClass().equals(String.class) || object.getClass().equals(Integer.class) || object.getClass().equals(Double.class) ||
+        if (object.getClass().equals(String.class) || object.getClass().equals(Integer.class) || object.getClass().equals(Double.class) ||
                 object.getClass().equals(Short.class) || object.getClass().equals(Long.class) || object.getClass().equals(Float.class) ||
                 object.getClass().equals(Boolean.class) || object.getClass().equals(Character.class)) {
             return true;
@@ -84,7 +84,7 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
         MultivaluedMap<String, Object> metadata = response.getMetadata();
 
-        if(metadata != null && metadata.size() > 0) {
+        if (metadata != null && metadata.size() > 0) {
 
             populateContentLocation(messageContext, metadata);
             populateCookies(messageContext, metadata);
@@ -104,16 +104,14 @@ public class ResponseNormalizerHandler implements ResponseHandler {
         }
 
 
-
     }
-
 
 
     private void populateContentLocation(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
 
         Object object = metadata.getFirst(HttpHeaders.CONTENT_LOCATION);
 
-        if(object != null) {
+        if (object != null) {
 
             URI uri = (URI) object;
 
@@ -129,7 +127,7 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
         Object object = metadata.getFirst(HttpHeaders.SET_COOKIE);
 
-        if(object != null) {
+        if (object != null) {
 
             NewCookie newCookie = (NewCookie) object;
             messageContext.getResponseContext().addHeaderValues(HttpHeaders.SET_COOKIE, newCookie.getName() + "=" + newCookie.getValue() + ",Version=" + newCookie.getVersion());
@@ -144,7 +142,7 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
         Object object = metadata.getFirst(HttpHeaders.EXPIRES);
 
-        if(object != null) {
+        if (object != null) {
 
             String expiresDate = (String) object;
             messageContext.getResponseContext().addHeaderValues(HttpHeaders.EXPIRES, expiresDate);
@@ -159,10 +157,10 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
         Object object = metadata.getFirst(HttpHeaders.CACHE_CONTROL);
 
-        if(object != null) {
+        if (object != null) {
 
             CacheControl cacheControl = (CacheControl) object;
-            messageContext.getResponseContext().addHeaderValues(HttpHeaders.CACHE_CONTROL,cacheControl.toString());
+            messageContext.getResponseContext().addHeaderValues(HttpHeaders.CACHE_CONTROL, cacheControl.toString());
 
         }
 
@@ -175,18 +173,18 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
         Object object = metadata.getFirst(HttpHeaders.CONTENT_LANGUAGE);
 
-        if(object != null) {
+        if (object != null) {
 
             Locale locale = (Locale) object;
 
             String language = locale.getLanguage();
             String country = locale.getCountry();
 
-                if(language != null && !language.isEmpty() && country != null && !country.isEmpty()) {
+            if (language != null && !language.isEmpty() && country != null && !country.isEmpty()) {
 
-                    String contentLanguage = locale.getLanguage() + "-" + locale.getCountry();
-                    messageContext.getResponseContext().addHeaderValues(HttpHeaders.CONTENT_LANGUAGE, contentLanguage.toLowerCase());
-                }
+                String contentLanguage = locale.getLanguage() + "-" + locale.getCountry();
+                messageContext.getResponseContext().addHeaderValues(HttpHeaders.CONTENT_LANGUAGE, contentLanguage.toLowerCase());
+            }
 
         }
 
@@ -197,11 +195,11 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
         Object object = metadata.getFirst(HttpHeaders.LAST_MODIFIED);
 
-        if(object != null) {
+        if (object != null) {
 
             String lastModified = (String) object;
 
-            if(lastModified != null && !lastModified.isEmpty()) {
+            if (lastModified != null && !lastModified.isEmpty()) {
                 messageContext.getResponseContext().addHeaderValues(HttpHeaders.LAST_MODIFIED, lastModified);
             }
 
@@ -215,7 +213,7 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
         Object object = metadata.getFirst(HttpHeaders.LOCATION);
 
-        if(object != null) {
+        if (object != null) {
 
             URI location = (URI) object;
             messageContext.getResponseContext().addHeaderValues(HttpHeaders.LOCATION, location.toString());
@@ -229,9 +227,9 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
         Object object = metadata.getFirst(HttpHeaders.CONTENT_TYPE);
 
-        if(object != null) {
+        if (object != null) {
 
-            MediaType mediaType = (MediaType) object;
+            MediaType mediaType = MediaType.valueOf(String.valueOf(object));
             messageContext.getResponseContext().setMediaType(mediaType.toString());
 
         }
@@ -242,7 +240,7 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
     private void populateSeeOther(MessageContext messageContext, MultivaluedMap<String, Object> metadata, int status) {
 
-        if(status == HttpServletResponse.SC_SEE_OTHER) {
+        if (status == HttpServletResponse.SC_SEE_OTHER) {
             Object object = metadata.getFirst(HttpHeaders.LOCATION);
 
             if (object != null) {
@@ -261,7 +259,7 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
     private void populateTemporaryRedirect(MessageContext messageContext, MultivaluedMap<String, Object> metadata, int status) {
 
-        if(status == HttpServletResponse.SC_TEMPORARY_REDIRECT) {
+        if (status == HttpServletResponse.SC_TEMPORARY_REDIRECT) {
             Object object = metadata.getFirst(HttpHeaders.LOCATION);
 
             if (object != null) {
@@ -279,13 +277,13 @@ public class ResponseNormalizerHandler implements ResponseHandler {
     }
 
     private void populateNoContent(MessageContext messageContext, Response response) {
-        if(HttpServletResponse.SC_NO_CONTENT == response.getStatus()) {
+        if (HttpServletResponse.SC_NO_CONTENT == response.getStatus()) {
             messageContext.getResponseContext().setResponseCode(HttpServletResponse.SC_NO_CONTENT);
         }
     }
 
     private void populateServerError(MessageContext messageContext, Response response) {
-        if(HttpServletResponse.SC_INTERNAL_SERVER_ERROR == response.getStatus()) {
+        if (HttpServletResponse.SC_INTERNAL_SERVER_ERROR == response.getStatus()) {
             messageContext.getResponseContext().setResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -293,12 +291,12 @@ public class ResponseNormalizerHandler implements ResponseHandler {
 
     private void populateHeaders(MessageContext messageContext, MultivaluedMap<String, Object> metadata) {
 
-        for(String key : metadata.keySet()) {
+        for (String key : metadata.keySet()) {
 
             Object value = metadata.get(key);
 
-            if(value != null) {
-                List<Object> values = (List<Object>)value;
+            if (value != null) {
+                List<Object> values = (List<Object>) value;
                 messageContext.getResponseContext().addHeaderValues(key, String.valueOf(values.get(0)));
             }
 

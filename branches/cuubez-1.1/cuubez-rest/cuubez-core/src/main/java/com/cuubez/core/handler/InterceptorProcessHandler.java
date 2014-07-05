@@ -52,20 +52,17 @@ public class InterceptorProcessHandler implements RequestHandler {
                 Method selectedMethod = clazz.getDeclaredMethod(INTERCEPTOR_METHOD_NAME, InterceptorRequestContext.class);
                 returnObject = selectedMethod.invoke(obj, interceptorRequestContext);
 
-                if(returnObject != null) {
-                    InterceptorResponseContext interceptorResponseContext = (InterceptorResponseContext)returnObject;
+                if (returnObject != null) {
+                    InterceptorResponseContext interceptorResponseContext = (InterceptorResponseContext) returnObject;
                     log.error(interceptorResponseContext.getMessage());
                     throw new CuubezException(interceptorResponseContext.getMessage(), interceptorResponseContext.getCode());
                 }
-
-
-
 
             } catch (IllegalAccessException e) {
                 log.error(e);
                 throw new CuubezException(CuubezExceptionConstance.INVOCATION_EXCEPTION);
             } catch (InvocationTargetException e) {
-                log.error(e);
+                log.error("Exception occurred while try to invoke interceptor ", e);
                 throw new CuubezException(CuubezExceptionConstance.INVOCATION_EXCEPTION);
             } catch (NoSuchMethodException e) {
                 log.error(e);
@@ -90,5 +87,5 @@ public class InterceptorProcessHandler implements RequestHandler {
 
         return interceptorRequestContext;
     }
-    
+
 }

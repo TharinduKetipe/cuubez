@@ -34,13 +34,12 @@ public class ServletContainer extends HttpServlet {
 
         ResponseContext responseContext = new ServiceProcessInitiator().process(request, httpMethod);
 
-        populateHeaderValues(response,responseContext);
+        populateHeaderValues(response, responseContext);
 
         if (responseContext != null && responseContext.getContent() != null && responseContext.getResponseCode() == HttpServletResponse.SC_OK) {
             writeResponse(request, response, responseContext);
         } else {
-           response.setStatus(responseContext.getResponseCode());
-          // response.setContentType(responseContext.getMediaType());
+            response.setStatus(responseContext.getResponseCode());
         }
     }
 
@@ -50,7 +49,6 @@ public class ServletContainer extends HttpServlet {
         Connection connection = new HttpConnection();
         connection.write(request, response, responseContext);
     }
-
 
 
     private void populateHeaderValues(HttpServletResponse response, ResponseContext responseContext) {
