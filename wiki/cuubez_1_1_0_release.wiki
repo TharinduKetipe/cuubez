@@ -501,7 +501,7 @@ The first step is to download the latest cuubez stable release from:
 <dependency>
     <groupId>com.cuubez</groupId>
     <artifactId>cuubez-core</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 }}}
 
