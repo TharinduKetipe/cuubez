@@ -435,6 +435,55 @@ public class AuthenticationFilter implements RequestInterceptor {
 
 }}}
 
+Following code block shows how to implement interceptor logic for the @PermitAll and @DenyAll annotations.
+
+{{{
+private final InterceptorResponseContext ACCESS_FORBIDDEN = new InterceptorResponseContext("No access", HttpServletResponse.SC_FORBIDDEN);
+
+    public InterceptorResponseContext process(InterceptorRequestContext interceptorRequestContext) {
+
+
+        if (interceptorRequestContext.isAnnotationContain(DenyAll.class)) {
+
+            return ACCESS_FORBIDDEN; //Return access denied to user
+
+        } else if (interceptorRequestContext.isAnnotationContain(PermitAll.class)) {
+
+            return null; //Return null to continue request processing 
+
+        }
+  }
+}}}
+
+
+@RolesAllowed annotation interceptor implementation.
+
+{{{
+if (interceptorRequestContext.isAnnotationContain(RolesAllowed.class)) {
+
+   //get encoded user name and password
+   String encodedUserName = interceptorRequestContext.getHeader("userName");
+   String encodedPassword = interceptorRequestContext.getHeader("password");
+
+   //decode user name and password
+    String decodedUserName = new String(Base64.decodeBase64(encodedUserName.getBytes()));
+    String decodedPassword = new String(Base64.decodeBase64(encodedPassword.getBytes()));
+
+   //get allowed user roles
+    String[] allowedRoles = ((RolesAllowed) interceptorRequestContext.getAnnotation(RolesAllowed.class)).value();
+
+   //Access userAccessor to retrieve user details(UserAccessor is not provided by framework, developer need to implement it according their requirement)
+    UserAccessor userAccessor = new UserAccessor();
+    String role = userAccessor.getUserRole(decodedUserName, decodedPassword);
+
+    if(isAllow(allowedRoles, role)) {
+      return null;
+    } else {
+      return ACCESS_FORBIDDEN;
+    }
+
+ }
+}}}
 
 =7.Quick Start=
 
