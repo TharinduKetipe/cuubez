@@ -226,42 +226,6 @@ public class UserDetail {
 }
 }}}
 
-===@PermitAll ===
-Specifies that all security roles are allowed to invoke the specified method(s). This logic should be define inside the Authentication filter.
-
-{{{
-    @PermitAll
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response searchUserDetails(@PathParam(value = "name")String name) {
-
-    }
-}}} 
-
-===@RolesAllowed===
-Specifies the list of roles permitted to access method(s). This logic should be define inside the Authentication filter.
-
-{{{
-    @RolesAllowed("ADMIN")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response searchUserDetails(@PathParam(value = "name")String name) {
-
-    }
-}}}
-
-===@DenyAll===
-Specifies that no security roles are allowed to invoke the specified method(s).  This logic should be define inside the Authentication filter.
-
-{{{
-    @DenyAll
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response searchUserDetails(@PathParam(value = "name")String name) {
-
-    }
-}}}
-
 
 ==5.3 Resource Matching==
  
@@ -399,9 +363,77 @@ Outputs:
 
 Cuubez server 1.0 release is not support to regular expression URI matching.
 
-== 6.Security ==
+= 6.Security =
 
-===6.1 Basic Authentication
+==6.1 Basic HTTP Authentication==
+
+Basic HTTP authentication solve following security problems.
+*  Get username and password from http request
+*  Fetch the applicable method security details
+*  Verify if user is authorized to access the API
+*  Return valid error codes in case of invalid access
+
+===Basic HTTP Authentication Annotations===
+
+====@PermitAll ====
+Specifies that all security roles are allowed to invoke the specified method(s). This logic should be define inside the Authentication filter.
+
+{{{
+    @PermitAll
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchUserDetails(@PathParam(value = "name")String name) {
+
+    }
+}}} 
+
+====@RolesAllowed====
+Specifies the list of roles permitted to access method(s). This logic should be define inside the Authentication filter.
+
+{{{
+    @RolesAllowed("ADMIN")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchUserDetails(@PathParam(value = "name")String name) {
+
+    }
+}}}
+
+====@DenyAll====
+Specifies that no security roles are allowed to invoke the specified method(s).  This logic should be define inside the Authentication filter.
+
+{{{
+    @DenyAll
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchUserDetails(@PathParam(value = "name")String name) {
+
+    }
+}}}
+
+===Implement the Security Interceptor===
+
+The security interceptor is build by implementing com.cuubez.core.Interceptor.RequestInterceptor interface. This interface has one method which need to implement.
+
+{{{
+public InterceptorResponseContext process(InterceptorRequestContext interceptorRequestContext) {
+@Provider
+public class AuthenticationFilter implements RequestInterceptor {
+
+}
+
+}}}
+
+interceptorRequestContext parameter provides access to method which will be invoked as a result of calling the REST API.
+request parameter provides access to request headers and parameters passed by client.
+
+{{{
+@Provider
+public class AuthenticationFilter implements RequestInterceptor {
+
+}
+
+}}}
 
 
 =7.Quick Start=
