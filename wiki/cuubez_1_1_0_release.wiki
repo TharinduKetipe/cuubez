@@ -368,10 +368,12 @@ Cuubez server 1.0 release is not support to regular expression URI matching.
 ==6.1 Basic HTTP Authentication==
 
 Basic HTTP authentication solve following security problems.
-*  Get username and password from http request
-*  Fetch the applicable method security details
-*  Verify if user is authorized to access the API
-*  Return valid error codes in case of invalid access
+  *  Get username and password from http request
+  *  Fetch the applicable method security details
+  *  Verify if user is authorized to access the API
+  *  Return valid error codes in case of invalid access
+
+These basic security problems are solving by using set of annotations and Authentication filter implementation.
 
 ===Basic HTTP Authentication Annotations===
 
@@ -484,6 +486,7 @@ if (interceptorRequestContext.isAnnotationContain(RolesAllowed.class)) {
 
  }
 }}}
+
 
 =7.Quick Start=
 
