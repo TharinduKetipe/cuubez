@@ -210,3 +210,7 @@ http://cuubez.com/downloads/examples/basic_authentication/post_success.png
 (PUT resource annotated by @DenyAll annotation. Specifies that no security roles are allowed to invoke the specified method(s))
 
 http://cuubez.com/downloads/examples/basic_authentication/put.png
+
+=7. Download=
+
+===Download Basic Authentication Sample Application - [http://cuubez.com/downloads/examples/basic_authentication/basic-authentication.zip Basic-Authentication.zip]===
