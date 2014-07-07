@@ -1,3 +1,6 @@
+#labels cuubez,cuubezauthentication,cuubezsecuritysample,restsample,resthttpauthentication
+=Basic HTTP Authentication Sample Application=
+
 Basic HTTP authentication solve following security problems.
 
   * Get username and password from http request
@@ -189,9 +192,21 @@ _File : web.xml_
 
 In this example, web request from “projectURL/rest/users/{userId}” will match to “UserResource“, via @Path("/users/{userId}").
 
-  # GET request (GET resource annotated by @PermitAll annotation. Specifies that all security roles are allowed to invoke the specified method(s))
+  ===1. GET request=== 
+(GET resource annotated by @PermitAll annotation. Specifies that all security roles are allowed to invoke the specified method(s))
 
 http://cuubez.com/downloads/images/basic_authentication/get.png
 
-  #POST request (POST request annotated by @RolesAllowed annotation. ADMIN role permitted to access method(s))
+  ===2. POST request=== 
+(POST request annotated by @RolesAllowed annotation. ADMIN role permitted to access method(s))
 
+  * Forbidden request (Wrong encoded(Base64) user name and password passed as a header variables) 
+http://cuubez.com/downloads/images/basic_authentication/post_unsuccess.png
+
+  * Successful request (Correct encoded(Base64) user name and password passed as a header variables) 
+http://cuubez.com/downloads/images/basic_authentication/post_success.png
+
+  ===3. PUT request=== 
+(PUT resource annotated by @DenyAll annotation. Specifies that no security roles are allowed to invoke the specified method(s))
+
+http://cuubez.com/downloads/images/basic_authentication/put.png
