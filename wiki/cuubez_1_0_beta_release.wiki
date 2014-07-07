@@ -1,3 +1,5 @@
+=Cuubez 1.0.0 Beta Documentation=
+
 =1 RESTful web service overview=
 REST is an acronym for the Representational State Transfer architectural style for distributed hypermedia systems.This style was developed in parallel with HTTP/1.1 based on HTTP/1.0 design to work best on the web and it specifies uniform interface constraint. If that is applied to a web service, induces desirable properties, such as performance, scalability and modifiability which enables services to work best on the Web. In REST style, data and operations act as resources .These resources are accessed using uniform resource identifiers (URI). In order to work, REST assumes that resources are capable of being represented a pervasive standard grammar.
 
