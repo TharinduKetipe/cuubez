@@ -29,23 +29,14 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class AuthenticationFilter implements RequestInterceptor {
 
-    private final InterceptorResponseContext responseContext = new InterceptorResponseContext("no access", HttpServletResponse.SC_FORBIDDEN);
+    private final InterceptorResponseContext ACCESS_FORBIDDEN = new InterceptorResponseContext("No access", HttpServletResponse.SC_FORBIDDEN);
 
     public InterceptorResponseContext process(InterceptorRequestContext interceptorRequestContext) {
 
 
         if (interceptorRequestContext.isAnnotationContain(DenyAll.class)) {
 
-            String userName = new String(Base64.decodeBase64(interceptorRequestContext.getHeader("userName").getBytes()));
-            String password = new String(Base64.decodeBase64(interceptorRequestContext.getHeader("password").getBytes()));
-
-
-            if (userName.equals("Jhone") && password.equals("password")) {
-
-                return null;
-            }
-
-            return responseContext;
+            return ACCESS_FORBIDDEN;
 
         } else if (interceptorRequestContext.isAnnotationContain(PermitAll.class)) {
 
@@ -53,24 +44,42 @@ public class AuthenticationFilter implements RequestInterceptor {
 
         } else if (interceptorRequestContext.isAnnotationContain(RolesAllowed.class)) {
 
-            String userName = new String(Base64.decodeBase64(interceptorRequestContext.getHeader("userName").getBytes()));
+            //get encoded user name and password
+            String encodedUserName = interceptorRequestContext.getHeader("userName");
+            String encodedPassword = interceptorRequestContext.getHeader("password");
 
-            String[] allocatedRoles = ((RolesAllowed) interceptorRequestContext.getAnnotation(RolesAllowed.class)).value();
+            //decode user name and password
+            String decodedUserName = new String(Base64.decodeBase64(encodedUserName.getBytes()));
+            String decodedPassword = new String(Base64.decodeBase64(encodedPassword.getBytes()));
+
+            //get allowed user roles
+            String[] allowedRoles = ((RolesAllowed) interceptorRequestContext.getAnnotation(RolesAllowed.class)).value();
+
+            //Access userAccessor to retrieve user details(UserAccessor is not provided by framework, developer need to implement it according their requirement)
             UserAccessor userAccessor = new UserAccessor();
-            String role = userAccessor.getUserRole(userName);
+            String role = userAccessor.getUserRole(decodedUserName, decodedPassword);
 
-            for (String allRole : allocatedRoles) {
-
-                if (allRole.equals(role)) {
-                    return null;
-                }
+            if(isAllow(allowedRoles, role)) {
+                return null;
+            } else {
+                return ACCESS_FORBIDDEN;
             }
-
-            return responseContext;
 
         }
 
         return null;
 
+    }
+
+    private boolean isAllow(final String[] allowedRoles, final String userRole) {
+
+        for (String allRole : allowedRoles) {
+
+            if (allRole.equals(userRole)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

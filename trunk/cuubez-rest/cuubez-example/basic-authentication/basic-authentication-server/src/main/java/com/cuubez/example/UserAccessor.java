@@ -16,9 +16,9 @@ package com.cuubez.example;
 
 public class UserAccessor {
 
-    public String getUserRole(final String userName) {
+    public String getUserRole(final String userName, final String password) {
 
-        if (userName.equals("Jhone")) {
+        if (userName.equals("Jhone") && password.equals("password")) {
             return "ADMIN";
         } else {
             return "REGISTERED";

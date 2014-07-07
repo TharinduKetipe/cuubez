@@ -56,8 +56,4 @@ public class UserResource {
 
     }
 
-    @DELETE
-    public void userDelete() {
-        log.info("DELETE");
-    }
 }
