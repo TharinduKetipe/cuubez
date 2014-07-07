@@ -23,7 +23,7 @@ If you want to know what and how REST works, just search on Google, ton of avail
 =1. Directory Structure=
 This is the final web project structure of this tutorial.
 
-http://cuubez.com/downloads/images/basic_authentication/packageStructure.png
+http://cuubez.com/downloads/examples/basic_authentication/packageStructure.png
 
 =2. Standard Web Project=
 Create a standard Maven web project structure.
@@ -195,18 +195,18 @@ In this example, web request from “projectURL/rest/users/{userId}” will matc
   ===1. GET request=== 
 (GET resource annotated by @PermitAll annotation. Specifies that all security roles are allowed to invoke the specified method(s))
 
-http://cuubez.com/downloads/images/basic_authentication/get.png
+http://cuubez.com/downloads/examples/basic_authentication/get.png
 
   ===2. POST request=== 
 (POST request annotated by @RolesAllowed annotation. ADMIN role permitted to access method(s))
 
   * Forbidden request (Wrong encoded(Base64) user name and password passed as a header variables) 
-http://cuubez.com/downloads/images/basic_authentication/post_unsuccess.png
+http://cuubez.com/downloads/examples/basic_authentication/post_unsuccess.png
 
   * Successful request (Correct encoded(Base64) user name and password passed as a header variables) 
-http://cuubez.com/downloads/images/basic_authentication/post_success.png
+http://cuubez.com/downloads/examples/basic_authentication/post_success.png
 
   ===3. PUT request=== 
 (PUT resource annotated by @DenyAll annotation. Specifies that no security roles are allowed to invoke the specified method(s))
 
-http://cuubez.com/downloads/images/basic_authentication/put.png
+http://cuubez.com/downloads/examples/basic_authentication/put.png
