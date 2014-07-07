@@ -1,4 +1,5 @@
 #labels restfulwebservice,rest,java,jaxrs,cuubezsample
+=Employee Example =
 In this tutorial, we show you how to develop a simple  REST web application with *Cuubez*.
 
 Technologies and Tools used in this article:
