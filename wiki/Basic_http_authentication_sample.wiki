@@ -1,3 +1,10 @@
+Basic HTTP authentication solve following security problems.
+
+  * Get username and password from http request
+  * Fetch the applicable method security details
+  * Verify if user is authorized to access the API
+  * Return valid error codes in case of invalid access
+
 In this tutorial, we show you how to develop a simple  RESTfull web service application with HTTP basic authentication using Cuubez framwork.
 
 Technologies and Tools used in this article:
@@ -12,6 +19,8 @@ If you want to know what and how REST works, just search on Google, ton of avail
 
 =1. Directory Structure=
 This is the final web project structure of this tutorial.
+
+http://cuubez.com/downloads/images/basic_authentication/packageStructure.png
 
 =2. Standard Web Project=
 Create a standard Maven web project structure.
@@ -91,6 +100,68 @@ public class UserResource {
 =5. Authentication filter=
 The security interceptor is build by implementing *com.cuubez.core.Interceptor.RequestInterceptor* interface. This interface has one method which need to implement.
 
+{{{
+@Provider
+public class AuthenticationFilter implements RequestInterceptor {
+
+    private final InterceptorResponseContext ACCESS_FORBIDDEN = new InterceptorResponseContext("No access", HttpServletResponse.SC_FORBIDDEN);
+
+    public InterceptorResponseContext process(InterceptorRequestContext interceptorRequestContext) {
+
+
+        if (interceptorRequestContext.isAnnotationContain(DenyAll.class)) {
+
+            return ACCESS_FORBIDDEN; //Return access denied to user
+
+        } else if (interceptorRequestContext.isAnnotationContain(PermitAll.class)) {
+
+            return null; //Return null to continue request processing
+
+        } else if (interceptorRequestContext.isAnnotationContain(RolesAllowed.class)) {
+
+            //get encoded user name and password
+            String encodedUserName = interceptorRequestContext.getHeader("userName");
+            String encodedPassword = interceptorRequestContext.getHeader("password");
+
+            //decode user name and password
+            String decodedUserName = new String(Base64.decodeBase64(encodedUserName.getBytes()));
+            String decodedPassword = new String(Base64.decodeBase64(encodedPassword.getBytes()));
+
+            //get allowed user roles
+            String[] allowedRoles = ((RolesAllowed) interceptorRequestContext.getAnnotation(RolesAllowed.class)).value();
+
+            //Access userAccessor to retrieve user details(UserAccessor is not providing by framework, developer need to implement it according their requirement)
+            UserAccessor userAccessor = new UserAccessor();
+            String role = userAccessor.getUserRole(decodedUserName, decodedPassword);
+
+            if(isAllow(allowedRoles, role)) {
+                return null;
+            } else {
+                return ACCESS_FORBIDDEN;
+            }
+
+        }
+
+        return null;
+
+    }
+
+    private boolean isAllow(final String[] allowedRoles, final String userRole) {
+
+        for (String allRole : allowedRoles) {
+
+            if (allRole.equals(userRole)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+}}}
+
+This interceptor mechanism provide full flexibility to developer.
+
 =6. web.xml=
 The *ContextLoaderListner* context listener has to be deployed in order to create the registry for cuubez ,while the *ServiceInitiator* servlet is used so that incoming requests are correctly routed to the appropriate services. We have configured the specific servlet, named *“cuubez”*, to intercept requests under the *“/rest/”* path.
 
@@ -113,4 +184,3 @@ _File : web.xml_
     </servlet>
 </web-app>
 }}}
-
