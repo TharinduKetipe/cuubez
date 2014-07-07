@@ -1,0 +1,116 @@
+In this tutorial, we show you how to develop a simple  RESTfull web service application with HTTP basic authentication using Cuubez framwork.
+
+Technologies and Tools used in this article:
+  # cuubez 1.1.0
+  # JDK 1.6
+  # Tomcat 6.0
+  # Maven 3.0.3
+  # Intellij IDEA 13.1.1
+
+*Note:*
+If you want to know what and how REST works, just search on Google, ton of available resources.
+
+=1. Directory Structure=
+This is the final web project structure of this tutorial.
+
+=2. Standard Web Project=
+Create a standard Maven web project structure.
+
+{{{
+mvn archetype:generate -DgroupId=com.cuubez -DartifactId=basic_authentication -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+}}}
+
+
+*Note:*
+To support IntelliJ IDEA, use Maven command :
+{{{
+mvn idea:idea
+}}}
+
+=3. Project Dependencies=
+
+Cuubez is published in  Maven repository. To develop cuubez REST application , just declares “cuubez-core” in Maven pom.xml.
+
+_File : pom.xml_
+
+{{{
+ <dependency>
+   <groupId>com.cuubez</groupId>
+   <artifactId>cuubez-core</artifactId>
+   <version>1.1.0</version>
+ </dependency>
+
+}}}
+
+=4. REST Service=
+
+Simple REST service with basic HTTP authentication annotations.
+
+  * @PermitAll: Specifies that all security roles are allowed to invoke the specified method(s)
+  * @RolesAllowed: Specifies the list of roles permitted to access method(s)
+  * @DenyAll: Specifies that no security roles are allowed to invoke the specified method(s)
+
+{{{
+
+@Path("/users/{userId}")
+@Produces(MediaType.APPLICATION_JSON)
+public class UserResource {
+
+    private static Log log = LogFactory.getLog(UserResource.class);
+
+
+    @PermitAll
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response userGet(@HeaderParam(value = "name") String name, @PathParam(value = "userId") String id, @QueryParam(value = "age") Double age) {
+
+        User user = new User(id, age, name);
+        return Response.ok().entity(user).build();
+    }
+
+    @RolesAllowed("ADMIN")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @POST
+    public void userPost(User user) {
+        log.info("POST = [" + user + "]");
+    }
+
+    @DenyAll
+    @PUT
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public void userPut(User user) {
+        log.info("PUT = [" + user + "]");
+
+    }
+
+}
+
+}}}
+
+
+=5. Authentication filter=
+The security interceptor is build by implementing *com.cuubez.core.Interceptor.RequestInterceptor* interface. This interface has one method which need to implement.
+
+=6. web.xml=
+The *ContextLoaderListner* context listener has to be deployed in order to create the registry for cuubez ,while the *ServiceInitiator* servlet is used so that incoming requests are correctly routed to the appropriate services. We have configured the specific servlet, named *“cuubez”*, to intercept requests under the *“/rest/”* path.
+
+_File : web.xml_
+
+{{{
+<web-app>
+  <display-name>Employee Example</display-name>
+    <listener>
+        <listener-class>com.cuubez.core.servlet.BootstrapContextListener</listener-class>
+    </listener>
+    <servlet-mapping>
+     <servlet-name>init</servlet-name>
+     <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+     <servlet-name>init</servlet-name>
+     <servlet-class>com.cuubez.core.servlet.HttpServletDispatcher</servlet-class>
+    </servlet>
+</web-app>
+}}}
+
