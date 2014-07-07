@@ -184,3 +184,14 @@ _File : web.xml_
     </servlet>
 </web-app>
 }}}
+
+=6. Demo=
+
+In this example, web request from “projectURL/rest/users/{userId}” will match to “UserResource“, via @Path("/users/{userId}").
+
+  # GET request (GET resource annotated by @PermitAll annotation. Specifies that all security roles are allowed to invoke the specified method(s))
+
+http://cuubez.com/downloads/images/basic_authentication/get.png
+
+  #POST request (POST request annotated by @RolesAllowed annotation. ADMIN role permitted to access method(s))
+
