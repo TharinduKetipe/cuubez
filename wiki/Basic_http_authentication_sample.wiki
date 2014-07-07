@@ -190,15 +190,15 @@ _File : web.xml_
 
 =6. Demo=
 
-In this example, web request from “projectURL/rest/users/{userId}” will match to “UserResource“, via @Path("/users/{userId}").
+In this example, web request from *“projectURL/rest/users/{userId}”* will match to *“UserResource“*, via *@Path("/users/{userId}")*.
 
   ===1. GET request=== 
-(GET resource annotated by @PermitAll annotation. Specifies that all security roles are allowed to invoke the specified method(s))
+(GET resource annotated by * @PermitAll* annotation. Specifies that all security roles are allowed to invoke the specified method(s))
 
 http://cuubez.com/downloads/examples/basic_authentication/get.png
 
   ===2. POST request=== 
-(POST request annotated by @RolesAllowed annotation. ADMIN role permitted to access method(s))
+(POST request annotated by * @RolesAllowed* annotation. *ADMIN* role permitted to access method(s))
 
   * Forbidden request (Wrong encoded(Base64) user name and password passed as a header variables) 
 http://cuubez.com/downloads/examples/basic_authentication/post_unsuccess.png
@@ -207,7 +207,7 @@ http://cuubez.com/downloads/examples/basic_authentication/post_unsuccess.png
 http://cuubez.com/downloads/examples/basic_authentication/post_success.png
 
   ===3. PUT request=== 
-(PUT resource annotated by @DenyAll annotation. Specifies that no security roles are allowed to invoke the specified method(s))
+(PUT resource annotated by * @DenyAll* annotation. Specifies that no security roles are allowed to invoke the specified method(s))
 
 http://cuubez.com/downloads/examples/basic_authentication/put.png
 
