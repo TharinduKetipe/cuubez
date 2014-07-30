@@ -26,7 +26,7 @@ public class HelloWorld {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response userGet(@PathParam(value = "userId") String id) throws URISyntaxException {
+    public Response userGet(@DefaultValue("456") @PathParam(value = "userId") String id) throws URISyntaxException {
 
         return Response.ok().entity("Hello World!!!!  [" + id + "]").build();
 

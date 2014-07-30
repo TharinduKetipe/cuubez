@@ -3,12 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>cuubez</name>
-    <description>
-        Cuubez RESTful web services framework.
-    </description>
+    <description>Cuubez RESTful web services framework.</description>
     <groupId>com.cuubez</groupId>
     <artifactId>cuubez-rest</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <packaging>pom</packaging>
 
     <url>http://www.cuubez.com</url>
@@ -23,6 +21,8 @@
 
     <modules>
         <module>cuubez-core</module>
+        <module>cuubez-monitor</module>
+        <module>cuubez-jaxrs-api</module>
         <module>cuubez-example</module>
     </modules>
 
