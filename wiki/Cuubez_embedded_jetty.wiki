@@ -1,0 +1,35 @@
+= Embedded jetty with Cuubez=
+
+In this tutorial, we show you how to develop a simple RESTfull web service application with embedded jetty server using cuubez framwork.
+
+Technologies and Tools used in this article:
+
+ # cuubez 1.1.1
+ # JDK 1.6
+ # Tomcat 6.0
+ # Maven 3.0.3
+ # Intellij IDEA 13.1.1
+
+*Note:* If you want to know what and how REST works, just search on Google, ton of available resources.
+
+
+== 1. Directory Structure ==
+This is the final web project structure of this tutorial.
+
+== 2. Standard Java Project ==
+Create a standard Maven java project structure.
+
+{{{
+mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+}}}
+
+*Note:* To support IntelliJ IDEA, use Maven command :
+{{{
+mvn idea:idea
+}}}
+
+== 3. Project Dependencies ==
+
+Following maven dependencies should add to the pom.xml file.
+
+_File : pom.xml_
