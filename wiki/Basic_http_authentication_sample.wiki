@@ -11,7 +11,7 @@ Basic HTTP authentication solve following security problems.
 In this tutorial, we show you how to develop a simple  RESTfull web service application with HTTP basic authentication using Cuubez framwork.
 
 Technologies and Tools used in this article:
-  # cuubez 1.1.0
+  # cuubez 1.1.1
   # JDK 1.6
   # Tomcat 6.0
   # Maven 3.0.3
@@ -49,7 +49,7 @@ _File : pom.xml_
  <dependency>
    <groupId>com.cuubez</groupId>
    <artifactId>cuubez-core</artifactId>
-   <version>1.1.0</version>
+   <version>1.1.1</version>
  </dependency>
 
 }}}
