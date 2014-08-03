@@ -104,4 +104,10 @@ public class JettyServer {
 
 ==6. Demo ==
 
+In this example, web request from projectURL/rest/users/id-1003 will match to UserResource, via @Path("/users/{userId}"). *{userId}* will match to parameter annotated with @PathParam and *age* and *name* will match to parameters annotated with @QueryParam.
+
+*URL : http://localhost:8080/rest/users/id-1003?name=jhone&age=30 *
+
 http://www.cuubez.com/downloads/examples/embedded_jetty/jetty-demo.png
+
+===Download this example - [http://www.cuubez.com/downloads/examples/embedded_jetty/cuubez-jetty.zip cuubez-jetty.zip ]===
