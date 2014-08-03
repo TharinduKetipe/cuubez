@@ -100,7 +100,7 @@ public class JettyServer {
         handler.setContextPath("/");
         handler.setResourceBase(".");
         handler.addEventListener(new BootstrapContextListener());  //cuubez bootstrap context listner
-        handler.addServlet(HttpServletDispatcher.class, "/*"); //servlet filter
+        handler.addServlet(HttpServletDispatcher.class, "/rest/*"); //servlet filter
 
 
         try {
