@@ -6,8 +6,7 @@ In this tutorial, we show you how to develop a simple RESTfull web service appli
 Technologies and Tools used in this article:
 
  # cuubez 1.1.1
- # JDK 1.6
- # Tomcat 6.0
+ # JDK 1.7
  # Maven 3.0.3
  # Intellij IDEA 13.1.1
 
