@@ -22,7 +22,7 @@ http://www.cuubez.com/downloads/examples/embedded_jetty/jetty-package.png
 Create a standard Maven java project structure.
 
 {{{
-mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+mvn archetype:generate -DgroupId=com.cuubez -DartifactId=cuubez-jetty -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 }}}
 
 *Note:* To support IntelliJ IDEA, use Maven command :
