@@ -1,3 +1,4 @@
+#labels cuubez,jaxrs,jetty,restful,java,opensource
 = Embedded jetty with Cuubez=
 
 In this tutorial, we show you how to develop a simple RESTfull web service application with embedded jetty server using cuubez framwork.
