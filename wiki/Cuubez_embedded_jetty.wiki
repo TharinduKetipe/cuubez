@@ -39,16 +39,16 @@ _File : pom.xml_
 
 {{{
 <dependency>
-          <groupId>com.cuubez</groupId>
-          <artifactId>cuubez-core</artifactId>
-          <version>1.1.1</version>
-      </dependency>
+  <groupId>com.cuubez</groupId>
+  <artifactId>cuubez-core</artifactId>
+  <version>1.1.1</version>
+</dependency>
 
-      <dependency>
-          <groupId>org.eclipse.jetty</groupId>
-          <artifactId>jetty-servlet</artifactId>
-          <version>8.0.4.v20111024</version>
-      </dependency>
+<dependency>
+  <groupId>org.eclipse.jetty</groupId>
+  <artifactId>jetty-servlet</artifactId>
+  <version>8.0.4.v20111024</version>
+</dependency>
 }}}
 
 ==4. REST Service==
