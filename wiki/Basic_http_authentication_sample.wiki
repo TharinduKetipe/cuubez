@@ -188,7 +188,7 @@ _File : web.xml_
 </web-app>
 }}}
 
-=6. Demo=
+=7. Demo=
 
 In this example, web request from *“projectURL/rest/users/{userId}”* will match to *“UserResource“*, via *@Path("/users/{userId}")*.
 
@@ -211,6 +211,6 @@ http://cuubez.com/downloads/examples/basic_authentication/post_success.png
 
 http://cuubez.com/downloads/examples/basic_authentication/put.png
 
-=7. Download=
+=8. Download=
 
 ===Download Basic Authentication Sample Application - [http://cuubez.com/downloads/examples/basic_authentication/basic-authentication.zip Basic-Authentication.zip]===
