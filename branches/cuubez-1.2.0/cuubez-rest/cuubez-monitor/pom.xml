@@ -10,7 +10,6 @@
     <name>cuubez-monitor</name>
     <groupId>com.cuubez</groupId>
     <artifactId>cuubez-monitor</artifactId>
-    <version>1.2.0</version>
     <packaging>jar</packaging>
 
     <url>http://www.cuubez.com</url>
