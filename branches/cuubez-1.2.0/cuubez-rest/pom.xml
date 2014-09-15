@@ -21,7 +21,7 @@
 
     <modules>
         <module>cuubez-core</module>
-        <module>cuubez-monitor</module>
+        <module>cuubez-api-visualizer</module>
         <module>cuubez-jaxrs-api</module>
         <module>cuubez-example</module>
     </modules>
